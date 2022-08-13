@@ -5,7 +5,7 @@
 #include <std_msgs/UInt8.h>
 #include <geometry_msgs/Point.h>
 
-using namespace std;
+using namespace std; 
 
 ros::Publisher pole; 
 ros::Publisher scara;
