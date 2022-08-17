@@ -145,6 +145,8 @@ include_directories(
 ## Add cmake target dependencies of the executable
 ## same as for the library above
 # add_dependencies(${PROJECT_NAME}_node ${${PROJECT_NAME}_EXPORTED_TARGETS} ${catkin_EXPORTED_TARGETS})
+add_executable(aaatest src/aaatest.cpp)
+target_link_libraries(aaatest ${catkin_LIBRARIES})
 
 add_library(stage1_lib src/stage1_lib.cpp)
 target_link_libraries(stage1_lib ${catkin_LIBRARIES})
@@ -157,7 +159,6 @@ add_dependencies(velocity ${catkin_EXPORTED_TARGETS})
 add_executable(stage1 src/stage1.cpp)
 target_link_libraries(stage1 stage1_lib velocity)
 add_dependencies(stage1 ${catkin_EXPORTED_TARGETS})
-
 
 ## Specify libraries to link a library or executable target against
 # target_link_libraries(${PROJECT_NAME}_node

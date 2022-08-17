@@ -9,8 +9,7 @@ void velocity_initial(){
 
 // 接受 encoder 速度的 callback function
 void vel_callback(const geometry_msgs::Point::ConstPtr& vel){
-
-}
+} 
 
 // moveTo(X,Y)，XY 座標是「相對」於目前車身座標。
 void moveTo(double x_cor, double y_cor){
