@@ -1,0 +1,8 @@
+prefix=/home/pomelo925/POMELO/TEL/install
+
+Name: race
+Description: Description of race
+Version: 0.0.0
+Cflags: -I${prefix}/include
+Libs: -L${prefix}/lib -lrace
+Requires: roscpp rospy std_msgs
