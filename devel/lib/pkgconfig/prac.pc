@@ -1,8 +1,0 @@
-prefix=/home/pomelo925/POMELO/TEL/devel
-
-Name: prac
-Description: Description of prac
-Version: 0.0.0
-Cflags: 
-Libs: -L${prefix}/lib 
-Requires: 

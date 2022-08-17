@@ -1,2 +1,0 @@
-race
--DCATKIN_DEVEL_PREFIX=/home/pomelo925/POMELO/TEL/devel -DCMAKE_INSTALL_PREFIX=/home/pomelo925/POMELO/TEL/install -G Unix Makefiles
