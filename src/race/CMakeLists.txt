@@ -147,17 +147,20 @@ include_directories(
 ## same as for the library above
 # add_dependencies(${PROJECT_NAME}_node ${${PROJECT_NAME}_EXPORTED_TARGETS} ${catkin_EXPORTED_TARGETS})
 
-
-add_library(stage1_lib src/stage1_lib.cpp)
-target_link_libraries(stage1_lib ${catkin_LIBRARIES})
-add_dependencies(stage1_lib ${catkin_EXPORTED_TARGETS})
+add_library(microswitch src/microswitch.cpp)
+target_link_libraries(microswitch ${catkin_LIBRARIES})
+add_dependencies(microswitch ${catkin_EXPORTED_TARGETS})
 
 add_library(velocity src/velocity.cpp)
 target_link_libraries(velocity ${catkin_LIBRARIES})
 add_dependencies(velocity ${catkin_EXPORTED_TARGETS})
 
+add_library(stage1_lib src/stage1_lib.cpp)
+target_link_libraries(stage1_lib ${catkin_LIBRARIES})
+add_dependencies(stage1_lib ${catkin_EXPORTED_TARGETS})
+
 add_executable(stage1 src/stage1.cpp)
-target_link_libraries(stage1 stage1_lib velocity)
+target_link_libraries(stage1 stage1_lib velocity microswitch)
 add_dependencies(stage1 ${catkin_EXPORTED_TARGETS})
 
 ## Specify libraries to link a library or executable target against

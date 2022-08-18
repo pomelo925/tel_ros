@@ -337,19 +337,6 @@ geometry_msgs_generate_messages_nodejs/fast:
 .PHONY : geometry_msgs_generate_messages_nodejs/fast
 
 #=============================================================================
-# Target rules for targets named stage1_lib
-
-# Build rule for target.
-stage1_lib: cmake_check_build_system
-	$(MAKE) -f CMakeFiles/Makefile2 stage1_lib
-.PHONY : stage1_lib
-
-# fast build rule for target.
-stage1_lib/fast:
-	$(MAKE) -f race/CMakeFiles/stage1_lib.dir/build.make race/CMakeFiles/stage1_lib.dir/build
-.PHONY : stage1_lib/fast
-
-#=============================================================================
 # Target rules for targets named velocity
 
 # Build rule for target.
@@ -363,6 +350,19 @@ velocity/fast:
 .PHONY : velocity/fast
 
 #=============================================================================
+# Target rules for targets named stage1_lib
+
+# Build rule for target.
+stage1_lib: cmake_check_build_system
+	$(MAKE) -f CMakeFiles/Makefile2 stage1_lib
+.PHONY : stage1_lib
+
+# fast build rule for target.
+stage1_lib/fast:
+	$(MAKE) -f race/CMakeFiles/stage1_lib.dir/build.make race/CMakeFiles/stage1_lib.dir/build
+.PHONY : stage1_lib/fast
+
+#=============================================================================
 # Target rules for targets named rosgraph_msgs_generate_messages_lisp
 
 # Build rule for target.
@@ -374,6 +374,19 @@ rosgraph_msgs_generate_messages_lisp: cmake_check_build_system
 rosgraph_msgs_generate_messages_lisp/fast:
 	$(MAKE) -f race/CMakeFiles/rosgraph_msgs_generate_messages_lisp.dir/build.make race/CMakeFiles/rosgraph_msgs_generate_messages_lisp.dir/build
 .PHONY : rosgraph_msgs_generate_messages_lisp/fast
+
+#=============================================================================
+# Target rules for targets named rosgraph_msgs_generate_messages_eus
+
+# Build rule for target.
+rosgraph_msgs_generate_messages_eus: cmake_check_build_system
+	$(MAKE) -f CMakeFiles/Makefile2 rosgraph_msgs_generate_messages_eus
+.PHONY : rosgraph_msgs_generate_messages_eus
+
+# fast build rule for target.
+rosgraph_msgs_generate_messages_eus/fast:
+	$(MAKE) -f race/CMakeFiles/rosgraph_msgs_generate_messages_eus.dir/build.make race/CMakeFiles/rosgraph_msgs_generate_messages_eus.dir/build
+.PHONY : rosgraph_msgs_generate_messages_eus/fast
 
 #=============================================================================
 # Target rules for targets named std_msgs_generate_messages_cpp
@@ -532,17 +545,17 @@ geometry_msgs_generate_messages_eus/fast:
 .PHONY : geometry_msgs_generate_messages_eus/fast
 
 #=============================================================================
-# Target rules for targets named rosgraph_msgs_generate_messages_eus
+# Target rules for targets named microswitch
 
 # Build rule for target.
-rosgraph_msgs_generate_messages_eus: cmake_check_build_system
-	$(MAKE) -f CMakeFiles/Makefile2 rosgraph_msgs_generate_messages_eus
-.PHONY : rosgraph_msgs_generate_messages_eus
+microswitch: cmake_check_build_system
+	$(MAKE) -f CMakeFiles/Makefile2 microswitch
+.PHONY : microswitch
 
 # fast build rule for target.
-rosgraph_msgs_generate_messages_eus/fast:
-	$(MAKE) -f race/CMakeFiles/rosgraph_msgs_generate_messages_eus.dir/build.make race/CMakeFiles/rosgraph_msgs_generate_messages_eus.dir/build
-.PHONY : rosgraph_msgs_generate_messages_eus/fast
+microswitch/fast:
+	$(MAKE) -f race/CMakeFiles/microswitch.dir/build.make race/CMakeFiles/microswitch.dir/build
+.PHONY : microswitch/fast
 
 #=============================================================================
 # Target rules for targets named stage1
@@ -609,9 +622,10 @@ help:
 	@echo "... roscpp_generate_messages_lisp"
 	@echo "... geometry_msgs_generate_messages_cpp"
 	@echo "... geometry_msgs_generate_messages_nodejs"
-	@echo "... stage1_lib"
 	@echo "... velocity"
+	@echo "... stage1_lib"
 	@echo "... rosgraph_msgs_generate_messages_lisp"
+	@echo "... rosgraph_msgs_generate_messages_eus"
 	@echo "... std_msgs_generate_messages_cpp"
 	@echo "... roscpp_generate_messages_nodejs"
 	@echo "... std_msgs_generate_messages_eus"
@@ -624,7 +638,7 @@ help:
 	@echo "... std_msgs_generate_messages_py"
 	@echo "... std_msgs_generate_messages_nodejs"
 	@echo "... geometry_msgs_generate_messages_eus"
-	@echo "... rosgraph_msgs_generate_messages_eus"
+	@echo "... microswitch"
 	@echo "... stage1"
 	@echo "... rosgraph_msgs_generate_messages_cpp"
 	@echo "... roscpp_generate_messages_eus"

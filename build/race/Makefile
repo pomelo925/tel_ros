@@ -68,6 +68,18 @@ install/strip/fast: preinstall/fast
 	/usr/bin/cmake -DCMAKE_INSTALL_DO_STRIP=1 -P cmake_install.cmake
 .PHONY : install/strip/fast
 
+# Special rule for the target install/local
+install/local: preinstall
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --cyan "Installing only the local directory..."
+	/usr/bin/cmake -DCMAKE_INSTALL_LOCAL_ONLY=1 -P cmake_install.cmake
+.PHONY : install/local
+
+# Special rule for the target install/local
+install/local/fast: preinstall/fast
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --cyan "Installing only the local directory..."
+	/usr/bin/cmake -DCMAKE_INSTALL_LOCAL_ONLY=1 -P cmake_install.cmake
+.PHONY : install/local/fast
+
 # Special rule for the target install
 install: preinstall
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --cyan "Install the project..."
@@ -89,18 +101,6 @@ list_install_components:
 list_install_components/fast: list_install_components
 
 .PHONY : list_install_components/fast
-
-# Special rule for the target install/local
-install/local: preinstall
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --cyan "Installing only the local directory..."
-	/usr/bin/cmake -DCMAKE_INSTALL_LOCAL_ONLY=1 -P cmake_install.cmake
-.PHONY : install/local
-
-# Special rule for the target install/local
-install/local/fast: preinstall/fast
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --cyan "Installing only the local directory..."
-	/usr/bin/cmake -DCMAKE_INSTALL_LOCAL_ONLY=1 -P cmake_install.cmake
-.PHONY : install/local/fast
 
 # Special rule for the target test
 test:
@@ -228,21 +228,6 @@ geometry_msgs_generate_messages_nodejs/fast:
 .PHONY : geometry_msgs_generate_messages_nodejs/fast
 
 # Convenience name for target.
-race/CMakeFiles/stage1_lib.dir/rule:
-	cd /home/pomelo925/POMELO/TEL/build && $(MAKE) -f CMakeFiles/Makefile2 race/CMakeFiles/stage1_lib.dir/rule
-.PHONY : race/CMakeFiles/stage1_lib.dir/rule
-
-# Convenience name for target.
-stage1_lib: race/CMakeFiles/stage1_lib.dir/rule
-
-.PHONY : stage1_lib
-
-# fast build rule for target.
-stage1_lib/fast:
-	cd /home/pomelo925/POMELO/TEL/build && $(MAKE) -f race/CMakeFiles/stage1_lib.dir/build.make race/CMakeFiles/stage1_lib.dir/build
-.PHONY : stage1_lib/fast
-
-# Convenience name for target.
 race/CMakeFiles/velocity.dir/rule:
 	cd /home/pomelo925/POMELO/TEL/build && $(MAKE) -f CMakeFiles/Makefile2 race/CMakeFiles/velocity.dir/rule
 .PHONY : race/CMakeFiles/velocity.dir/rule
@@ -258,6 +243,21 @@ velocity/fast:
 .PHONY : velocity/fast
 
 # Convenience name for target.
+race/CMakeFiles/stage1_lib.dir/rule:
+	cd /home/pomelo925/POMELO/TEL/build && $(MAKE) -f CMakeFiles/Makefile2 race/CMakeFiles/stage1_lib.dir/rule
+.PHONY : race/CMakeFiles/stage1_lib.dir/rule
+
+# Convenience name for target.
+stage1_lib: race/CMakeFiles/stage1_lib.dir/rule
+
+.PHONY : stage1_lib
+
+# fast build rule for target.
+stage1_lib/fast:
+	cd /home/pomelo925/POMELO/TEL/build && $(MAKE) -f race/CMakeFiles/stage1_lib.dir/build.make race/CMakeFiles/stage1_lib.dir/build
+.PHONY : stage1_lib/fast
+
+# Convenience name for target.
 race/CMakeFiles/rosgraph_msgs_generate_messages_lisp.dir/rule:
 	cd /home/pomelo925/POMELO/TEL/build && $(MAKE) -f CMakeFiles/Makefile2 race/CMakeFiles/rosgraph_msgs_generate_messages_lisp.dir/rule
 .PHONY : race/CMakeFiles/rosgraph_msgs_generate_messages_lisp.dir/rule
@@ -271,6 +271,21 @@ rosgraph_msgs_generate_messages_lisp: race/CMakeFiles/rosgraph_msgs_generate_mes
 rosgraph_msgs_generate_messages_lisp/fast:
 	cd /home/pomelo925/POMELO/TEL/build && $(MAKE) -f race/CMakeFiles/rosgraph_msgs_generate_messages_lisp.dir/build.make race/CMakeFiles/rosgraph_msgs_generate_messages_lisp.dir/build
 .PHONY : rosgraph_msgs_generate_messages_lisp/fast
+
+# Convenience name for target.
+race/CMakeFiles/rosgraph_msgs_generate_messages_eus.dir/rule:
+	cd /home/pomelo925/POMELO/TEL/build && $(MAKE) -f CMakeFiles/Makefile2 race/CMakeFiles/rosgraph_msgs_generate_messages_eus.dir/rule
+.PHONY : race/CMakeFiles/rosgraph_msgs_generate_messages_eus.dir/rule
+
+# Convenience name for target.
+rosgraph_msgs_generate_messages_eus: race/CMakeFiles/rosgraph_msgs_generate_messages_eus.dir/rule
+
+.PHONY : rosgraph_msgs_generate_messages_eus
+
+# fast build rule for target.
+rosgraph_msgs_generate_messages_eus/fast:
+	cd /home/pomelo925/POMELO/TEL/build && $(MAKE) -f race/CMakeFiles/rosgraph_msgs_generate_messages_eus.dir/build.make race/CMakeFiles/rosgraph_msgs_generate_messages_eus.dir/build
+.PHONY : rosgraph_msgs_generate_messages_eus/fast
 
 # Convenience name for target.
 race/CMakeFiles/std_msgs_generate_messages_cpp.dir/rule:
@@ -453,19 +468,19 @@ geometry_msgs_generate_messages_eus/fast:
 .PHONY : geometry_msgs_generate_messages_eus/fast
 
 # Convenience name for target.
-race/CMakeFiles/rosgraph_msgs_generate_messages_eus.dir/rule:
-	cd /home/pomelo925/POMELO/TEL/build && $(MAKE) -f CMakeFiles/Makefile2 race/CMakeFiles/rosgraph_msgs_generate_messages_eus.dir/rule
-.PHONY : race/CMakeFiles/rosgraph_msgs_generate_messages_eus.dir/rule
+race/CMakeFiles/microswitch.dir/rule:
+	cd /home/pomelo925/POMELO/TEL/build && $(MAKE) -f CMakeFiles/Makefile2 race/CMakeFiles/microswitch.dir/rule
+.PHONY : race/CMakeFiles/microswitch.dir/rule
 
 # Convenience name for target.
-rosgraph_msgs_generate_messages_eus: race/CMakeFiles/rosgraph_msgs_generate_messages_eus.dir/rule
+microswitch: race/CMakeFiles/microswitch.dir/rule
 
-.PHONY : rosgraph_msgs_generate_messages_eus
+.PHONY : microswitch
 
 # fast build rule for target.
-rosgraph_msgs_generate_messages_eus/fast:
-	cd /home/pomelo925/POMELO/TEL/build && $(MAKE) -f race/CMakeFiles/rosgraph_msgs_generate_messages_eus.dir/build.make race/CMakeFiles/rosgraph_msgs_generate_messages_eus.dir/build
-.PHONY : rosgraph_msgs_generate_messages_eus/fast
+microswitch/fast:
+	cd /home/pomelo925/POMELO/TEL/build && $(MAKE) -f race/CMakeFiles/microswitch.dir/build.make race/CMakeFiles/microswitch.dir/build
+.PHONY : microswitch/fast
 
 # Convenience name for target.
 race/CMakeFiles/stage1.dir/rule:
@@ -511,6 +526,33 @@ roscpp_generate_messages_eus: race/CMakeFiles/roscpp_generate_messages_eus.dir/r
 roscpp_generate_messages_eus/fast:
 	cd /home/pomelo925/POMELO/TEL/build && $(MAKE) -f race/CMakeFiles/roscpp_generate_messages_eus.dir/build.make race/CMakeFiles/roscpp_generate_messages_eus.dir/build
 .PHONY : roscpp_generate_messages_eus/fast
+
+src/microswitch.o: src/microswitch.cpp.o
+
+.PHONY : src/microswitch.o
+
+# target to build an object file
+src/microswitch.cpp.o:
+	cd /home/pomelo925/POMELO/TEL/build && $(MAKE) -f race/CMakeFiles/microswitch.dir/build.make race/CMakeFiles/microswitch.dir/src/microswitch.cpp.o
+.PHONY : src/microswitch.cpp.o
+
+src/microswitch.i: src/microswitch.cpp.i
+
+.PHONY : src/microswitch.i
+
+# target to preprocess a source file
+src/microswitch.cpp.i:
+	cd /home/pomelo925/POMELO/TEL/build && $(MAKE) -f race/CMakeFiles/microswitch.dir/build.make race/CMakeFiles/microswitch.dir/src/microswitch.cpp.i
+.PHONY : src/microswitch.cpp.i
+
+src/microswitch.s: src/microswitch.cpp.s
+
+.PHONY : src/microswitch.s
+
+# target to generate assembly for a file
+src/microswitch.cpp.s:
+	cd /home/pomelo925/POMELO/TEL/build && $(MAKE) -f race/CMakeFiles/microswitch.dir/build.make race/CMakeFiles/microswitch.dir/src/microswitch.cpp.s
+.PHONY : src/microswitch.cpp.s
 
 src/stage1.o: src/stage1.cpp.o
 
@@ -604,9 +646,11 @@ help:
 	@echo "... roscpp_generate_messages_lisp"
 	@echo "... geometry_msgs_generate_messages_cpp"
 	@echo "... geometry_msgs_generate_messages_nodejs"
-	@echo "... stage1_lib"
 	@echo "... velocity"
+	@echo "... stage1_lib"
 	@echo "... rosgraph_msgs_generate_messages_lisp"
+	@echo "... install/local"
+	@echo "... rosgraph_msgs_generate_messages_eus"
 	@echo "... std_msgs_generate_messages_cpp"
 	@echo "... roscpp_generate_messages_nodejs"
 	@echo "... std_msgs_generate_messages_eus"
@@ -621,14 +665,16 @@ help:
 	@echo "... std_msgs_generate_messages_py"
 	@echo "... std_msgs_generate_messages_nodejs"
 	@echo "... geometry_msgs_generate_messages_eus"
-	@echo "... rosgraph_msgs_generate_messages_eus"
-	@echo "... install/local"
+	@echo "... microswitch"
 	@echo "... stage1"
 	@echo "... rosgraph_msgs_generate_messages_cpp"
 	@echo "... test"
 	@echo "... edit_cache"
 	@echo "... roscpp_generate_messages_eus"
 	@echo "... rebuild_cache"
+	@echo "... src/microswitch.o"
+	@echo "... src/microswitch.i"
+	@echo "... src/microswitch.s"
 	@echo "... src/stage1.o"
 	@echo "... src/stage1.i"
 	@echo "... src/stage1.s"

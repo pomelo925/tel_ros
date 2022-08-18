@@ -81,6 +81,7 @@ race/stage1: race/CMakeFiles/stage1.dir/src/stage1.cpp.o
 race/stage1: race/CMakeFiles/stage1.dir/build.make
 race/stage1: /home/pomelo925/POMELO/TEL/devel/lib/libstage1_lib.so
 race/stage1: /home/pomelo925/POMELO/TEL/devel/lib/libvelocity.so
+race/stage1: /home/pomelo925/POMELO/TEL/devel/lib/libmicroswitch.so
 race/stage1: /opt/ros/noetic/lib/libroscpp.so
 race/stage1: /usr/lib/x86_64-linux-gnu/libpthread.so
 race/stage1: /usr/lib/x86_64-linux-gnu/libboost_chrono.so.1.71.0
