@@ -12,6 +12,7 @@ find_package(catkin REQUIRED COMPONENTS
   roscpp
   rospy
   std_msgs
+  sensor_msgs
 )
 
 ## System dependencies are found with CMake's conventions
@@ -146,6 +147,10 @@ include_directories(
 ## same as for the library above
 # add_dependencies(${PROJECT_NAME}_node ${${PROJECT_NAME}_EXPORTED_TARGETS} ${catkin_EXPORTED_TARGETS})
 
+add_library(imu src/imu.cpp)
+target_link_libraries(imu ${catkin_LIBRARIES})
+add_dependencies(imu ${catkin_EXPORTED_TARGETS})
+
 add_library(microswitch src/microswitch.cpp)
 target_link_libraries(microswitch ${catkin_LIBRARIES})
 add_dependencies(microswitch ${catkin_EXPORTED_TARGETS})
@@ -155,8 +160,13 @@ target_link_libraries(mecanum ${catkin_LIBRARIES})
 add_dependencies(mecanum ${catkin_EXPORTED_TARGETS})
 
 add_executable(stage2 src/stage2.cpp)
-target_link_libraries(stage2 mecanum microswitch)
+target_link_libraries(stage2 mecanum microswitch imu)
 add_dependencies(stage2 ${catkin_EXPORTED_TARGETS})
+
+add_executable(temp src/temp.cpp)
+target_link_libraries(temp imu)
+add_dependencies(temp ${catkin_EXPORTED_TARGETS})
+
 ## Specify libraries to link a library or executable target against
 # target_link_libraries(${PROJECT_NAME}_node
 #   ${catkin_LIBRARIES}
