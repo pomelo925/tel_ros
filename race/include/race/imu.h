@@ -5,23 +5,16 @@
 #include "ros/ros.h"
 #include "sensor_msgs/Imu.h"
 
-struct Quaternion {
-    double w, x, y, z;
-};
-
-struct EulersAngles {
-    double roll, pitch, yaw;
-};
-
+double imu_w, imu_x, imu_y, imu_z;
 class CAR_IMU{
 private:
-    Quaternion Q;
-    EulersAngles E;
+    double w=0, x=0, y=0, z=0;
+    double roll=0, pitch=0, yaw=0;
 
 public:
     void run(void);
-    void imu_2_quaternion(double w, double x, double y, double z);
-    EulersAngles quaternion_2_euler(void);
+    void get_quaternion(void);
+    void get_euler(void);
     void print_euler(void);
 };
 extern CAR_IMU Car_imu;
