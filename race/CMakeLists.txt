@@ -155,12 +155,12 @@ add_library(microswitch src/microswitch.cpp)
 target_link_libraries(microswitch ${catkin_LIBRARIES})
 add_dependencies(microswitch ${catkin_EXPORTED_TARGETS})
 
-add_library(mecanum src/mecanum.cpp)
-target_link_libraries(mecanum ${catkin_LIBRARIES})
-add_dependencies(mecanum ${catkin_EXPORTED_TARGETS})
+add_library(encoder src/encoder.cpp)
+target_link_libraries(encoder ${catkin_LIBRARIES})
+add_dependencies(encoder ${catkin_EXPORTED_TARGETS})
 
 add_executable(stage2 src/stage2.cpp)
-target_link_libraries(stage2 mecanum microswitch imu)
+target_link_libraries(stage2 encoder microswitch imu)
 add_dependencies(stage2 ${catkin_EXPORTED_TARGETS})
 
 add_executable(temp src/temp.cpp)

@@ -22,10 +22,10 @@ void init2(void){
 
 /** Stage 2 start running **/
 void run2(void){
-    moveTo(RED__START);
-    moveTo(RED__END);
-    moveTo(RED__START);
-    moveTo(RED__END);
-    moveTo(RED__START);
-    moveTo(RED__END);
+    ENCODER::moveTo(RED__START);
+    ENCODER::moveTo(RED__END);
+    ENCODER::moveTo(RED__START);
+    ENCODER::moveTo(RED__END);
+    ENCODER::moveTo(RED__START);
+    ENCODER::moveTo(RED__END);
 }

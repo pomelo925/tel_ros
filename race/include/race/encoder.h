@@ -3,6 +3,7 @@
 
 #include "ros/ros.h"
 #include "race/microswitch.h"
+#include "race/imu.h"
 #include <iostream>
 #include <std_msgs/Float64.h>
 #include <geometry_msgs/Point.h>
@@ -38,12 +39,14 @@ geometry_msgs::Point mecanum_sub;
 void mecanum_callback(const geometry_msgs::Point::ConstPtr& vel);
 
 void mecanum_init();
-void moveTo(double x_cor, double y_cor);
-void moveTo(double x_cor, double y_cor, CH_MICRO condition);
-void moveTo(double x_cor, double y_cor, double z_cor);
-void moveTo(double x_cor, double y_cor, double z_cor, CH_MICRO condition);
 
-void moveTo(POINT point);
-void moveTo(POINT point, CH_MICRO condition);
+namespace ENCODER{
+    void moveTo(double x_cor, double y_cor, double z_cor);
+    void moveTo(double x_cor, double y_cor, double z_cor, CH_MICRO condition);
+
+    void moveTo(POINT point);
+    void moveTo(POINT point, CH_MICRO condition);
+}
+
 
 #endif
