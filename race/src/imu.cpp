@@ -60,7 +60,7 @@ void CAR_IMU::run(void){
 // Euler Coordinate System
     CAR_IMU::get_quaternion();
     CAR_IMU::get_euler();
-    // CAR_IMU::print_euler();
+    CAR_IMU::print_euler();
 }
 
 void imu_callback(const sensor_msgs::Imu::ConstPtr &ori){
