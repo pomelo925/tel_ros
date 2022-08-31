@@ -151,6 +151,11 @@ include_directories(
 add_executable(E_cam src/E_cam.cpp)
 target_link_libraries(E_cam  ${OpenCV_LIBS} ${catkin_LIBRARIES})
 
+add_executable(read_webcam src/read_webcam.cpp)
+target_link_libraries(read_webcam  ${OpenCV_LIBS} ${catkin_LIBRARIES})
+
+
+
 ## Specify libraries to link a library or executable target against
 # target_link_libraries(${PROJECT_NAME}_node
 #   ${catkin_LIBRARIES}

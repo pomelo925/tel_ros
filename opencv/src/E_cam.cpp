@@ -13,22 +13,22 @@ void filt_contour(Mat original_image, Mat image, double epsilon, int minContour,
 
 // 更完整的過濾字型 Image -- OptimV2
 int main(int argc, char** argv){
+    /// 需要調整的變數 ///
+    double epsilon = 3;  // DP Algorithm 的參數
+    int minContour = 5;  // 邊數小於 minContour 會被遮罩
+    int maxContour = 20;  // 邊數大於 maxContour 會遮罩
+    double lowerBondArea = 100;  // 面積低於 lowerBondArea 的輪廓會被遮罩
+    ///       
+
     ros::init(argc, argv, "E_cam");
     ros::NodeHandle nh;
 
     Mat src;
-    VideoCapture cap(0);
-
-/// 需要調整的變數 ///
-    double epsilon = 3;  // DP Algorithm 的參數
-    int minContour = 5;  // 邊數小於 minContour 會被遮罩
-    int maxContour = 20;  // 邊數大於 maxContour 會遮罩
-    double lowerBondArea = 45;  // 面積低於 lowerBondArea 的輪廓會被遮罩
-///             
+    VideoCapture cap(0);     
 
     if(!cap.isOpened()) ROS_INFO("Cannot open capture\n");
     while(ros::ok()){
-        bool ret = cap.read(src);
+        bool ret = cap.read(src);        
         if(!ret){
             ROS_INFO("Cant receive frame\n");
             break;
