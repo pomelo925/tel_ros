@@ -163,6 +163,10 @@ add_library(encoder src/encoder.cpp)
 target_link_libraries(encoder ${catkin_LIBRARIES})
 add_dependencies(encoder ${catkin_EXPORTED_TARGETS})
 
+add_library(ekf src/ekf.cpp)
+target_link_libraries(ekf ${catkin_LIBRARIES})
+add_dependencies(ekf ${catkin_EXPORTED_TARGETS})
+
 add_executable(stage1 src/stage1.cpp)
 target_link_libraries(stage1 encoder microswitch imu scara)
 add_dependencies(stage1 ${catkin_EXPORTED_TARGETS})
@@ -171,6 +175,9 @@ add_executable(stage2 src/stage2.cpp)
 target_link_libraries(stage2 encoder microswitch imu scara)
 add_dependencies(stage2 ${catkin_EXPORTED_TARGETS})
 
+add_executable(stage3 src/stage3.cpp)
+target_link_libraries(stage3 encoder microswitch imu scara)
+add_dependencies(stage3 ${catkin_EXPORTED_TARGETS})
 ## Specify libraries to link a library or executable target against
 # target_link_libraries(${PROJECT_NAME}_node
 #   ${catkin_LIBRARIES}

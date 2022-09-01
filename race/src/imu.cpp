@@ -5,7 +5,7 @@ CAR_IMU Car_imu;
 
 void IMU::init(void){
     ros::NodeHandle nh_4imu;
-    imu_subscriber = nh_4imu.subscribe("/imu/data", 1, imu_callback);
+    imu_subscriber = nh_4imu.subscribe("/imu/data", 1, IMU::callback);
     imu_publisher = nh_4imu.advertise<geometry_msgs::Point>("IMU_info", 1);
 }
 
@@ -38,7 +38,7 @@ void CAR_IMU::get_euler(double x, double y, double z, double w){
     imu_pub.x = roll;
     imu_pub.y = pitch;
     imu_pub.z = yaw;
-    imu_publisher.publish(imu_pub);
+    imu_publisher.publish(imu_pub); 
 }
 
 void CAR_IMU::print_euler(void){
@@ -47,5 +47,6 @@ void CAR_IMU::print_euler(void){
     ROS_INFO("ROLL  (Y axis): %lf\n", this->roll);
     ROS_INFO("YAW   (Z axis): %lf\n", this->yaw);
 }
+
 
 

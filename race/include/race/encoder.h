@@ -2,8 +2,6 @@
 #define _encoder_H_
 
 #include "ros/ros.h"
-#include "race/microswitch.h"
-#include "race/imu.h"
 #include <iostream>
 #include <std_msgs/Float64.h>
 #include <geometry_msgs/Point.h>
@@ -43,11 +41,7 @@ namespace ENCODER{
     void callback(const geometry_msgs::Point::ConstPtr& vel);
     
     void moveTo(double x_cor, double y_cor, double z_cor);
-    void moveTo(double x_cor, double y_cor, double z_cor, CH_MICRO condition);
-
     void moveTo(POINT point);
-    void moveTo(POINT point, CH_MICRO condition);
 }
-
 
 #endif

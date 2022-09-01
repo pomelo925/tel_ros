@@ -23,10 +23,8 @@ namespace IMU{
 }
 
 class CAR_IMU{
-private:
-    double roll=0, pitch=0, yaw=0;
-
 public:
+    double roll=0, pitch=0, yaw=0;
     void run(void);
     void get_euler(double x, double y, double z, double w);
     void print_euler(void);
