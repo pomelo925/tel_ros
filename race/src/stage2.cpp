@@ -4,11 +4,12 @@ void init2(void);
 void run2(void);
 
 int main(int argc, char** argv){
-    ros::init(argc, argv, "stage2");
-
     ROS_INFO("=== STAGE 2 START ===\n");
+
+    ros::init(argc, argv, "stage2");
     init2();
     run2();
+
     ROS_INFO("=== STAGE 2 END ===\n");
 }
 
@@ -16,16 +17,16 @@ int main(int argc, char** argv){
 /** Stage 2 initialization **/
 /** will NOT be used when integration **/
 void init2(void){
-    mecanum_init();
-    switch_init();
+    ENCODER::init();
+    SWITCH::init();
 }
 
 /** Stage 2 start running **/
 void run2(void){
-    ENCODER::moveTo(RED__START);
+    // ENCODER::moveTo(RED__START);
     ENCODER::moveTo(RED__END);
-    ENCODER::moveTo(RED__START);
-    ENCODER::moveTo(RED__END);
-    ENCODER::moveTo(RED__START);
-    ENCODER::moveTo(RED__END);
+    ENCODER::moveTo(GREEN__START);
+    ENCODER::moveTo(GREEN__END);
+    ENCODER::moveTo(BLUE__START);
+    ENCODER::moveTo(BLUE__END);
 }

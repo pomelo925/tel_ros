@@ -1,5 +1,5 @@
-#ifndef _MECANUM_H_
-#define _MECANUM_H_
+#ifndef _encoder_H_
+#define _encoder_H_
 
 #include "ros/ros.h"
 #include "race/microswitch.h"
@@ -31,16 +31,17 @@ public:
     }
 };
 
-ros::Publisher mecanum_publisher;  // Topic: mecanum_toSTM
-geometry_msgs::Point mecanum_pub;
+ros::Publisher encoder_publisher;  // Topic: encoder_toSTM
+geometry_msgs::Point encoder_pub;
 
-ros::Subscriber mecanum_subscriber;  // Topic: mecanum_fromSTM 
-geometry_msgs::Point mecanum_sub;
-void mecanum_callback(const geometry_msgs::Point::ConstPtr& vel);
+ros::Subscriber encoder_subscriber;  // Topic: encoder_fromSTM 
+geometry_msgs::Point encoder_sub;
 
-void mecanum_init();
-
+// namespace ENCODER is to distinguish it from IMU
 namespace ENCODER{
+    void init(void);
+    void callback(const geometry_msgs::Point::ConstPtr& vel);
+    
     void moveTo(double x_cor, double y_cor, double z_cor);
     void moveTo(double x_cor, double y_cor, double z_cor, CH_MICRO condition);
 

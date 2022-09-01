@@ -3,13 +3,9 @@
 
 #include "ros/ros.h"
 #include "race/encoder.h"
-#include "microswitch.h"
-
-void init2(void);
-void run2(void);
+#include "race/microswitch.h"
 
 /** Checkpoint Define **/
-
 POINT RED__START(0, 0);  // UNSURE
 POINT RED__END(0, 50+35);
 

@@ -1,17 +1,17 @@
 #include "race/encoder.h"
 
 // declare NodeHandle and pub/sub
-void mecanum_init(){
-    ros::NodeHandle nh_4mecanum;
-    mecanum_publisher = nh_4mecanum.advertise<geometry_msgs::Point>("mecanum_toSTM", 1);
-    mecanum_subscriber = nh_4mecanum.subscribe("mecanum_fromSTM", 1, mecanum_callback);
+void ENCODER::init(){
+    ros::NodeHandle nh_4encoder;
+    encoder_publisher = nh_4encoder.advertise<geometry_msgs::Point>("encoder_toSTM", 1);
+    encoder_subscriber = nh_4encoder.subscribe("encoder_fromSTM", 1, ENCODER::callback);
 }
 
 // encdoer callback function
-void mecanum_callback(const geometry_msgs::Point::ConstPtr& vel){
-    mecanum_sub.x = vel->x;
-    mecanum_sub.y = vel->y;
-    mecanum_sub.z = vel->z;
+void ENCODER::callback(const geometry_msgs::Point::ConstPtr& vel){
+    encoder_sub.x = vel->x;
+    encoder_sub.y = vel->y;
+    encoder_sub.z = vel->z;
 } 
 
 
@@ -28,10 +28,10 @@ void ENCODER::moveTo(double x_cor, double y_cor, double z_cor){
         // calculate error and pub new speed
         x_err = x_cor - x_now, y_err = y_cor - y_now, z_err = z_cor - z_now;
 
-        mecanum_pub.x = x_err*p_coe;
-        mecanum_pub.y = y_err*p_coe;
-        mecanum_pub.z = z_err*p_coe;
-        mecanum_publisher.publish(mecanum_pub);
+        encoder_pub.x = x_err*p_coe;
+        encoder_pub.y = y_err*p_coe;
+        encoder_pub.z = z_err*p_coe;
+        encoder_publisher.publish(encoder_pub);
 
         // read encoder data
         ros::spinOnce();
@@ -39,22 +39,22 @@ void ENCODER::moveTo(double x_cor, double y_cor, double z_cor){
 
         // integral (unit: cm/s) 
         if(flag){
-            x_now += (time_now - time_before) * (mecanum_sub.x + x_vel_before)/2;
-            y_now += (time_now - time_before) * (mecanum_sub.y + y_vel_before)/2; 
-            z_now += (time_now - time_before) * (mecanum_sub.z + z_vel_before)/2; 
+            x_now += (time_now - time_before) * (encoder_sub.x + x_vel_before)/2;
+            y_now += (time_now - time_before) * (encoder_sub.y + y_vel_before)/2; 
+            z_now += (time_now - time_before) * (encoder_sub.z + z_vel_before)/2; 
         }   flag = true;
         
-        x_vel_before = mecanum_sub.x;
-        y_vel_before = mecanum_sub.y;
-        z_vel_before = mecanum_sub.z;
+        x_vel_before = encoder_sub.x;
+        y_vel_before = encoder_sub.y;
+        z_vel_before = encoder_sub.z;
         time_before = time_now;
 
     }
     
     // reaching goal and pub speed 0
-        mecanum_pub.x = 0;
-        mecanum_pub.y = 0;
-        mecanum_publisher.publish(mecanum_pub);
+        encoder_pub.x = 0;
+        encoder_pub.y = 0;
+        encoder_publisher.publish(encoder_pub);
 }
 
 
@@ -72,10 +72,10 @@ void ENCODER::moveTo(double x_cor, double y_cor, double z_cor, CH_MICRO conditio
         // calculate error and pub new speed
         x_err = x_cor - x_now, y_err = y_cor - y_now, z_err = z_cor - z_now;
 
-        mecanum_pub.x = x_err*p_coe;
-        mecanum_pub.y = y_err*p_coe;
-        mecanum_pub.z = z_err*p_coe;
-        mecanum_publisher.publish(mecanum_pub);
+        encoder_pub.x = x_err*p_coe;
+        encoder_pub.y = y_err*p_coe;
+        encoder_pub.z = z_err*p_coe;
+        encoder_publisher.publish(encoder_pub);
 
         // read encoder data
         ros::spinOnce();
@@ -83,15 +83,15 @@ void ENCODER::moveTo(double x_cor, double y_cor, double z_cor, CH_MICRO conditio
 
         // integral (unit: cm/s)  
         if(flag){
-            x_now += (time_now - time_before) * (mecanum_sub.x + x_vel_before)/2;
-            y_now += (time_now - time_before) * (mecanum_sub.y + y_vel_before)/2; 
-            z_now += (time_now - time_before) * (mecanum_sub.z + z_vel_before)/2; 
+            x_now += (time_now - time_before) * (encoder_sub.x + x_vel_before)/2;
+            y_now += (time_now - time_before) * (encoder_sub.y + y_vel_before)/2; 
+            z_now += (time_now - time_before) * (encoder_sub.z + z_vel_before)/2; 
         }   flag = true;
         
 
-        x_vel_before = mecanum_sub.x;
-        y_vel_before = mecanum_sub.y;
-        z_vel_before = mecanum_sub.z;
+        x_vel_before = encoder_sub.x;
+        y_vel_before = encoder_sub.y;
+        z_vel_before = encoder_sub.z;
         time_before = time_now;
     
         // break once microswitch triggered
@@ -99,9 +99,9 @@ void ENCODER::moveTo(double x_cor, double y_cor, double z_cor, CH_MICRO conditio
     }
     
     // reaching goal and pub speed 0
-        mecanum_pub.x = 0;
-        mecanum_pub.y = 0;
-        mecanum_publisher.publish(mecanum_pub);
+        encoder_pub.x = 0;
+        encoder_pub.y = 0;
+        encoder_publisher.publish(encoder_pub);
 }
 
 
@@ -118,10 +118,10 @@ void ENCODER::moveTo(POINT point){
         // calculate error and pub new speed
         x_err = point.x_cor - x_now, y_err = point.y_cor - y_now, z_err = point.z_cor - z_now;
 
-        mecanum_pub.x = x_err*p_coe;
-        mecanum_pub.y = y_err*p_coe;
-        mecanum_pub.z = z_err*p_coe;
-        mecanum_publisher.publish(mecanum_pub);
+        encoder_pub.x = x_err*p_coe;
+        encoder_pub.y = y_err*p_coe;
+        encoder_pub.z = z_err*p_coe;
+        encoder_publisher.publish(encoder_pub);
 
         // read encoder data
         ros::spinOnce();
@@ -129,22 +129,22 @@ void ENCODER::moveTo(POINT point){
 
         // integral (unit: cm/s) 
         if(flag){
-            x_now += (time_now - time_before) * (mecanum_sub.x + x_vel_before)/2;
-            y_now += (time_now - time_before) * (mecanum_sub.y + y_vel_before)/2; 
-            z_now += (time_now - time_before) * (mecanum_sub.z + z_vel_before)/2; 
+            x_now += (time_now - time_before) * (encoder_sub.x + x_vel_before)/2;
+            y_now += (time_now - time_before) * (encoder_sub.y + y_vel_before)/2; 
+            z_now += (time_now - time_before) * (encoder_sub.z + z_vel_before)/2; 
         }   flag = true;
         
-        x_vel_before = mecanum_sub.x;
-        y_vel_before = mecanum_sub.y;
-        z_vel_before = mecanum_sub.z;
+        x_vel_before = encoder_sub.x;
+        y_vel_before = encoder_sub.y;
+        z_vel_before = encoder_sub.z;
         time_before = time_now;
 
     }
     
     // reaching goal and pub speed 0
-        mecanum_pub.x = 0;
-        mecanum_pub.y = 0;
-        mecanum_publisher.publish(mecanum_pub);
+        encoder_pub.x = 0;
+        encoder_pub.y = 0;
+        encoder_publisher.publish(encoder_pub);
 }
 
 
@@ -161,10 +161,10 @@ void ENCODER::moveTo(POINT point, CH_MICRO condition){
         // calculate error and pub new speed
         x_err = point.x_cor - x_now, y_err = point.y_cor - y_now, z_err = point.z_cor - z_now;
 
-        mecanum_pub.x = x_err*p_coe;
-        mecanum_pub.y = y_err*p_coe;
-        mecanum_pub.z = z_err*p_coe;
-        mecanum_publisher.publish(mecanum_pub);
+        encoder_pub.x = x_err*p_coe;
+        encoder_pub.y = y_err*p_coe;
+        encoder_pub.z = z_err*p_coe;
+        encoder_publisher.publish(encoder_pub);
 
         // read encoder data
         ros::spinOnce();
@@ -172,15 +172,15 @@ void ENCODER::moveTo(POINT point, CH_MICRO condition){
 
         // integral (unit: cm/s)  
         if(flag){
-            x_now += (time_now - time_before) * (mecanum_sub.x + x_vel_before)/2;
-            y_now += (time_now - time_before) * (mecanum_sub.y + y_vel_before)/2; 
-            z_now += (time_now - time_before) * (mecanum_sub.z + z_vel_before)/2; 
+            x_now += (time_now - time_before) * (encoder_sub.x + x_vel_before)/2;
+            y_now += (time_now - time_before) * (encoder_sub.y + y_vel_before)/2; 
+            z_now += (time_now - time_before) * (encoder_sub.z + z_vel_before)/2; 
         }   flag = true;
         
 
-        x_vel_before = mecanum_sub.x;
-        y_vel_before = mecanum_sub.y;
-        z_vel_before = mecanum_sub.z;
+        x_vel_before = encoder_sub.x;
+        y_vel_before = encoder_sub.y;
+        z_vel_before = encoder_sub.z;
         time_before = time_now;
     
         // break once microswitch triggered
@@ -188,7 +188,7 @@ void ENCODER::moveTo(POINT point, CH_MICRO condition){
     }
     
     // reaching goal and pub speed 0
-        mecanum_pub.x = 0;
-        mecanum_pub.y = 0;
-        mecanum_publisher.publish(mecanum_pub);
+        encoder_pub.x = 0;
+        encoder_pub.y = 0;
+        encoder_publisher.publish(encoder_pub);
 }

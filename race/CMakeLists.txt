@@ -151,6 +151,10 @@ add_library(imu src/imu.cpp)
 target_link_libraries(imu ${catkin_LIBRARIES})
 add_dependencies(imu ${catkin_EXPORTED_TARGETS})
 
+add_library(scara src/scara.cpp)
+target_link_libraries(scara ${catkin_LIBRARIES})
+add_dependencies(scara ${catkin_EXPORTED_TARGETS})
+
 add_library(microswitch src/microswitch.cpp)
 target_link_libraries(microswitch ${catkin_LIBRARIES})
 add_dependencies(microswitch ${catkin_EXPORTED_TARGETS})
@@ -159,13 +163,13 @@ add_library(encoder src/encoder.cpp)
 target_link_libraries(encoder ${catkin_LIBRARIES})
 add_dependencies(encoder ${catkin_EXPORTED_TARGETS})
 
-add_executable(stage2 src/stage2.cpp)
-target_link_libraries(stage2 encoder microswitch imu)
-add_dependencies(stage2 ${catkin_EXPORTED_TARGETS})
+add_executable(stage1 src/stage1.cpp)
+target_link_libraries(stage1 encoder microswitch imu scara)
+add_dependencies(stage1 ${catkin_EXPORTED_TARGETS})
 
-add_executable(temp src/temp.cpp)
-target_link_libraries(temp imu)
-add_dependencies(temp ${catkin_EXPORTED_TARGETS})
+add_executable(stage2 src/stage2.cpp)
+target_link_libraries(stage2 encoder microswitch imu scara)
+add_dependencies(stage2 ${catkin_EXPORTED_TARGETS})
 
 ## Specify libraries to link a library or executable target against
 # target_link_libraries(${PROJECT_NAME}_node

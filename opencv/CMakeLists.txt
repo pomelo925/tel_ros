@@ -154,6 +154,8 @@ target_link_libraries(E_cam  ${OpenCV_LIBS} ${catkin_LIBRARIES})
 add_executable(read_webcam src/read_webcam.cpp)
 target_link_libraries(read_webcam  ${OpenCV_LIBS} ${catkin_LIBRARIES})
 
+add_executable(self_calibration src/self_calibration.cpp)
+target_link_libraries(self_calibration  ${OpenCV_LIBS} ${catkin_LIBRARIES})
 
 
 ## Specify libraries to link a library or executable target against
