@@ -7,6 +7,7 @@ int main(int argc, char** argv){
     ROS_INFO("=== STAGE 2 START ===\n");
 
     ros::init(argc, argv, "stage2");
+    ros::NodeHandle nh2;
     init2();
     run2();
 
@@ -23,7 +24,7 @@ void init2(void){
 
 /** Stage 2 start running **/
 void run2(void){
-    // ENCODER::moveTo(RED__START);
+    ENCODER::moveTo(RED__START);
     ENCODER::moveTo(RED__END);
     ENCODER::moveTo(GREEN__START);
     ENCODER::moveTo(GREEN__END);

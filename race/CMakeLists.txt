@@ -13,6 +13,7 @@ find_package(catkin REQUIRED COMPONENTS
   rospy
   std_msgs
   sensor_msgs
+  tf
 )
 
 ## System dependencies are found with CMake's conventions
@@ -178,6 +179,10 @@ add_dependencies(stage2 ${catkin_EXPORTED_TARGETS})
 add_executable(stage3 src/stage3.cpp)
 target_link_libraries(stage3 encoder microswitch imu scara)
 add_dependencies(stage3 ${catkin_EXPORTED_TARGETS})
+
+add_executable(TESTING src/TESTING.cpp)
+target_link_libraries(TESTING encoder)
+add_dependencies(TESTING ${catkin_EXPORTED_TARGETS})
 ## Specify libraries to link a library or executable target against
 # target_link_libraries(${PROJECT_NAME}_node
 #   ${catkin_LIBRARIES}

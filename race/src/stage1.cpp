@@ -7,12 +7,14 @@ void init1(void);
 void run1(void);
 
 int main(int argc, char** argv){
+    ros::init(argc, argv, "stage1");
     ROS_INFO("=== STAGE 1 START ===\n");
     
-    ros::init(argc, argv, "stage2");
+    ros::NodeHandle nh1;
+    ROS_INFO("test");
     init1();
+    ROS_INFO("test");
     run1();
-
     ROS_INFO("=== STAGE 1 END ===\n");
 }
 

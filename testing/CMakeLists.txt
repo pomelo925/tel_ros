@@ -10,6 +10,7 @@ project(testing)
 find_package(catkin REQUIRED COMPONENTS
   roscpp
   rospy
+  tf
 )
 
 ## System dependencies are found with CMake's conventions
@@ -149,6 +150,9 @@ target_link_libraries(stm32 ${catkin_LIBRARIES})
 
 add_executable(run_mecanum src/run_mecanum.cpp)
 target_link_libraries(run_mecanum ${catkin_LIBRARIES})
+
+add_executable(test_function src/test_function.cpp)
+target_link_libraries(test_function ${catkin_LIBRARIES})
 
 ## Specify libraries to link a library or executable target against
 # target_link_libraries(${PROJECT_NAME}_node

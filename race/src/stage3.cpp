@@ -9,7 +9,7 @@ int main(int argc, char** argv){
     ROS_INFO("=== STAGE 3 START ===\n");
     
     ros::init(argc, argv, "stage3");
-    
+    ros::NodeHandle nh3;
     init3();
     run3();
 

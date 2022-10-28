@@ -1,7 +1,6 @@
 #ifndef _STAEG1_H_
 #define _STAGE1_H_
 
-#include "ros/ros.h"
 #include "race/encoder.h"
 
 /** Checkpoint (relative) Define **/
