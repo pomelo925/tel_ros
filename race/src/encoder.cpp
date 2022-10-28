@@ -3,21 +3,25 @@
 // declare NodeHandle and pub/sub
 void ENCODER::init(){
     ros::NodeHandle nh_4encoder;
-    encoder_publisher = nh_4encoder.advertise<geometry_msgs::Point>("encoder_toSTM", 1);
-    encoder_subscriber = nh_4encoder.subscribe("encoder_fromSTM", 1, ENCODER::callback);
+    encoder_publisher = nh_4encoder.advertise<geometry_msgs::Point>("mecanum_toSTM", 1);
+    encoder_subscriber = nh_4encoder.subscribe("mecanum_fromSTM", 1, ENCODER::callback);
     
     odom_pub = nh_4encoder.advertise<nav_msgs::Odometry>("odom", 1);
 }
 
-// encdoer callback function
+// encdoer callback function and publish
 void ENCODER::callback(const geometry_msgs::Point::ConstPtr& vel){
     encoder_sub.x = vel->x;
     encoder_sub.y = vel->y;
     encoder_sub.z = vel->z;
+
+    data_check = true;
 } 
 
 
 void ENCODER::moveTo(double x_cor, double y_cor, double z_cor){
+    z_cor*=3.1415926/180;
+    double acc_x=0, acc_y=0, acc_z=0;
     double x_now=0, y_now=0, z_now=0;
     double x_err = x_cor, y_err = y_cor, z_err=z_cor;  // distance between now & goal
     double time_now, time_before;  
@@ -28,14 +32,34 @@ void ENCODER::moveTo(double x_cor, double y_cor, double z_cor){
         // calculate error and pub new speed
         x_err = x_cor - x_now, y_err = y_cor - y_now, z_err = z_cor - z_now;
 
+        /* velocity profile */
         encoder_pub.x = x_err*p_coe;
         encoder_pub.y = y_err*p_coe;
         encoder_pub.z = z_err*p_coe;
+
+        if(x_err > 1/3*x_cor && encoder_pub.x!=0 && x_err > 0.01){
+            encoder_pub.x=acc_x;
+            acc_x += 0.5;
+            if(acc_x >= 5) encoder_pub.x=5;
+        }
+        if(y_err > 1/3*y_cor && encoder_pub.y!=0 && y_err > 0.01){
+            encoder_pub.y=acc_y;
+            acc_y += 0.5;
+            if(acc_y >= 5) encoder_pub.y=5;
+        }
+        if(z_err > 1/3*z_cor && encoder_pub.z!=0 && z_err > 0.01){
+            encoder_pub.z=acc_z;
+            acc_z += 0.2;
+            if(acc_z >= 2) encoder_pub.z=2;
+        }
+
+        /* velocity profile */
         encoder_publisher.publish(encoder_pub);
-        ENCODER::TF(x_now, y_now, z_now, ros::Time::now());
+        // ENCODER::TF(x_now, y_now, z_now, ros::Time::now());
 
         // read encoder data
-        ros::spinOnce();
+        data_check = false;
+        while(!data_check) ros::spinOnce();
         time_now = ros::Time::now().toSec();
 
         // integral (unit: cm/s) 
@@ -45,20 +69,26 @@ void ENCODER::moveTo(double x_cor, double y_cor, double z_cor){
             z_now += (time_now - time_before) * (encoder_sub.z + z_vel_before)/2; 
         }   flag = true;
         
+        std::cout<<"X: "<<x_now<<std::endl;
+        std::cout<<"Y: "<<y_now<<std::endl;
+        std::cout<<"Z: "<<z_now<<std::endl;
+
         x_vel_before = encoder_sub.x;
         y_vel_before = encoder_sub.y;
         z_vel_before = encoder_sub.z;
         time_before = time_now;
-
+        ros::Duration(0.2).sleep();
     }
     
     // reaching goal and pub speed 0
-    
-        encoder_pub.x = 0;
-        encoder_pub.y = 0;
-        encoder_publisher.publish(encoder_pub);
-        ENCODER::TF(x_now, y_now, z_now, ros::Time::now());
+    while(encoder_sub.x != 0 || encoder_sub.y != 0 || encoder_sub.z != 0){
+        encoder_pub.x = 0.;
+        encoder_pub.y = 0.;
+        encoder_pub.z = 0.;
+        ros::spinOnce();
+    }
 
+    ENCODER::TF(x_now, y_now, z_now, ros::Time::now());
 }
 
 /*** MoveTo -- Overloading TYPE 5***/
@@ -69,7 +99,7 @@ void ENCODER::moveTo(POINT point){
     double time_now, time_before;  
     double x_vel_before, y_vel_before, z_vel_before;  // velocity of previous instance
     bool flag = false;  // flag for NOT integral on first instance
- ROS_INFO("bbb\n");
+
     while( x_err > x_tol_margin || y_err > y_tol_margin || z_err > z_tol_margin){
         // calculate error and pub new speed
         x_err = point.x_cor - x_now, y_err = point.y_cor - y_now, z_err = point.z_cor - z_now;
@@ -95,7 +125,6 @@ void ENCODER::moveTo(POINT point){
         z_vel_before = encoder_sub.z;
         time_before = time_now;
 
-        ROS_INFO("aaaaa\n");
     }
     
     // reaching goal and pub speed 0

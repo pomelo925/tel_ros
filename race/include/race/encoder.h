@@ -9,10 +9,11 @@
 #include <nav_msgs/Odometry.h>
 
 // arguments adjustments
-double p_coe = 1;  // P control coefficient
-double x_tol_margin = 1; // x tolerance critical value
-double y_tol_margin = 1; // y tolerance critical value
-double z_tol_margin = 1; // z tolerance critical value 
+double p_coe = 0.25;  // P control coefficient
+double x_tol_margin = 0.5; // x tolerance critical value
+double y_tol_margin = 0.5; // y tolerance critical value
+double z_tol_margin = 0.1; // z tolerance critical value 
+bool data_check;
 
 class POINT{
 public:

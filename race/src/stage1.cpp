@@ -22,8 +22,6 @@ int main(int argc, char** argv){
 /** Stage 1 initialization **/
 /** will NOT be used when integration **/
 void init1(void){
-    ENCODER::init();
-    SWITCH::init();
 }
 
 
