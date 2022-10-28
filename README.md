@@ -1,2 +1,6 @@
 # TEL_ROS
-This code would be pushed from raspi 4b in usual circumstance.
+
+```
+This repo is recommended pushing From WSL Ubuntu20.04.  
+And Rasbpi 4B pulls this repo.
+```
