@@ -2,7 +2,7 @@
 #define _STAGE2_H_
 
 #include "ros/ros.h"
-#include "race/encoder.h"
+#include "race/mecanum.h"
 #include "race/microswitch.h"
 
 /** Checkpoint Define **/

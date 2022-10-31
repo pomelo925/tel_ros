@@ -1,7 +1,7 @@
 #ifndef _EKF_H_
 #define _EKF_H_
 
-#include "race/encoder.h"
+#include "race/mecanum.h"
 #include "race/microswitch.h"
 
 namespace EKF{

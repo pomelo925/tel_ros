@@ -2,7 +2,7 @@
 #define _STAGE3_H_
 
 #include "ros/ros.h"
-#include "race/encoder.h"
+#include "race/mecanum.h"
 
 /** Checkpoint Define **/
 POINT UP(0,200);  // velocity may be too high

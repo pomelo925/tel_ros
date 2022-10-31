@@ -6,7 +6,7 @@
 #include "sensor_msgs/Imu.h"
 #include "geometry_msgs/Point.h"
 #include "race/microswitch.h"
-#include "race/encoder.h"
+#include "race/mecanum.h"
 
 #define PI 3.14159265358979323846
 

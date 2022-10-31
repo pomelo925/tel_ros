@@ -18,16 +18,16 @@ int main(int argc, char** argv){
 /** Stage 2 initialization **/
 /** will NOT be used when integration **/
 void init2(void){
-    ENCODER::init();
+    MECANUM::init();
     SWITCH::init();
 }
 
 /** Stage 2 start running **/
 void run2(void){
-    ENCODER::moveTo(RED__START);
-    ENCODER::moveTo(RED__END);
-    ENCODER::moveTo(GREEN__START);
-    ENCODER::moveTo(GREEN__END);
-    ENCODER::moveTo(BLUE__START);
-    ENCODER::moveTo(BLUE__END);
+    MECANUM::moveTo(RED__START);
+    MECANUM::moveTo(RED__END);
+    MECANUM::moveTo(GREEN__START);
+    MECANUM::moveTo(GREEN__END);
+    MECANUM::moveTo(BLUE__START);
+    MECANUM::moveTo(BLUE__END);
 }

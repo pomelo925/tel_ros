@@ -17,14 +17,14 @@ int main(int argc, char** argv){
 }
 
 void init3(void){
-    ENCODER::init();
+    MECANUM::init();
     SWITCH::init();
     SCARA::init();
 }
 
 void run3(void){
-    ENCODER::moveTo(UP);
-    ENCODER::moveTo(DOWN);
-    ENCODER::moveTo(LEFT);
-    ENCODER::moveTo(TOUCH);
+    MECANUM::moveTo(UP);
+    MECANUM::moveTo(DOWN);
+    MECANUM::moveTo(LEFT);
+    MECANUM::moveTo(TOUCH);
 }

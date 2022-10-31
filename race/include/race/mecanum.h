@@ -1,5 +1,5 @@
-#ifndef _ENCODER_H_
-#define _ENCODER_H_
+#ifndef _MECANUM_H_
+#define _MECANUM_H_
 
 #include "ros/ros.h"
 #include <iostream>
@@ -9,10 +9,13 @@
 #include <nav_msgs/Odometry.h>
 
 // arguments adjustments
-double p_coe = 0.25;  // P control coefficient
-double x_tol_margin = 0.5; // x tolerance critical value
-double y_tol_margin = 0.5; // y tolerance critical value
-double z_tol_margin = 0.1; // z tolerance critical value 
+double kp = 1;
+double dr = 0.25;  // start decelerate at the last dr of the whole distance 
+double kp_xy = 1.5;  // p gain for x- y-direction control
+double kp_z = 0.36;  // p gain for z-direction control
+double x_tol_margin = 0.1; // x tolerance critical value
+double y_tol_margin = 0.1; // y tolerance critical value
+double z_tol_margin = 0.02; // z tolerance critical value 
 bool data_check;
 
 class POINT{
@@ -34,18 +37,18 @@ public:
 };
 
 
-ros::Publisher encoder_publisher;  // Topic: encoder_toSTM
-geometry_msgs::Point encoder_pub;
+ros::Publisher mecanum_publisher;  // Topic: mecanum_toSTM
+geometry_msgs::Point mecanum_pub;
 
-ros::Subscriber encoder_subscriber;  // Topic: encoder_fromSTM 
-geometry_msgs::Point encoder_sub;
+ros::Subscriber mecanum_subscriber;  // Topic: mecanum_fromSTM 
+geometry_msgs::Point mecanum_sub;
 
 ros::Publisher odom_pub;
 // tf::TransformBroadcaster odom_broadcaster;  RUNTIME ERROR PROBLEM !!!
 geometry_msgs::TransformStamped odom_trans;
 
-// namespace ENCODER is to distinguish it from IMU
-namespace ENCODER{
+// namespace MECANUM is to distinguish it from IMU
+namespace MECANUM{
     void init(void);
     void callback(const geometry_msgs::Point::ConstPtr& vel);
     

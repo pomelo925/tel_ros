@@ -1,7 +1,7 @@
 #ifndef _STAEG1_H_
 #define _STAGE1_H_
 
-#include "race/encoder.h"
+#include "race/mecanum.h"
 
 /** Checkpoint (relative) Define **/
 POINT A_START_PUSH(15, 100-15); // expand arm preparing for pushing cubes
