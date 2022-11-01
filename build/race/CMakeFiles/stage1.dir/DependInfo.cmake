@@ -24,9 +24,10 @@ set(CMAKE_CXX_TARGET_INCLUDE_PATH
 
 # Targets to which this target links.
 set(CMAKE_TARGET_LINKED_INFO_FILES
-  "/home/pomelo925/POMELO/TEL/build/race/CMakeFiles/stage1_lib.dir/DependInfo.cmake"
-  "/home/pomelo925/POMELO/TEL/build/race/CMakeFiles/velocity.dir/DependInfo.cmake"
+  "/home/pomelo925/POMELO/TEL/build/race/CMakeFiles/mecanum.dir/DependInfo.cmake"
   "/home/pomelo925/POMELO/TEL/build/race/CMakeFiles/microswitch.dir/DependInfo.cmake"
+  "/home/pomelo925/POMELO/TEL/build/race/CMakeFiles/imu.dir/DependInfo.cmake"
+  "/home/pomelo925/POMELO/TEL/build/race/CMakeFiles/scara.dir/DependInfo.cmake"
   )
 
 # Fortran module output directory.

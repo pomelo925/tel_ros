@@ -8,10 +8,12 @@ project(race)
 ## if COMPONENTS list like find_package(catkin REQUIRED COMPONENTS xyz)
 ## is used, also find other catkin packages
 find_package(catkin REQUIRED COMPONENTS
+  geometry_msgs
   roscpp
   rospy
   std_msgs
-  geometry_msgs
+  sensor_msgs
+  tf
 )
 
 ## System dependencies are found with CMake's conventions
@@ -71,7 +73,7 @@ find_package(catkin REQUIRED COMPONENTS
 ## Generate added messages and services with any dependencies listed here
 # generate_messages(
 #   DEPENDENCIES
-#   std_msgs
+#   geometry_msgs#   std_msgs
 # )
 
 ################################################
@@ -103,12 +105,12 @@ find_package(catkin REQUIRED COMPONENTS
 ## LIBRARIES: libraries you create in this project that dependent projects also need
 ## CATKIN_DEPENDS: catkin_packages dependent projects also need
 ## DEPENDS: system dependencies of this project that dependent projects also need
-# catkin_package(
-#   INCLUDE_DIRS include
-#   LIBRARIES race
-#   CATKIN_DEPENDS roscpp rospy std_msgs
-#   DEPENDS system_lib navigation/velocity.h
-# )
+catkin_package(
+#  INCLUDE_DIRS include
+#  LIBRARIES race
+#  CATKIN_DEPENDS geometry_msgs roscpp rospy std_msgs
+#  DEPENDS system_lib
+)
 
 ###########
 ## Build ##
@@ -119,7 +121,6 @@ find_package(catkin REQUIRED COMPONENTS
 include_directories(
  include
   ${catkin_INCLUDE_DIRS}
-
 )
 
 ## Declare a C++ library
@@ -147,22 +148,41 @@ include_directories(
 ## same as for the library above
 # add_dependencies(${PROJECT_NAME}_node ${${PROJECT_NAME}_EXPORTED_TARGETS} ${catkin_EXPORTED_TARGETS})
 
+add_library(imu src/imu.cpp)
+target_link_libraries(imu ${catkin_LIBRARIES})
+add_dependencies(imu ${catkin_EXPORTED_TARGETS})
+
+add_library(scara src/scara.cpp)
+target_link_libraries(scara ${catkin_LIBRARIES})
+add_dependencies(scara ${catkin_EXPORTED_TARGETS})
+
 add_library(microswitch src/microswitch.cpp)
 target_link_libraries(microswitch ${catkin_LIBRARIES})
 add_dependencies(microswitch ${catkin_EXPORTED_TARGETS})
 
-add_library(velocity src/velocity.cpp)
-target_link_libraries(velocity ${catkin_LIBRARIES})
-add_dependencies(velocity ${catkin_EXPORTED_TARGETS})
+add_library(mecanum src/mecanum.cpp)
+target_link_libraries(mecanum ${catkin_LIBRARIES})
+add_dependencies(mecanum ${catkin_EXPORTED_TARGETS})
 
-add_library(stage1_lib src/stage1_lib.cpp)
-target_link_libraries(stage1_lib ${catkin_LIBRARIES})
-add_dependencies(stage1_lib ${catkin_EXPORTED_TARGETS})
+add_library(ekf src/ekf.cpp)
+target_link_libraries(ekf ${catkin_LIBRARIES})
+add_dependencies(ekf ${catkin_EXPORTED_TARGETS})
 
 add_executable(stage1 src/stage1.cpp)
-target_link_libraries(stage1 stage1_lib velocity microswitch)
+target_link_libraries(stage1 mecanum microswitch imu scara)
 add_dependencies(stage1 ${catkin_EXPORTED_TARGETS})
 
+add_executable(stage2 src/stage2.cpp)
+target_link_libraries(stage2 mecanum microswitch imu scara)
+add_dependencies(stage2 ${catkin_EXPORTED_TARGETS})
+
+add_executable(stage3 src/stage3.cpp)
+target_link_libraries(stage3 mecanum microswitch imu scara)
+add_dependencies(stage3 ${catkin_EXPORTED_TARGETS})
+
+add_executable(TESTING src/TESTING.cpp)
+target_link_libraries(TESTING mecanum)
+add_dependencies(TESTING ${catkin_EXPORTED_TARGETS})
 ## Specify libraries to link a library or executable target against
 # target_link_libraries(${PROJECT_NAME}_node
 #   ${catkin_LIBRARIES}
