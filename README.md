@@ -1,2 +1,6 @@
 # TEL_ROS
-任務排程
+
+```
+This repo is recommended pushing From WSL Ubuntu20.04.  
+And Rasbpi 4B pulls this repo.
+```
