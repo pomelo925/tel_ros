@@ -1,2 +1,2 @@
-opencv:race:remote:ros_imu_bno055:rosserial_python
+opencv:race:racing:remote:ros_imu_bno055:rosserial_python
 -DCATKIN_DEVEL_PREFIX=/home/pomelo925/POMELO/TEL/devel -DCMAKE_INSTALL_PREFIX=/home/pomelo925/POMELO/TEL/install -G Unix Makefiles
