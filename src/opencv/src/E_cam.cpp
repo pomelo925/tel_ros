@@ -5,7 +5,7 @@
 using namespace std;
 using namespace cv;
 
-// 過濾字型，已固定 hsv 參數
+// 過濾字型，已固定 hsv 參數。
 Mat filt_letter(Mat img);
 
 // 篩選出好的 contour，並判斷字母+標示中心點
