@@ -21,8 +21,8 @@ int main(int argc, char **argv){
     while(ros::ok()){
         ros::spinOnce();
         remote_mecanum_pub.publish(remote_mecanum_msgs);
-        remote_intake_pub.publish(remote_intake_msgs);        
-        break;
+        remote_intake_pub.publish(remote_intake_msgs); 
+        ros::Duration(0.5).sleep();      
     }
 }
 

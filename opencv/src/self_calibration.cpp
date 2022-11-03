@@ -10,7 +10,7 @@ void on_Mouse(int event, int x, int y, int flags, void* param){
 
 
 int main(){
-    Mat src = imread("/home/ditrobotics/TEL/src/opencv/src/opencv_frame_0.png");
+    Mat src = imread("/home/ditrobotics/TEL/src/opencv/src/first.png");
     cvtColor(src, src, COLOR_RGB2GRAY);
     // src.convertTo(src, -1, 2, 0); //increase the contrast by 2
     namedWindow("src");
