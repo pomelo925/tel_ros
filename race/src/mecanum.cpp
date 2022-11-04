@@ -40,13 +40,13 @@ void MECANUM::moveTo(double x_cor, double y_cor, double z_cor){
         /// accerlation ///
         if( fabs(x_err) > fabs(dr*x_cor) && fabs(x_err) > x_tol_margin){
             mecanum_pub.x=acc_x;
-            acc_x += (x_err>0)? 0.01 : -0.01;
+            acc_x += (x_err>0)? 0.05 : -0.05;
             if(acc_x >= 5) mecanum_pub.x=5;
             if(acc_x <=-5) mecanum_pub.x=-5;
         }
         if( fabs(y_err) > fabs(dr*y_cor) && fabs(y_err) > y_tol_margin){
             mecanum_pub.y=acc_y;
-            acc_y += (y_err>0)? 0.01 : -0.01;
+            acc_y += (y_err>0)? 0.05 : -0.05;
             if(acc_y >= 5) mecanum_pub.y=5;
             if(acc_y <=-5) mecanum_pub.y=-5;
         }
@@ -76,11 +76,11 @@ void MECANUM::moveTo(double x_cor, double y_cor, double z_cor){
 
         // integral (unit: cm/s) 
         time_now = ros::Time::now().toSec();
-        // WARNING!!!  STRANGE COEFFICIENT BUG !!!
+ 
         if(flag){
             x_now += (time_now - time_before) * (mecanum_sub.x + x_vel_before)/2;
-            y_now += 5.4*( (time_now - time_before) * (mecanum_sub.y + y_vel_before)/2 ); 
-            z_now += 4*( (time_now - time_before) * (mecanum_sub.z + z_vel_before)/2 ); 
+            y_now += ( (time_now - time_before) * (mecanum_sub.y + y_vel_before)/2 ); 
+            z_now += ( (time_now - time_before) * (mecanum_sub.z + z_vel_before)/2 ); 
         }   flag = true;
         
         std::cout<<"X: "<<x_now<<"\t\tVx: "<<mecanum_pub.x<<std::endl;
