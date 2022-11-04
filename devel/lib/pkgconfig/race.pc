@@ -1,8 +1,0 @@
-prefix=/home/pomelo925/POMELO/TEL/devel
-
-Name: race
-Description: Description of race
-Version: 0.0.0
-Cflags: 
-Libs: -L${prefix}/lib 
-Requires: 
