@@ -11,10 +11,9 @@ int main(int argc, char** argv){
     ROS_INFO("=== STAGE 1 START ===\n");
     
     ros::NodeHandle nh1;
-    ROS_INFO("test");
     init1();
-    ROS_INFO("test");
     run1();
+    
     ROS_INFO("=== STAGE 1 END ===\n");
 }
 

@@ -10,9 +10,7 @@ int main(){
     VideoCapture cap(0);
     Mat img;
 
-    if(!cap.isOpened()){
-        cout << "Cannot open capture\n";
-    }
+    if(!cap.isOpened()) cout << "Cannot open capture\n";
 
     while(true){
         bool ret = cap.read(img);

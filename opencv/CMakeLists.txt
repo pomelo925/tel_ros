@@ -157,6 +157,8 @@ target_link_libraries(read_webcam  ${OpenCV_LIBS} ${catkin_LIBRARIES})
 add_executable(self_calibration src/self_calibration.cpp)
 target_link_libraries(self_calibration  ${OpenCV_LIBS} ${catkin_LIBRARIES})
 
+add_executable(green_detect src/green_detect.cpp)
+target_link_libraries(green_detect  ${OpenCV_LIBS} ${catkin_LIBRARIES})
 
 ## Specify libraries to link a library or executable target against
 # target_link_libraries(${PROJECT_NAME}_node

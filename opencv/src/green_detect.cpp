@@ -1,43 +1,37 @@
 #include <iostream>
 #include <opencv2/opencv.hpp>
-#include <ros/ros.h>
 
-using namespace std; 
+using namespace std;
 using namespace cv;
 
-// 過濾字型，已固定 hsv 
+// 過濾字型，已固定 hsv 參數
 Mat filt_letter(Mat img);
 
 // 篩選出好的 contour，並判斷字母+標示中心點
 void filt_contour(Mat original_image, Mat image, double epsilon, int minContour, int maxContour, double lowerBondArea);  
 
-// 更完整的過濾字型 Image -- OptimV2
-int main(int argc, char** argv){
-    /// 需要調整的變數 ///
-    double epsilon = 8;  // DP Algorithm 的參數
-    int minContour = 5;  // 邊數小於 minContour 會被遮罩
-    int maxContour = 15;  // 邊數大於 maxContour 會遮罩
-    double lowerBondArea = 100;  // 面積低於 lowerBondArea 的輪廓會被遮罩
-    ///       
+int main(){
 
-    ros::init(argc, argv, "E_cam");
-    ros::NodeHandle nh;
-
+/// 需要調整的變數
+    int numOfPhotos = 26;  // 照片數量
+    string letter = "E";  // 要辨識的字母
     Mat src;
-    VideoCapture cap(0);     
 
-    if(!cap.isOpened()) ROS_INFO("Cannot open capture\n");
-    while(ros::ok()){
-        bool ret = cap.read(src);        
-        if(!ret){
-            ROS_INFO("Cant receive frame\n");
-            break;
-        }
+    double epsilon = 8;  // DP Algorithm 的參數
+    int minContour = 4;  // 邊數小於 minContour 會被遮罩
+    int maxContour = 15;  // 邊數大於 maxContour 會遮罩
+    double lowerBondArea = 50;  // 面積低於 lowerBondArea 的輪廓會被遮罩
+///             
 
+    for(int i=1; i<numOfPhotos; i++){
+        string path = "TEL/" + letter + '/' + letter + to_string(i) + ".jpg";
+        src = imread(path);
+        resize(src, src, Size(src.cols/3, src.rows/3));
         Mat original_image = src.clone();
-        src = filt_letter(src);
+
+        src = filt_letter(src);  
         filt_contour(original_image, src, epsilon, minContour, maxContour, lowerBondArea);    
-        if(waitKey(1) == 'q') break;     
+        if(waitKey(0) == 'q') break;  // 輸入 q 終止程式
     }
     return 0;
 }
@@ -74,7 +68,7 @@ Mat filt_letter(Mat img){
     
     result = Mat::zeros(img.size(), CV_8UC3);
     bitwise_and(img, img, result, mask);
-    imshow("Letter Filted", result);
+    // imshow("Letter Filted", result);
     return result;
 }
 
@@ -145,7 +139,6 @@ void filt_contour(Mat original_image, Mat image, double epsilon, int minContour,
     vector<Point> pt;  // 存一個contour中的點集合
 
     for(int a=0; a<polyContours2.size(); a++){
-    // A) 旋轉矩形
         pt.clear();
         for(int b=0; b<polyContours2[a].size(); b++){
             pt.push_back(polyContours2[a][b]);
@@ -156,16 +149,13 @@ void filt_contour(Mat original_image, Mat image, double epsilon, int minContour,
         for(int i=0; i<4; i++){
             line(dp_image_2, vertices[i], vertices[(i+1)%4], Scalar(0,255,0), 2);  // 描出旋轉矩形
         }
-
-        // 標示
         circle(dp_image_2, (vertices[0]+vertices[1]+vertices[2]+vertices[3])/4, 0, Scalar(0,255,255), 8);  // 繪製中心點
         circle(original_image, (vertices[0]+vertices[1]+vertices[2]+vertices[3])/4, 0, Scalar(0,255,255), 8);  // 放回原圖比較
-        
-        // 標示
+
         putText(dp_image_2, "E", (vertices[0]+vertices[1]+vertices[2]+vertices[3])/4, 1, 3, Scalar(0,0,255), 2);
         putText(original_image, "E", (vertices[0]+vertices[1]+vertices[2]+vertices[3])/4, 1, 3, Scalar(0,0,255), 2);
     }
 
-    // imshow("dp_optim_v2_image", dp_image_2);
-    imshow("original image (comp)", original_image);
+    imshow("Contours Filted", dp_image_2);
+    imshow("Original Image (Highlight)", original_image);
 }
