@@ -6,8 +6,6 @@ void run2(void);
 int main(int argc, char** argv){
     ROS_INFO("=== STAGE 2 START ===\n");
 
-    ros::init(argc, argv, "stage2");
-    ros::NodeHandle nh2;
     init2();
     run2();
 

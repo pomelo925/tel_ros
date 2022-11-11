@@ -148,17 +148,17 @@ include_directories(
 ## same as for the library above
 # add_dependencies(${PROJECT_NAME}_node ${${PROJECT_NAME}_EXPORTED_TARGETS} ${catkin_EXPORTED_TARGETS})
 
-add_executable(E_cam src/E_cam.cpp)
-target_link_libraries(E_cam  ${OpenCV_LIBS} ${catkin_LIBRARIES})
-
 add_executable(read_webcam src/read_webcam.cpp)
 target_link_libraries(read_webcam  ${OpenCV_LIBS} ${catkin_LIBRARIES})
 
-add_executable(self_calibration src/self_calibration.cpp)
-target_link_libraries(self_calibration  ${OpenCV_LIBS} ${catkin_LIBRARIES})
+add_executable(mouse_callback src/mouse_callback.cpp)
+target_link_libraries(mouse_callback  ${OpenCV_LIBS} ${catkin_LIBRARIES})
 
-add_executable(green_detect src/green_detect.cpp)
-target_link_libraries(green_detect  ${OpenCV_LIBS} ${catkin_LIBRARIES})
+add_executable(CTFL_image src/CTFL_image.cpp)
+target_link_libraries(CTFL_image  ${OpenCV_LIBS} ${catkin_LIBRARIES})
+
+add_executable(E_image src/E_image.cpp)
+target_link_libraries(E_image  ${OpenCV_LIBS} ${catkin_LIBRARIES})
 
 ## Specify libraries to link a library or executable target against
 # target_link_libraries(${PROJECT_NAME}_node

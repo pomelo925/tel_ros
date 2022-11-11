@@ -180,9 +180,13 @@ add_executable(stage3 src/stage3.cpp)
 target_link_libraries(stage3 mecanum microswitch imu scara)
 add_dependencies(stage3 ${catkin_EXPORTED_TARGETS})
 
-add_executable(TESTING src/TESTING.cpp)
-target_link_libraries(TESTING mecanum)
-add_dependencies(TESTING ${catkin_EXPORTED_TARGETS})
+add_executable(STAGE src/STAGE.cpp)
+target_link_libraries(STAGE stage1 stage2 stage3)
+add_dependencies(STAGE ${catkin_EXPORTED_TARGETS})
+
+add_executable(testing src/testing.cpp)
+target_link_libraries(testing mecanum)
+add_dependencies(testing ${catkin_EXPORTED_TARGETS})
 ## Specify libraries to link a library or executable target against
 # target_link_libraries(${PROJECT_NAME}_node
 #   ${catkin_LIBRARIES}

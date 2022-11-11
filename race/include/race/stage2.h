@@ -4,6 +4,7 @@
 #include "ros/ros.h"
 #include "race/mecanum.h"
 #include "race/microswitch.h"
+#include "race/vision.h"
 
 /** Checkpoint Define **/
 POINT RED__START(0, 0);  // UNSURE
