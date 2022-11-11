@@ -10,4 +10,5 @@ POINT DOWN(0,50);
 POINT LEFT(-60,0);
 POINT TOUCH(0, 100);
 
+void run3();
 #endif

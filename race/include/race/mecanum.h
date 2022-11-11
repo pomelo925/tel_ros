@@ -43,10 +43,6 @@ geometry_msgs::Point mecanum_pub;
 ros::Subscriber mecanum_subscriber;  // Topic: mecanum_fromSTM 
 geometry_msgs::Point mecanum_sub;
 
-ros::Publisher odom_pub;
-// tf::TransformBroadcaster odom_broadcaster;  RUNTIME ERROR PROBLEM !!!
-geometry_msgs::TransformStamped odom_trans;
-
 // namespace MECANUM is to distinguish it from IMU
 namespace MECANUM{
     void init(void);
@@ -54,7 +50,6 @@ namespace MECANUM{
     
     void moveTo(double x_cor, double y_cor, double z_cor);
     void moveTo(POINT point);
-    void TF(double x, double y, double z, ros::Time time_now);
 }
 
 #endif

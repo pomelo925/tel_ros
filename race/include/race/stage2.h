@@ -16,4 +16,6 @@ POINT GREEN__END(0, 35+45+30);
 POINT BLUE__START(22.5+10+20, 0);
 POINT BLUE__END(0, 30+40+45);
 
+
+void run2();
 #endif

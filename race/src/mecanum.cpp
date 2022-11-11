@@ -5,8 +5,6 @@ void MECANUM::init(){
     ros::NodeHandle nh_4mecanum;
     mecanum_publisher = nh_4mecanum.advertise<geometry_msgs::Point>("mecanum_toSTM", 1);
     mecanum_subscriber = nh_4mecanum.subscribe("mecanum_fromSTM", 1, MECANUM::callback);
-    
-    // odom_pub = nh_4mecanum.advertise<nav_msgs::Odometry>("odom", 1);
 }
 
 // encdoer callback function and publish
@@ -111,8 +109,6 @@ void MECANUM::moveTo(double x_cor, double y_cor, double z_cor){
         std::cout<<"Z: "<<z_now<<"\t\tVz: "<<mecanum_pub.z<<std::endl;
         std::cout<<"+ + + about to stop + + +"<<std::endl;
     }
-
-    // MECANUM::TF(x_now, y_now, z_now, ros::Time::now());
 }
 
 /*** MoveTo -- Overloading TYPE 5***/
@@ -208,49 +204,4 @@ void MECANUM::moveTo(POINT point){
         std::cout<<"Z: "<<z_now<<"\t\tVz: "<<mecanum_pub.z<<std::endl;
         std::cout<<"+ + + about to stop + + +"<<std::endl;
     }
-
-    // MECANUM::TF(x_now, y_now, z_now, ros::Time::now());
-}
-
-void MECANUM::TF(double x, double y, double z, ros::Time time_now){  
-    static tf::TransformBroadcaster odom_broadcaster;
-
-//first, we'll publish the transform over tf
-    geometry_msgs::TransformStamped odom_trans;
-    odom_trans.header.stamp = time_now;
-    odom_trans.header.frame_id = "odom";
-    odom_trans.child_frame_id = "base_link";
-
-    double vx = mecanum_sub.x;
-    double vy = mecanum_sub.y;
-    double vz = mecanum_sub.z;
-
-    odom_trans.transform.translation.x = x;
-    odom_trans.transform.translation.y = y;
-    odom_trans.transform.translation.z = 0.0;
-    geometry_msgs::Quaternion odom_quat = tf::createQuaternionMsgFromYaw(z);
-    odom_trans.transform.rotation = odom_quat;
-
-//send the transform
-    odom_broadcaster.sendTransform(odom_trans);
-
-// publish the odometry message over ROS
-    nav_msgs::Odometry odom;
-    odom.header.stamp = time_now;
-    odom.header.frame_id = "odom";
-
-    //set the position
-    odom.pose.pose.position.x = x;
-    odom.pose.pose.position.y = y;
-    odom.pose.pose.position.z = 0.0;
-    odom.pose.pose.orientation = odom_quat;
-
-    //set the velocity
-    odom.child_frame_id = "base_link";
-    odom.twist.twist.linear.x = vx;
-    odom.twist.twist.linear.y = vy;
-    odom.twist.twist.angular.z = vz;
-
-    //publish the message
-    odom_pub.publish(odom);   
 }

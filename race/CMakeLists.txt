@@ -169,11 +169,11 @@ target_link_libraries(ekf ${catkin_LIBRARIES})
 add_dependencies(ekf ${catkin_EXPORTED_TARGETS})
 
 add_executable(stage1 src/stage1.cpp)
-target_link_libraries(stage1 mecanum microswitch imu scara)
+target_link_libraries(stage1 mecanum microswitch imu scara vision)
 add_dependencies(stage1 ${catkin_EXPORTED_TARGETS})
 
 add_executable(stage2 src/stage2.cpp)
-target_link_libraries(stage2 mecanum microswitch imu scara)
+target_link_libraries(stage2 mecanum microswitch imu scara vision)
 add_dependencies(stage2 ${catkin_EXPORTED_TARGETS})
 
 add_executable(stage3 src/stage3.cpp)
