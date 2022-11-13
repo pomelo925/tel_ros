@@ -1,7 +1,6 @@
 #ifndef _STAGE2_H_
 #define _STAGE2_H_
 
-#include "ros/ros.h"
 #include "race/mecanum.h"
 #include "race/microswitch.h"
 #include "race/vision.h"
@@ -18,4 +17,5 @@ POINT BLUE__END(0, 30+40+45);
 
 
 void run2();
+
 #endif

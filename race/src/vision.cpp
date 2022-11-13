@@ -1,5 +1,4 @@
-#include <race/scara.h>
-#include <race/vision.h>
+#include "race/vision.h"
 
 using namespace std;
 
@@ -15,7 +14,7 @@ void VISION::E_image(void){
     const int maxContour = 6;  // 邊數大於 maxContour 
     const double lowerBondArea = 10;  // 面積低於 lowerBondArea 的輪廓會被遮罩
 
-    string path = "D:\\pomelo\\code\\C++\\OpenCV\\TEL\\tel_ros\\opencv\\opencv_frame_2.png";
+    string path = path1;
     Mat src = imread(path);
 
     resize(src, src, Size(src.cols/2, src.rows/2));
@@ -27,20 +26,21 @@ void VISION::E_image(void){
 
 void VISION::CTFL_image(void){
 /// 需要調整的變數
-    double epsilon = 5.5;  // DP Algorithm 的參數
-    int minContour = 4;  // 邊數小於 minContour 會被遮罩
-    int maxContour = 8;  // 邊數大於 maxContour 會遮罩
-    double lowerBondArea = 20;  // 面積低於 lowerBondArea 的輪廓會被遮罩
+    const double epsilon = 5.5;  // DP Algorithm 的參數
+    const int minContour = 4;  // 邊數小於 minContour 會被遮罩
+    const int maxContour = 8;  // 邊數大於 maxContour 會遮罩
+    const double lowerBondArea = 20;  // 面積低於 lowerBondArea 的輪廓會被遮罩
 ///             
 
-    string path = "D:\\pomelo\\code\\C++\\OpenCV\\TEL\\tel_ros\\opencv\\opencv_frame_1.png";
+    string path = path1;
     Mat src = imread(path);
+
     resize(src, src, Size(src.cols, src.rows));
     Mat original_image = src.clone();
     // imshow("original",original_image);
+    
     src = VISION::CTFL_filter(src);  
     VISION::CTFL_contour(original_image, src, epsilon, minContour, maxContour, lowerBondArea);    
-
 }
 
 
@@ -67,7 +67,7 @@ Mat VISION::E_filter(Mat img){
     return result;
 }
 
-void VISION::E_contour(Mat original_image, Mat image, double epsilon,\
+void VISION::E_contour(Mat original_image, Mat image, double epsilon, \
     int minContour, int maxContour, double lowerBondArea){
     cvtColor(image, image, COLOR_BGR2GRAY);
     threshold(image, image, 40, 255, THRESH_BINARY);
@@ -188,7 +188,7 @@ Mat VISION::CTFL_filter(Mat img){
     return result;
 }
 
-void VISION::CTFL_contour(Mat original_image, Mat image, double epsilon,\
+void VISION::CTFL_contour(Mat original_image, Mat image, double epsilon, \
     int minContour, int maxContour, double lowerBondArea){
     cvtColor(image, image, COLOR_BGR2GRAY);
     threshold(image, image, 40, 255, THRESH_BINARY);

@@ -1,6 +1,4 @@
 #include "race/ekf.h"
-#include "race/imu.h"
-#include "race/scara.h"
 
 void EKF::init(void){
     MECANUM::init();

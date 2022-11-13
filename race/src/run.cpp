@@ -1,11 +1,9 @@
-#include "race/stage1.h"
-#include "race/stage2.h"
-#include "race/stage3.h"
+#include "race/run.h"
 
 void init_all_sensors();
 
 int main(int argc, char **argv){
-    ros::init(argc, argv, "STAGE");
+    ros::init(argc, argv, "run");
     ros::NodeHandle nh;
 
     init_all_sensors();
@@ -29,11 +27,13 @@ int main(int argc, char **argv){
             break;
         }
     }
+    
+    return EXIT_SUCCESS;
 }
 
-void init_all_sensors(){
+void init_all_sensors(void){
     MECANUM::init();
     SCARA::init();
-    SWIITCH::init();
+    SWITCH::init();
     IMU::init();
 }

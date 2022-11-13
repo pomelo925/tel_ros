@@ -1,6 +1,5 @@
 #include "race/microswitch.h"
 
-
 void SWITCH::init(void){
     ros::NodeHandle nh_4chassis_witch;
     chassis_switch_subscriber = nh_4chassis_witch.subscribe("chassis_switch_fromSTM", 1,SWITCH::callback);

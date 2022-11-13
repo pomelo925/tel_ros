@@ -3,6 +3,8 @@
 
 #include "race/mecanum.h"
 #include "race/microswitch.h"
+#include "race/imu.h"
+#include "race/scara.h"
 
 namespace EKF{
     void init(void);
