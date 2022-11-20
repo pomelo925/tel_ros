@@ -157,6 +157,9 @@ target_link_libraries(mouse_callback  ${OpenCV_LIBS} ${catkin_LIBRARIES})
 add_executable(CTFL_image src/CTFL_image.cpp)
 target_link_libraries(CTFL_image  ${OpenCV_LIBS} ${catkin_LIBRARIES})
 
+add_executable(CTFL_cam src/CTFL_cam.cpp)
+target_link_libraries(CTFL_cam  ${OpenCV_LIBS} ${catkin_LIBRARIES})
+
 add_executable(E_image src/E_image.cpp)
 target_link_libraries(E_image  ${OpenCV_LIBS} ${catkin_LIBRARIES})
 

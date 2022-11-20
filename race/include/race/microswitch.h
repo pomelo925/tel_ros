@@ -16,11 +16,10 @@ namespace SWITCH{
 }
 
 class CH_MICRO{
-    private:
-        int fr, fl, lf, lb, bl, br;
-    
     public:
-        CH_MICRO(int fr, int fl, int lf, int lb, int bl, int br);
+        int fr, fl, lf;
+    
+        CH_MICRO(int fr, int fl, int lf);
         bool isTouch();
 };
 

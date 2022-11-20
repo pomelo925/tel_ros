@@ -9,4 +9,6 @@
 #include "race/ekf.h"
 #include "race/microswitch.h"
 
+POINT TAKE_PHOTO(10,20,0);
+
 #endif

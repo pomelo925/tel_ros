@@ -120,8 +120,9 @@ catkin_package(
 ## Specify additional locations of header files
 ## Your package locations should be listed before other locations
 include_directories(
- include
+include
   ${catkin_INCLUDE_DIRS}
+  ${OpenCV_INCLUDE_DIRS}
 )
 
 ## Declare a C++ library
@@ -169,29 +170,33 @@ add_library(ekf src/ekf.cpp)
 target_link_libraries(ekf ${catkin_LIBRARIES})
 add_dependencies(ekf ${catkin_EXPORTED_TARGETS})
 
-add_executable(testing src/testing.cpp)
-target_link_libraries(testing mecanum)
-add_dependencies(testing ${catkin_EXPORTED_TARGETS})
+add_library(vision src/vision.cpp)
+target_link_libraries(vision scara)
+add_dependencies(vision ${OpenCV_LIBS} ${catkin_EXPORTED_TARGETS})
+
+add_library(stage1 src/stage1.cpp)
+target_link_libraries(stage1 mecanum microswitch imu scara vision)
+add_dependencies(stage1 ${catkin_EXPORTED_TARGETS})
+
+add_library(stage2 src/stage2.cpp)
+target_link_libraries(stage2 mecanum microswitch imu)
+add_dependencies(stage2 ${catkin_EXPORTED_TARGETS})
+
+add_library(stage3 src/stage3.cpp)
+target_link_libraries(stage3 mecanum microswitch imu scara)
+add_dependencies(stage3 ${catkin_EXPORTED_TARGETS})
 
 add_executable(run src/run.cpp)
 target_link_libraries(run stage1 stage2 stage3)
 add_dependencies(run ${catkin_EXPORTED_TARGETS})
 
-add_executable(stage1 src/stage1.cpp)
-target_link_libraries(stage1 mecanum microswitch imu scara vision)
-add_dependencies(stage1 ${catkin_EXPORTED_TARGETS})
+add_executable(testing src/testing.cpp)
+target_link_libraries(testing mecanum vision ${catkin_LIBRARIES})
+add_dependencies(testing ${catkin_EXPORTED_TARGETS})
 
-add_executable(stage2 src/stage2.cpp)
-target_link_libraries(stage2 mecanum microswitch imu)
-add_dependencies(stage2 ${catkin_EXPORTED_TARGETS})
-
-add_executable(stage3 src/stage3.cpp)
-target_link_libraries(stage3 mecanum microswitch imu scara)
-add_dependencies(stage3 ${catkin_EXPORTED_TARGETS})
-
-add_executable(vision src/vision.cpp)
-target_link_libraries(vision scara)
-add_dependencies(vision ${OpenCV_LIBS} ${catkin_EXPORTED_TARGETS})
+add_executable(reset src/reset.cpp)
+target_link_libraries(reset mecanum vision ${catkin_LIBRARIES})
+add_dependencies(reset ${catkin_EXPORTED_TARGETS})
 
 ## Specify libraries to link a library or executable target against
 # target_link_libraries(${PROJECT_NAME}_node

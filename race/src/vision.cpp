@@ -1,11 +1,21 @@
 #include "race/vision.h"
 
-using namespace std;
-
 void VISION::point_sort(void){
     for(int i=0; i<10; i++){
-        cout << "\nX1: "<<detected[i].x<<"\t Y: "<<detected[i].y;
+        std::cout << "\nX1: "<<detected[i].x<<"\t Y: "<<detected[i].y;
     }
+}
+
+void VISION::auto_shot(void){
+    VideoCapture cap(0);
+    Mat img;
+    char address[300];
+
+    cap >> img;
+    sprintf(address, "/home/ditrobotics/TEL/src/race/src/%d.png", numOfShot);
+    numOfShot++;
+    imwrite(address, img); 
+    return;
 }
 
 void VISION::E_image(void){
@@ -14,7 +24,7 @@ void VISION::E_image(void){
     const int maxContour = 6;  // 邊數大於 maxContour 
     const double lowerBondArea = 10;  // 面積低於 lowerBondArea 的輪廓會被遮罩
 
-    string path = path1;
+    std::string path = path1;
     Mat src = imread(path);
 
     resize(src, src, Size(src.cols/2, src.rows/2));
@@ -32,7 +42,7 @@ void VISION::CTFL_image(void){
     const double lowerBondArea = 20;  // 面積低於 lowerBondArea 的輪廓會被遮罩
 ///             
 
-    string path = path1;
+    std::string path = path1;
     Mat src = imread(path);
 
     resize(src, src, Size(src.cols, src.rows));
@@ -72,15 +82,14 @@ void VISION::E_contour(Mat original_image, Mat image, double epsilon, \
     cvtColor(image, image, COLOR_BGR2GRAY);
     threshold(image, image, 40, 255, THRESH_BINARY);
 
-    vector<vector<Point>> contours;
-    vector<Vec4i> hierarchy;
-
+    std::vector<std::vector<Point>> contours;
+    std::vector<Vec4i> hierarchy;
 
 // 1) 找出邊緣
     findContours(image, contours, hierarchy, RETR_EXTERNAL, CHAIN_APPROX_NONE);
     imshow("A", image);
 
-    vector<vector<Point>> polyContours(contours.size());  // polyContours 用來存放折線點的集合
+    std::vector<std::vector<Point>> polyContours(contours.size());  // polyContours 用來存放折線點的集合
 
 
 // 2) 簡化邊緣： DP Algorithm
@@ -119,14 +128,14 @@ void VISION::E_contour(Mat original_image, Mat image, double epsilon, \
 // 5) 再從好的邊緣圖中找出邊緣
     cvtColor(dp_optim_v1_image, dp_optim_v1_image, COLOR_BGR2GRAY);
     threshold(dp_optim_v1_image, dp_optim_v1_image, 0, 255, THRESH_BINARY);
-    vector<vector<Point>> contours2;
-    vector<Vec4i> hierarchy2;
+    std::vector<std::vector<Point>> contours2;
+    std::vector<Vec4i> hierarchy2;
 
     findContours(dp_optim_v1_image, contours2, hierarchy2, RETR_EXTERNAL, CHAIN_APPROX_SIMPLE);
 
 
 // 6) 簡化好輪廓 DP演算法
-    vector<vector<Point>> polyContours2(contours2.size());  // 存放折線點的集合
+    std::vector<std::vector<Point>> polyContours2(contours2.size());  // 存放折線點的集合
     Mat dp_image_2 = Mat::zeros(dp_optim_v1_image.size(), CV_8UC3);
     for(size_t i=0; i < contours2.size(); i++){
         approxPolyDP(Mat(contours2[i]), polyContours2[i], epsilon, true);
@@ -137,7 +146,7 @@ void VISION::E_contour(Mat original_image, Mat image, double epsilon, \
 // 7) 擬和旋轉矩形 + 標示方塊中心點
     RotatedRect box;  // 旋轉矩形 class
     Point2f vertices[4];  // 旋轉矩形四頂點
-    vector<Point> pt;  // 存一個contour中的點集合
+    std::vector<Point> pt;  // 存一個contour中的點集合
 
     for(int a=0; a<polyContours2.size(); a++){
         pt.clear();
@@ -193,14 +202,14 @@ void VISION::CTFL_contour(Mat original_image, Mat image, double epsilon, \
     cvtColor(image, image, COLOR_BGR2GRAY);
     threshold(image, image, 40, 255, THRESH_BINARY);
 
-    vector<vector<Point>> contours;
-    vector<Vec4i> hierarchy;
+    std::vector<std::vector<Point>> contours;
+    std::vector<Vec4i> hierarchy;
 
 // 1) 找出邊緣
     findContours(image, contours, hierarchy, RETR_EXTERNAL, CHAIN_APPROX_NONE);
     // imshow("Contours Image (before DP)", image);
 
-    vector<vector<Point>> polyContours(contours.size());  // polyContours 用來存放折線點的集合
+    std::vector<std::vector<Point>> polyContours(contours.size());  // polyContours 用來存放折線點的集合
 
 // 2) 簡化邊緣： DP Algorithm
     for(size_t i=0; i < contours.size(); i++){
@@ -236,13 +245,13 @@ void VISION::CTFL_contour(Mat original_image, Mat image, double epsilon, \
 // 4) 再從好的邊緣圖中找出邊緣
     cvtColor(dp_optim_v1_image, dp_optim_v1_image, COLOR_BGR2GRAY);
     threshold(dp_optim_v1_image, dp_optim_v1_image, 0, 255, THRESH_BINARY);
-    vector<vector<Point>> contours2;
-    vector<Vec4i> hierarchy2;
+    std::vector<std::vector<Point>> contours2;
+    std::vector<Vec4i> hierarchy2;
 
     findContours(dp_optim_v1_image, contours2, hierarchy2, RETR_EXTERNAL, CHAIN_APPROX_SIMPLE);
 
 // 5) 簡化好輪廓 DP演算法
-    vector<vector<Point>> polyContours2(contours2.size());  // 存放折線點的集合
+    std::vector<std::vector<Point>> polyContours2(contours2.size());  // 存放折線點的集合
     Mat dp_image_2 = Mat::zeros(dp_optim_v1_image.size(), CV_8UC3);
     for(size_t i=0; i < contours2.size(); i++){
         approxPolyDP(Mat(contours2[i]), polyContours2[i], epsilon, true);
@@ -256,7 +265,7 @@ void VISION::CTFL_contour(Mat original_image, Mat image, double epsilon, \
 // 7) 擬和旋轉矩形 + 邊長數量判斷字型 + 標示方塊中心點
     RotatedRect box;  // 旋轉矩形 class
     Point2f vertices[4];  // 旋轉矩形四頂點
-    vector<Point> pt;  // 存一個contour中的點集合
+    std::vector<Point> pt;  // 存一個contour中的點集合
 
     for(int a=0; a<polyContours2.size(); a++){
     // A) 旋轉矩形
@@ -265,7 +274,7 @@ void VISION::CTFL_contour(Mat original_image, Mat image, double epsilon, \
             pt.push_back(polyContours2[a][b]);
         }
         box = minAreaRect(pt);  // 找到最小矩形，存到 box 中
-        box.points(vertices);  // 把矩形的四個頂點資訊丟給 vertices，points()是 RotatedRect 的函式
+        box.points(vertices);  // 把矩形的四個頂點資訊丟給 verti    ces，points()是 RotatedRect 的函式
 
         for(int i=0; i<4; i++){
             line(dp_image_2, vertices[i], vertices[(i+1)%4], Scalar(0,255,0), 2);  // 描出旋轉矩形

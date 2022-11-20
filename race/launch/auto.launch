@@ -1,0 +1,9 @@
+<launch>    
+    <param name="reset_state" type="int" value="0"/> 
+
+    <node name= "run" pkg="race" type="reset" output="screen" 
+        respawn="true"  />
+    <node name= "reset" pkg="race" type="run" output="screen" 
+        respawn="true"  />
+
+</launch>
