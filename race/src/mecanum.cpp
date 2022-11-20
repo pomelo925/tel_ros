@@ -111,16 +111,14 @@ void MECANUM::moveTo(double x_cor, double y_cor, double z_cor){
     }
 
     // reaching goal and pub speed 0
-    while (mecanum_sub.x != 0 || mecanum_sub.y != 0 || mecanum_sub.z != 0)
-    {
+    while (mecanum_sub.x != 0 || mecanum_sub.y != 0 || mecanum_sub.z != 0){
         mecanum_pub.x = 0;
         mecanum_pub.y = 0;
         mecanum_pub.z = 0;
         mecanum_publisher.publish(mecanum_pub);
 
         data_check = false;
-        while (!data_check)
-            ros::spinOnce();
+        while (!data_check) ros::spinOnce();
 
         std::cout << "X: " << x_now << "\t\tVx: " << mecanum_pub.x << std::endl;
         std::cout << "Y: " << y_now << "\t\tVy: " << mecanum_pub.y << std::endl;
@@ -131,13 +129,13 @@ void MECANUM::moveTo(double x_cor, double y_cor, double z_cor){
 
 void MECANUM::moveTo(POINT point){
 /* Clibration Coefficient */
-    point.x_cor += calibration_x_intercept;
-    point.y_cor += calibration_y_intercept;
-    point.z_cor += calibration_z_intercept;
-    
+    if(point.x_cor!=0) point.x_cor += calibration_x_intercept;
+    if(point.y_cor!=0) point.y_cor += calibration_y_intercept;
+    if(point.z_cor!=0) point.z_cor += calibration_z_intercept;
+
     point.x_cor /= calibration_x;
     point.y_cor /= calibration_y;
-    point.z_cor /= calibration_z;  
+    point.z_cor /= calibration_z;
 
 
     double acc_x = 0, acc_y = 0, acc_z = 0;
@@ -147,8 +145,7 @@ void MECANUM::moveTo(POINT point){
     double x_vel_before, y_vel_before, z_vel_before; // velocity of previous instance
     bool flag = false;                               // flag for NOT integral on first instance
 
-    while (fabs(x_err) > x_tol_margin || fabs(y_err) > y_tol_margin || fabs(z_err) > z_tol_margin)
-    {
+    while (fabs(x_err) > x_tol_margin || fabs(y_err) > y_tol_margin || fabs(z_err) > z_tol_margin){
         // calculate error and pub new speed
         x_err = point.x_cor - x_now, y_err = point.y_cor - y_now, z_err = point.z_cor - z_now;
 
@@ -198,8 +195,7 @@ void MECANUM::moveTo(POINT point){
 
         // MECANUM::TF(x_now, y_now, z_now, ros::Time::now());
         data_check = false;
-        while (!data_check)
-            ros::spinOnce();
+        while (!data_check) ros::spinOnce();
 
         // integral (unit: cm/s)
         time_now = ros::Time::now().toSec();
@@ -223,16 +219,14 @@ void MECANUM::moveTo(POINT point){
     }
 
     // reaching goal and pub speed 0
-    while (mecanum_sub.x != 0 || mecanum_sub.y != 0 || mecanum_sub.z != 0)
-    {
+    while (mecanum_sub.x != 0 || mecanum_sub.y != 0 || mecanum_sub.z != 0){
         mecanum_pub.x = 0;
         mecanum_pub.y = 0;
         mecanum_pub.z = 0;
         mecanum_publisher.publish(mecanum_pub);
 
         data_check = false;
-        while (!data_check)
-            ros::spinOnce();
+        while (!data_check) ros::spinOnce();
 
         std::cout << "X: " << x_now << "\t\tVx: " << mecanum_pub.x << std::endl;
         std::cout << "Y: " << y_now << "\t\tVy: " << mecanum_pub.y << std::endl;

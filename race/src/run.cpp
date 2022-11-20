@@ -10,21 +10,21 @@ int main(int argc, char **argv){
     nh.getParam("/reset_state", reset_state);
 
     init_all_sensors();
-    while (ros::ok()){
-        ROS_INFO("State Now: %d", reset_state);
-        switch(reset_state){
-            case 1:
-                run1(); run2(); run3();
-                break;
-            
-            case 2:
-                run2(); run3();
-                break;
 
-            case 3:
-                run3(); 
-                break;
-        }
+    ROS_INFO("State Now: %d", reset_state);
+    switch(reset_state){
+        case 0:
+        case 1:
+            run1(); run2(); run3();
+            break;
+            
+        case 2:
+            run2(); run3();
+            break;
+        
+        case 3:
+            run3(); 
+            break;
     }
     return EXIT_SUCCESS;
 }

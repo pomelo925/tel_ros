@@ -17,15 +17,15 @@ const double calibration_x = 6.0207;
 const double calibration_y = 6.408;
 const double calibration_z = 6.3;
 
-const double max_xy = 5;
-const double max_z = 0.2;
+const double max_xy = 6.5;
+const double max_z = 0.3;
 const double acc_xy = 0.03;
 const double acc_zz = 0.0008;
 
 const double kp = 0.8;
-const double fod = 0.25;          // fraction of deceleration: start decelerate at the last dr of the whole distance
-const double kp_xy = 1.5;         // p gain for x- y-direction control
-const double kp_z = 0.6;         // p gain for z-direction control
+const double fod = 0.25;   // fraction of deceleration: start decelerate at the last dr of the whole distance
+const double kp_xy = 5;     // p gain for x- y-direction control
+const double kp_z = 0.8;    // p gain for z-direction control
 
 const double x_tol_margin = 0.05;  // x tolerance critical value
 const double y_tol_margin = 0.05;  // y tolerance critical value
@@ -38,14 +38,12 @@ public:
     double y_cor = 0;
     double z_cor = 0;
 
-    POINT(double x, double y)
-    {
+    POINT(double x, double y){
         this->x_cor = x;
         this->y_cor = y;
     }
 
-    POINT(double x, double y, double z)
-    {
+    POINT(double x, double y, double z){
         this->x_cor = x;
         this->y_cor = y;
         this->z_cor = z;
