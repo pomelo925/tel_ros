@@ -17,18 +17,18 @@ const double calibration_x = 6.0207;
 const double calibration_y = 6.408;
 const double calibration_z = 6.3;
 
-const double max_xy = 6.5;
-const double max_z = 0.3;
+const double max_xy = 5.3;
+const double max_z = 0.15;
 const double acc_xy = 0.03;
 const double acc_zz = 0.0008;
 
 const double kp = 0.8;
-const double fod = 0.25;   // fraction of deceleration: start decelerate at the last dr of the whole distance
-const double kp_xy = 5;     // p gain for x- y-direction control
-const double kp_z = 0.8;    // p gain for z-direction control
+const double fod = 0.25;          // fraction of deceleration: start decelerate at the last dr of the whole distance
+const double kp_xy = 1.1;         // p gain for x- y-direction control
+const double kp_z = 0.8;         // p gain for z-direction control
 
-const double x_tol_margin = 0.05;  // x tolerance critical value
-const double y_tol_margin = 0.05;  // y tolerance critical value
+const double x_tol_margin = 0.15;  // x tolerance critical value
+const double y_tol_margin = 0.15;  // y tolerance critical value
 const double z_tol_margin = 0.01; // z tolerance critical value
 bool data_check;
 
@@ -57,13 +57,13 @@ ros::Subscriber mecanum_subscriber; // Topic: mecanum_fromSTM
 geometry_msgs::Point mecanum_sub;
 
 // namespace MECANUM is to distinguish it from IMU
-namespace MECANUM
-{
+namespace MECANUM{
     void init(void);
     void callback(const geometry_msgs::Point::ConstPtr &vel);
 
     void moveTo(double x_cor, double y_cor, double z_cor);
     void moveTo(POINT point);
+    void moveUP(double x_cor, double y_cor, double z_cor);
 }
 
 #endif
