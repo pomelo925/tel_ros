@@ -22,7 +22,7 @@ int main(int argc, char **argv){
         ros::spinOnce();
         remote_mecanum_pub.publish(remote_mecanum_msgs);
         remote_intake_pub.publish(remote_intake_msgs); 
-        ros::Duration(0.5).sleep();      
+        ros::Duration(0.01).sleep();      
     }
 }
 
@@ -31,10 +31,10 @@ void mecanum_callback(const geometry_msgs::Point::ConstPtr& mecanum_msgs){
     remote_mecanum_msgs.y = mecanum_msgs->y;
     remote_mecanum_msgs.z = mecanum_msgs->z;
 
-    cout<<"**** MECANUM_INFO ****"<<endl;
-    cout<<"X: "<<remote_mecanum_msgs.x<<endl;
-    cout<<"Y: "<<remote_mecanum_msgs.y<<endl;
-    cout<<"Z: "<<remote_mecanum_msgs.z<<endl;    
+    // cout<<"**** MECANUM_INFO ****"<<endl;
+    // cout<<"X: "<<remote_mecanum_msgs.x<<endl;
+    // cout<<"Y: "<<remote_mecanum_msgs.y<<endl;
+    // cout<<"Z: "<<remote_mecanum_msgs.z<<endl;    
 }
 
 void intake_callback(const geometry_msgs::Point::ConstPtr& intake_msgs){

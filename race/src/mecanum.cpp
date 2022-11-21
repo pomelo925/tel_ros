@@ -98,10 +98,10 @@ void MECANUM::moveTo(double x_cor, double y_cor, double z_cor){
         }
         flag = true;
 
-        std::cout << "X: " << x_now << "\t\tVx: " << mecanum_pub.x << std::endl;
-        std::cout << "Y: " << y_now << "\t\tVy: " << mecanum_pub.y << std::endl;
-        std::cout << "Z: " << z_now << "\t\tVz: " << mecanum_pub.z << std::endl;
-        std::cout << "= = = = = = = = =" << std::endl;
+        // std::cout << "X: " << x_now << "\t\tVx: " << mecanum_pub.x << std::endl;
+        // std::cout << "Y: " << y_now << "\t\tVy: " << mecanum_pub.y << std::endl;
+        // std::cout << "Z: " << z_now << "\t\tVz: " << mecanum_pub.z << std::endl;
+        // std::cout << "= = = = = = = = =" << std::endl;
 
         x_vel_before = mecanum_sub.x;
         y_vel_before = mecanum_sub.y;
@@ -120,10 +120,10 @@ void MECANUM::moveTo(double x_cor, double y_cor, double z_cor){
         data_check = false;
         while (!data_check) ros::spinOnce();
 
-        std::cout << "X: " << x_now << "\t\tVx: " << mecanum_pub.x << std::endl;
-        std::cout << "Y: " << y_now << "\t\tVy: " << mecanum_pub.y << std::endl;
-        std::cout << "Z: " << z_now << "\t\tVz: " << mecanum_pub.z << std::endl;
-        std::cout << "+ + + about to stop + + +" << std::endl;
+        // std::cout << "X: " << x_now << "\t\tVx: " << mecanum_pub.x << std::endl;
+        // std::cout << "Y: " << y_now << "\t\tVy: " << mecanum_pub.y << std::endl;
+        // std::cout << "Z: " << z_now << "\t\tVz: " << mecanum_pub.z << std::endl;
+        // std::cout << "+ + + about to stop + + +" << std::endl;
     }
 }
 
@@ -206,10 +206,10 @@ void MECANUM::moveTo(POINT point){
         }
         flag = true;
 
-        std::cout << "X: " << x_now << "\t\tVx: " << mecanum_pub.x << std::endl;
-        std::cout << "Y: " << y_now << "\t\tVy: " << mecanum_pub.y << std::endl;
-        std::cout << "Z: " << z_now << "\t\tVz: " << mecanum_pub.z << std::endl;
-        std::cout << "= = = = = = = = =" << std::endl;
+        // std::cout << "X: " << x_now << "\t\tVx: " << mecanum_pub.x << std::endl;
+        // std::cout << "Y: " << y_now << "\t\tVy: " << mecanum_pub.y << std::endl;
+        // std::cout << "Z: " << z_now << "\t\tVz: " << mecanum_pub.z << std::endl;
+        // std::cout << "= = = = = = = = =" << std::endl;
 
         x_vel_before = mecanum_sub.x;
         y_vel_before = mecanum_sub.y;
@@ -228,10 +228,10 @@ void MECANUM::moveTo(POINT point){
         data_check = false;
         while (!data_check) ros::spinOnce(); 
 
-        std::cout << "X: " << x_now << "\t\tVx: " << mecanum_pub.x << std::endl;
-        std::cout << "Y: " << y_now << "\t\tVy: " << mecanum_pub.y << std::endl;
-        std::cout << "Z: " << z_now << "\t\tVz: " << mecanum_pub.z << std::endl;
-        std::cout << "+ + + about to stop + + +" << std::endl;
+        // std::cout << "X: " << x_now << "\t\tVx: " << mecanum_pub.x << std::endl;
+        // std::cout << "Y: " << y_now << "\t\tVy: " << mecanum_pub.y << std::endl;
+        // std::cout << "Z: " << z_now << "\t\tVz: " << mecanum_pub.z << std::endl;
+        // std::cout << "+ + + about to stop + + +" << std::endl;
     }
 }
 
@@ -317,10 +317,10 @@ void MECANUM::moveUP(double x_cor, double y_cor, double z_cor){
         }
         flag = true;
 
-        std::cout << "X: " << x_now << "\t\tVx: " << mecanum_pub.x << std::endl;
-        std::cout << "Y: " << y_now << "\t\tVy: " << mecanum_pub.y << std::endl;
-        std::cout << "Z: " << z_now << "\t\tVz: " << mecanum_pub.z << std::endl;
-        std::cout << "= = = = = = = = =" << std::endl;
+        // std::cout << "X: " << x_now << "\t\tVx: " << mecanum_pub.x << std::endl;
+        // std::cout << "Y: " << y_now << "\t\tVy: " << mecanum_pub.y << std::endl;
+        // std::cout << "Z: " << z_now << "\t\tVz: " << mecanum_pub.z << std::endl;
+        // std::cout << "= = = = = = = = =" << std::endl;
 
         x_vel_before = mecanum_sub.x;
         y_vel_before = mecanum_sub.y;
@@ -339,9 +339,9 @@ void MECANUM::moveUP(double x_cor, double y_cor, double z_cor){
         data_check = false;
         while (!data_check) ros::spinOnce();
 
-        std::cout << "X: " << x_now << "\t\tVx: " << mecanum_pub.x << std::endl;
-        std::cout << "Y: " << y_now << "\t\tVy: " << mecanum_pub.y << std::endl;
-        std::cout << "Z: " << z_now << "\t\tVz: " << mecanum_pub.z << std::endl;
-        std::cout << "+ + + about to stop + + +" << std::endl;
+        // std::cout << "X: " << x_now << "\t\tVx: " << mecanum_pub.x << std::endl;
+        // std::cout << "Y: " << y_now << "\t\tVy: " << mecanum_pub.y << std::endl;
+        // std::cout << "Z: " << z_now << "\t\tVz: " << mecanum_pub.z << std::endl;
+        // std::cout << "+ + + about to stop + + +" << std::endl; 
     }
 }

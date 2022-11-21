@@ -44,10 +44,10 @@ import multiprocessing
 import sys
 
 if __name__=="__main__":
-    rospy.init_node("serial_node")
+    rospy.init_node("serial_arduino")
     rospy.loginfo("ROS Serial Python Node")
 
-    port_name = rospy.get_param('~port','/dev/ttyUSB0')
+    port_name = rospy.get_param('~port','/dev/ttyACM0')
     baud = int(rospy.get_param('~baud','57600'))
 
     # for systems where pyserial yields errors in the fcntl.ioctl(self.fd, TIOCMBIS, \
