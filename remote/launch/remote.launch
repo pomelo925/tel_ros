@@ -1,0 +1,6 @@
+<launch>    
+    
+    <node name= "ps5" pkg="remote" type="ps5" output="screen" respawn="true" />
+    <node name= "serial_stm" pkg= "rosserial_python" type="serial_stm.py" output="screen"/>
+    <node name= "serial_arduino" pkg= "rosserial_python" type="serial_arduino.py" output="screen"/>
+</launch>

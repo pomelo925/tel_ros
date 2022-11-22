@@ -27,8 +27,8 @@ const double fod = 0.25;          // fraction of deceleration: start decelerate 
 const double kp_xy = 1.1;         // p gain for x- y-direction control
 const double kp_z = 0.8;         // p gain for z-direction control
 
-const double x_tol_margin = 0.15;  // x tolerance critical value
-const double y_tol_margin = 0.15;  // y tolerance critical value
+const double x_tol_margin = 0.5;  // x tolerance critical value
+const double y_tol_margin = 0.5;  // y tolerance critical value
 const double z_tol_margin = 0.01; // z tolerance critical value
 bool data_check;
 
