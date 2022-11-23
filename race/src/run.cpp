@@ -8,10 +8,10 @@ int main(int argc, char **argv){
         
     int reset_state;
     nh.getParam("/reset_state", reset_state);
+    ROS_INFO("State Now: %d", reset_state);
 
     init_all_sensors();
 
-    ROS_INFO("State Now: %d", reset_state);
     switch(reset_state){
         case 0:
         case 1:

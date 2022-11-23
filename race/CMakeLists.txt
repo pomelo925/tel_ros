@@ -155,7 +155,7 @@ target_link_libraries(imu ${catkin_LIBRARIES})
 add_dependencies(imu ${catkin_EXPORTED_TARGETS})
 
 add_library(scara src/scara.cpp)
-target_link_libraries(scara ${catkin_LIBRARIES})
+target_link_libraries(scara ${catkin_LIBRARIES} vision)
 add_dependencies(scara ${catkin_EXPORTED_TARGETS})
 
 add_library(microswitch src/microswitch.cpp)
@@ -171,8 +171,8 @@ target_link_libraries(ekf ${catkin_LIBRARIES})
 add_dependencies(ekf ${catkin_EXPORTED_TARGETS})
 
 add_library(vision src/vision.cpp)
-target_link_libraries(vision scara)
-add_dependencies(vision ${OpenCV_LIBS} ${catkin_EXPORTED_TARGETS})
+target_link_libraries(vision ${catkin_LIBRARIES})
+add_dependencies(vision ${catkin_EXPORTED_TARGETS})
 
 add_library(stage1 src/stage1.cpp)
 target_link_libraries(stage1 mecanum microswitch imu scara vision)
@@ -191,8 +191,8 @@ target_link_libraries(run stage1 stage2 stage3)
 add_dependencies(run ${catkin_EXPORTED_TARGETS})
 
 add_executable(testing src/testing.cpp)
-target_link_libraries(testing mecanum vision ${catkin_LIBRARIES})
-add_dependencies(testing ${catkin_EXPORTED_TARGETS})
+target_link_libraries(testing mecanum vision microswitch scara ${catkin_LIBRARIES})
+add_dependencies(testing ${OpenCV_LIBS} ${catkin_EXPORTED_TARGETS})
 
 add_executable(reset src/reset.cpp)
 target_link_libraries(reset mecanum vision ${catkin_LIBRARIES})

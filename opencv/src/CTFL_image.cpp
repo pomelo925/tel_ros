@@ -22,13 +22,14 @@ int main(){
     double lowerBondArea = 20;  // 面積低於 lowerBondArea 的輪廓會被遮罩
 ///             
 
-    string path = "/home/ditrobotics/TEL/src/opencv/src/opencv_frame_4.png";
+    string path = "/home/ditrobotics/TEL/src/opencv/src/opencv_frame_3.png";
     Mat src = imread(path);
     resize(src, src, Size(src.cols, src.rows));
     Mat original_image = src.clone();
     // imshow("original",original_image);
     src = filt_letter(src);  
-    filt_contour(original_image, src, epsilon, minContour, maxContour, lowerBondArea);    
+    filt_contour(original_image, src, epsilon, minContour, maxContour, lowerBondArea); 
+    waitKey(0);   
 }
 
 Mat filt_letter(Mat img){
@@ -50,7 +51,7 @@ Mat filt_letter(Mat img){
     
     result = Mat::zeros(img.size(), CV_8UC3);
     bitwise_and(img, img, result, mask);
-    imshow("Letter Filted", result);
+    // imshow("Letter Filted", result);
     return result;
 }
 
@@ -74,7 +75,7 @@ void filt_contour(Mat original_image, Mat image, double epsilon, int minContour,
 
     Mat dp_image = Mat::zeros(image.size(), CV_8UC3);  // 初始化 Mat 後才能使用 drawContours
     drawContours(dp_image, polyContours, -2, Scalar(255,0,255), 1, 0);
-    imshow("Contours Image (After DP):", dp_image);
+    // imshow("Contours Image (After DP):", dp_image);
 
 // 3) 過濾不好的邊緣，用 badContour_mask 遮罩壞輪廓
     Mat badContour_mask = Mat::zeros(image.size(), CV_8UC3);
@@ -95,7 +96,7 @@ void filt_contour(Mat original_image, Mat image, double epsilon, int minContour,
     cvtColor(badContour_mask, badContour_mask, COLOR_BGR2GRAY);
     threshold(badContour_mask, badContour_mask, 0, 255, THRESH_BINARY_INV);
     bitwise_and(dp_image, dp_image, dp_optim_v1_image, badContour_mask);
-    imshow("DP image (Optim v1): ", dp_optim_v1_image);
+    // imshow("DP image (Optim v1): ", dp_optim_v1_image);
 
 
 // 4) 再從好的邊緣圖中找出邊緣
@@ -116,7 +117,7 @@ void filt_contour(Mat original_image, Mat image, double epsilon, int minContour,
 
     Mat dp_image_text = dp_image_2.clone();
     dp_image_text = contours_info(dp_image_text, polyContours2);
-    imshow("Contours Image (After DP):", dp_image_text);
+    // imshow("Contours Image (After DP):", dp_image_text);
 
 
 // 7) 擬和旋轉矩形 + 邊長數量判斷字型 + 標示方塊中心點
@@ -144,19 +145,19 @@ void filt_contour(Mat original_image, Mat image, double epsilon, int minContour,
     // B) 判斷字母(用邊長個數篩選)
         if(polyContours2[a].size() == 6){  // L 
             // 標示
-            putText(dp_image_2, "target", (vertices[0]+vertices[1]+vertices[2]+vertices[3])/4, 1, 3, Scalar(0, 255, 255), 3);
-            putText(original_image, "target", (vertices[0]+vertices[1]+vertices[2]+vertices[3])/4, 1, 1, Scalar(0, 0, 255), 2);
+            putText(dp_image_2, "L", (vertices[0]+vertices[1]+vertices[2]+vertices[3])/4, 2, 3, Scalar(0, 255, 255), 3);
+            putText(original_image, "L", (vertices[0]+vertices[1]+vertices[2]+vertices[3])/4, 2, 1, Scalar(0, 0, 255), 3);
         }
 
         if(polyContours2[a].size() == 8){  // T、E (此時場上不會有 E)
             // 標示
-            putText(dp_image_2, "target", (vertices[0]+vertices[1]+vertices[2]+vertices[3])/4, 1, 3, Scalar(0, 255, 255), 3);
-            putText(original_image, "target", (vertices[0]+vertices[1]+vertices[2]+vertices[3])/4, 1, 3, Scalar(0, 0, 255),2);
+            putText(dp_image_2, "T", (vertices[0]+vertices[1]+vertices[2]+vertices[3])/4, 2, 3, Scalar(0, 255, 255), 3);
+            putText(original_image, "T", (vertices[0]+vertices[1]+vertices[2]+vertices[3])/4, 2, 3, Scalar(0, 0, 255),3);
         }
     }
 
-    imshow("Contours Filted", dp_image_2);
-    imshow("Original Image (highlight)", original_image);
+    // imshow("Contours Filted", dp_image_2);
+    imshow("HIGHLIGHT", original_image);
 }
 
 Mat contours_info(Mat image, vector<vector<Point>> contours){

@@ -6,16 +6,17 @@ void VISION::point_sort(void){
     }
 }
 
-void VISION::auto_shot(void){
+void VISION::taking_photo(void){
     VideoCapture cap(0);
     Mat img;
+    cap.read(img);
+    
     char address[300];
-
-    cap >> img;
     sprintf(address, "/home/ditrobotics/TEL/src/race/src/%d.png", numOfShot);
     numOfShot++;
+
     imwrite(address, img); 
-    return;
+    img.release();
 }
 
 void VISION::E_image(void){
@@ -24,15 +25,16 @@ void VISION::E_image(void){
     const int maxContour = 6;  // 邊數大於 maxContour 
     const double lowerBondArea = 10;  // 面積低於 lowerBondArea 的輪廓會被遮罩
 
-    std::string path = path1;
+    std::string path = "/home/ditrobotics/TEL/src/race/src/0.png";
     Mat src = imread(path);
 
-    resize(src, src, Size(src.cols/2, src.rows/2));
+    // resize(src, src, Size(src.cols/2, src.rows/2));
     Mat original_image = src.clone();
     
     src = VISION::E_filter(src);
     VISION::E_contour(original_image, src, epsilon, minContour, maxContour, lowerBondArea);
 }
+
 
 void VISION::CTFL_image(void){
 /// 需要調整的變數
@@ -45,7 +47,7 @@ void VISION::CTFL_image(void){
     std::string path = path1;
     Mat src = imread(path);
 
-    resize(src, src, Size(src.cols, src.rows));
+    // resize(src, src, Size(src.cols, src.rows));
     Mat original_image = src.clone();
     // imshow("original",original_image);
     
@@ -54,7 +56,7 @@ void VISION::CTFL_image(void){
 }
 
 
-/** Internal Functioin**/
+/** Internal Functioin **/
 Mat VISION::E_filter(Mat img){
     Mat img_hsv, mask, result; 
     cvtColor(img, img_hsv, COLOR_BGR2HSV);
@@ -161,6 +163,8 @@ void VISION::E_contour(Mat original_image, Mat image, double epsilon, \
         }
         circle(dp_image_2, (vertices[0]+vertices[1]+vertices[2]+vertices[3])/4, 0, Scalar(0,255,255), 8);  // 繪製中心點
         circle(original_image, (vertices[0]+vertices[1]+vertices[2]+vertices[3])/4, 0, Scalar(0,255,255), 8);  // 放回原圖比較
+        std::cout<<"\n-- Point E --\nX: "<<(vertices[0].x+vertices[1].x+vertices[2].x+vertices[3].x)/4 \
+            <<"\nY: "<<(vertices[0].y+vertices[1].y+vertices[2].y+vertices[3].y)/4<<std::endl;
 
         putText(dp_image_2, "E", (vertices[0]+vertices[1]+vertices[2]+vertices[3])/4, 1, 3, Scalar(0,0,255), 2);
         putText(original_image, "E", (vertices[0]+vertices[1]+vertices[2]+vertices[3])/4, 1, 3, Scalar(0,0,255), 2);
@@ -218,7 +222,7 @@ void VISION::CTFL_contour(Mat original_image, Mat image, double epsilon, \
 
     Mat dp_image = Mat::zeros(image.size(), CV_8UC3);  // 初始化 Mat 後才能使用 drawContours
     drawContours(dp_image, polyContours, -2, Scalar(255,0,255), 1, 0);
-    imshow("Contours Image (After DP):", dp_image);
+    // imshow("Contours Image (After DP):", dp_image);
 
 // 3) 過濾不好的邊緣，用 badContour_mask 遮罩壞輪廓
     Mat badContour_mask = Mat::zeros(image.size(), CV_8UC3);
@@ -289,18 +293,24 @@ void VISION::CTFL_contour(Mat original_image, Mat image, double epsilon, \
             // 標示
             putText(dp_image_2, "L", (vertices[0]+vertices[1]+vertices[2]+vertices[3])/4, 1, 3, Scalar(0, 255, 255), 3);
             putText(original_image, "L", (vertices[0]+vertices[1]+vertices[2]+vertices[3])/4, 1, 1, Scalar(0, 0, 255), 2);
+            std::cout<<"\n-- Point L --\nX: "<<(vertices[0].x+vertices[1].x+vertices[2].x+vertices[3].x)/4 \
+            <<"\nY: "<<(vertices[0].y+vertices[1].y+vertices[2].y+vertices[3].y)/4<<std::endl;
+                
         }
 
         if(polyContours2[a].size() == 8){  // T、E (此時場上不會有 E)
             // 標示
-            putText(dp_image_2, "E", (vertices[0]+vertices[1]+vertices[2]+vertices[3])/4, 1, 3, Scalar(0, 255, 255), 3);
+            putText(dp_image_2, "T", (vertices[0]+vertices[1]+vertices[2]+vertices[3])/4, 1, 3, Scalar(0, 255, 255), 3);
             putText(original_image, "T", (vertices[0]+vertices[1]+vertices[2]+vertices[3])/4, 1, 3, Scalar(0, 0, 255),2);
+            std::cout<<"\n-- Point T --\nX: "<<(vertices[0].x+vertices[1].x+vertices[2].x+vertices[3].x)/4 \
+            <<"\nY: "<<(vertices[0].y+vertices[1].y+vertices[2].y+vertices[3].y)/4<<std::endl;
         }
 
         detected[a+4]=(vertices[0]+vertices[1]+vertices[2]+vertices[3])/4;
     }
 
     // imshow("Contours Filted", dp_image_2);
-    imshow("Original Image (highlight)", original_image);
+    // imshow("Original Image (highlight)", original_image);
+    
 }
 

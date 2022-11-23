@@ -2,16 +2,16 @@
 #define _MICROSWITCH_H_
 
 #include <ros/ros.h>
-#include <std_msgs/Int64MultiArray.h>
+#include <geometry_msgs/Point.h>
 
 #define TRUE 1
 #define FALSE 0
 
-ros::Subscriber chassis_switch_subscriber;  // topic: chassis_switch_fromSTM
-std_msgs::Int64MultiArray chassis_switch_sub;
+ros::Subscriber microswitch_sub;  // topic: chassis_switch_fromSTM
+geometry_msgs::Point chassis_switch_sub;
 
 namespace SWITCH{
-    void callback(const std_msgs::Int64MultiArray::ConstPtr &switch_msg);;
+    void callback(const geometry_msgs::Point::ConstPtr &switch_msg);
     void init();
 }
 

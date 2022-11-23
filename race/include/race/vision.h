@@ -15,9 +15,8 @@ namespace VISION{
     void CTFL_image(void);  // 辨識T、L
     void point_sort(void);  // 應付 scara 夾取的先後問題
 
-    int numOfShot=0;
-    void auto_shot(void);  //自動拍攝
-
+    int numOfShot=1;
+    void taking_photo(void);  //自動拍攝
 
     /* internal function*/
     Mat E_filter(Mat img);

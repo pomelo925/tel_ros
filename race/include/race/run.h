@@ -8,5 +8,7 @@
 #include "race/imu.h"
 #include "race/ekf.h"
 #include "race/microswitch.h"
+#include "race/vision.h"
+
 
 #endif

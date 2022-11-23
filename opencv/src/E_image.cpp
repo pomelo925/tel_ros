@@ -16,14 +16,13 @@ int main(){
     const int maxContour = 6;  // 邊數大於 maxContour 
     const double lowerBondArea = 10;  // 面積低於 lowerBondArea 的輪廓會被遮罩
 
-    string path = "D:\\pomelo\\code\\C++\\OpenCV\\TEL\\tel_ros\\opencv\\opencv_frame_2.png";
+    string path = "/home/ditrobotics/TEL/src/opencv/src/opencv_frame_2.png";
 
     Mat src = imread(path);
     resize(src, src, Size(src.cols/1.5, src.rows/1.5));
     Mat original_image = src.clone();
     src = filt_letter(src);  
     filt_contour(original_image, src, epsilon, minContour, maxContour, lowerBondArea);    
-    if(waitKey(0) == 'q') return 0;
 }
 
 Mat filt_letter(Mat img){
@@ -132,6 +131,8 @@ void filt_contour(Mat original_image, Mat image, double epsilon, int minContour,
         }
         circle(dp_image_2, (vertices[0]+vertices[1]+vertices[2]+vertices[3])/4, 0, Scalar(0,255,255), 8);  // 繪製中心點
         circle(original_image, (vertices[0]+vertices[1]+vertices[2]+vertices[3])/4, 0, Scalar(0,255,255), 8);  // 放回原圖比較
+        std::cout<<"\n-- Point E --\nX: "<<(vertices[0].x+vertices[1].x+vertices[2].x+vertices[3].x)/4 \
+            <<"\nY: "<<(vertices[0].y+vertices[1].y+vertices[2].y+vertices[3].y)/4<<std::endl;
 
         putText(dp_image_2, "E", (vertices[0]+vertices[1]+vertices[2]+vertices[3])/4, 1, 3, Scalar(0,0,255), 2);
         putText(original_image, "E", (vertices[0]+vertices[1]+vertices[2]+vertices[3])/4, 1, 3, Scalar(0,0,255), 2);
@@ -139,4 +140,5 @@ void filt_contour(Mat original_image, Mat image, double epsilon, int minContour,
 
     // imshow("D", dp_image_2);
     imshow("E", original_image);
+    waitKey(0);
 }
