@@ -2,7 +2,7 @@
 
 void run3(void){
     ROS_INFO("\n==STAGE 3 START==\n");
-    MECANUM::moveUP(0, 220, 0);
+    MECANUM::moveUP(0, 150, 3);
     MECANUM::moveTo(-25, 0, 0);
     ROS_INFO("\nTop Calibration ...\n");
 

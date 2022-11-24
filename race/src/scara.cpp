@@ -25,9 +25,12 @@ void SCARA::movingTo(double x, double y, double z){
 
 void SCARA::tel_1(void){
     SCARA::movingTo(0, -50, 1);
-    while(scaraflag!=0);
+        ros::Duration(1).sleep();
+        while(scaraflag!=0.);
+    
     SCARA::movingTo(-330, 0, 2);
-    while(scaraflag!=0);
+        ros::Duration(1).sleep();
+        while(scaraflag!=0.);printf("\nBBBBBBBBBBBBBBBBB");
     VISION::taking_photo();
 
     // SCARA::movingTo(vision_x, vision_y, 3);
@@ -36,7 +39,9 @@ void SCARA::tel_1(void){
 
 void SCARA::tel_2(void){
     SCARA::movingTo(-330, 0, 2);
-    while(scaraflag!=0);
+        ros::Duration(1).sleep();
+        while(scaraflag!=0.);printf("\nAAAAAAAAAAAA");
+
     VISION::taking_photo();
 
     // SCARA::movingTo(vision_x, vision_y, 3);
@@ -45,5 +50,10 @@ void SCARA::tel_2(void){
 
 void SCARA::cubeoff(void){
     SCARA::movingTo(0, 330, 4); 
-    while(scaraflag!=0);
+        ros::Duration(3).sleep();
+        while(scaraflag!=0.);printf("\nAAAAAAAAAAAA");
+    
+    SCARA::movingTo(0, -50, 2); 
+        ros::Duration(1).sleep();
+        while(scaraflag!=0.);printf("\nAAAAAAAAAAAA");
 }

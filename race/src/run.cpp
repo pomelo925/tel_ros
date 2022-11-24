@@ -6,8 +6,8 @@ int main(int argc, char **argv){
     ros::init(argc, argv, "run");
     ros::NodeHandle nh;
         
-    int reset_state;
-    nh.getParam("/reset_state", reset_state);
+    int reset_state=2;
+    // nh.getParam("/reset_state", reset_state);
     ROS_INFO("State Now: %d", reset_state);
 
     init_all_sensors();
@@ -29,11 +29,11 @@ int main(int argc, char **argv){
     return EXIT_SUCCESS;
 }
 
-
+ 
 void init_all_sensors(void){
     MECANUM::init();
     SCARA::init();
-    SWITCH::init();
-    IMU::init();
+    // SWITCH::init();
+    // IMU::init();
 }
 
