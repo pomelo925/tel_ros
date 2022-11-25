@@ -1,9 +1,9 @@
 #include "race/vision.h"
 
-void VISION::point_sort(void){
-    for(int i=0; i<10; i++){
-        std::cout << "\nX1: "<<detected[i].x<<"\t Y: "<<detected[i].y;
-    }
+#define PATH "/home/ditrobotics/TEL/src/race/src/auto.png"
+
+void VISION::tf(void){
+    
 }
 
 void VISION::taking_photo(void){
@@ -11,11 +11,7 @@ void VISION::taking_photo(void){
     Mat img;
     cap.read(img);
     
-    char address[300];
-    sprintf(address, "/home/ditrobotics/TEL/src/race/src/%d.png", numOfShot);
-    numOfShot++;
-
-    imwrite(address, img); 
+    imwrite(PATH, img); 
     img.release();
 }
 
@@ -25,8 +21,8 @@ void VISION::E_image(void){
     const int maxContour = 6;  // 邊數大於 maxContour 
     const double lowerBondArea = 10;  // 面積低於 lowerBondArea 的輪廓會被遮罩
 
-    std::string path = "/home/ditrobotics/TEL/src/race/src/0.png";
-    Mat src = imread(path);
+    std::string path = PATH;
+    Mat src = imread(PATH);
 
     // resize(src, src, Size(src.cols/2, src.rows/2));
     Mat original_image = src.clone();
@@ -44,8 +40,8 @@ void VISION::CTFL_image(void){
     const double lowerBondArea = 20;  // 面積低於 lowerBondArea 的輪廓會被遮罩
 ///             
 
-    std::string path = path1;
-    Mat src = imread(path);
+    std::string path = PATH;
+    Mat src = imread(PATH);
 
     // resize(src, src, Size(src.cols, src.rows));
     Mat original_image = src.clone();
@@ -150,6 +146,7 @@ void VISION::E_contour(Mat original_image, Mat image, double epsilon, \
     Point2f vertices[4];  // 旋轉矩形四頂點
     std::vector<Point> pt;  // 存一個contour中的點集合
 
+
     for(int a=0; a<polyContours2.size(); a++){
         pt.clear();
         for(int b=0; b<polyContours2[a].size(); b++){
@@ -168,13 +165,15 @@ void VISION::E_contour(Mat original_image, Mat image, double epsilon, \
 
         putText(dp_image_2, "E", (vertices[0]+vertices[1]+vertices[2]+vertices[3])/4, 1, 3, Scalar(0,0,255), 2);
         putText(original_image, "E", (vertices[0]+vertices[1]+vertices[2]+vertices[3])/4, 1, 3, Scalar(0,0,255), 2);
-        
-        detected[a]=(vertices[0]+vertices[1]+vertices[2]+vertices[3])/4;
+
+        if(a==0 && E_isDetected==false){
+            VISION::detect[0]=(vertices[0]+vertices[1]+vertices[2]+vertices[3])/4;
+            E_isDetected = true;
+        }
+
     }
     // imshow("D", dp_image_2);
     imshow("E", original_image);
-    
-    
 }
 
 
@@ -295,7 +294,8 @@ void VISION::CTFL_contour(Mat original_image, Mat image, double epsilon, \
             putText(original_image, "L", (vertices[0]+vertices[1]+vertices[2]+vertices[3])/4, 1, 1, Scalar(0, 0, 255), 2);
             std::cout<<"\n-- Point L --\nX: "<<(vertices[0].x+vertices[1].x+vertices[2].x+vertices[3].x)/4 \
             <<"\nY: "<<(vertices[0].y+vertices[1].y+vertices[2].y+vertices[3].y)/4<<std::endl;
-                
+             
+            VISION::detect[2]=(vertices[0]+vertices[1]+vertices[2]+vertices[3])/4;  
         }
 
         if(polyContours2[a].size() == 8){  // T、E (此時場上不會有 E)
@@ -304,9 +304,10 @@ void VISION::CTFL_contour(Mat original_image, Mat image, double epsilon, \
             putText(original_image, "T", (vertices[0]+vertices[1]+vertices[2]+vertices[3])/4, 1, 3, Scalar(0, 0, 255),2);
             std::cout<<"\n-- Point T --\nX: "<<(vertices[0].x+vertices[1].x+vertices[2].x+vertices[3].x)/4 \
             <<"\nY: "<<(vertices[0].y+vertices[1].y+vertices[2].y+vertices[3].y)/4<<std::endl;
+
+            VISION::detect[1]=(vertices[0]+vertices[1]+vertices[2]+vertices[3])/4;
         }
 
-        detected[a+4]=(vertices[0]+vertices[1]+vertices[2]+vertices[3])/4;
     }
 
     // imshow("Contours Filted", dp_image_2);

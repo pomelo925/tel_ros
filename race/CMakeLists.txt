@@ -158,32 +158,32 @@ add_library(scara src/scara.cpp)
 target_link_libraries(scara ${catkin_LIBRARIES} vision)
 add_dependencies(scara ${catkin_EXPORTED_TARGETS})
 
-add_library(microswitch src/microswitch.cpp)
-target_link_libraries(microswitch ${catkin_LIBRARIES})
-add_dependencies(microswitch ${catkin_EXPORTED_TARGETS})
+# add_library(microswitch src/microswitch.cpp)
+# target_link_libraries(microswitch ${catkin_LIBRARIES})
+# add_dependencies(microswitch ${catkin_EXPORTED_TARGETS})
 
 add_library(mecanum src/mecanum.cpp)
 target_link_libraries(mecanum ${catkin_LIBRARIES})
 add_dependencies(mecanum ${catkin_EXPORTED_TARGETS})
 
-add_library(ekf src/ekf.cpp)
-target_link_libraries(ekf ${catkin_LIBRARIES})
-add_dependencies(ekf ${catkin_EXPORTED_TARGETS})
+# add_library(ekf src/ekf.cpp)
+# target_link_libraries(ekf ${catkin_LIBRARIES})
+# add_dependencies(ekf ${catkin_EXPORTED_TARGETS})
 
 add_library(vision src/vision.cpp)
 target_link_libraries(vision ${catkin_LIBRARIES})
 add_dependencies(vision ${catkin_EXPORTED_TARGETS})
 
 add_library(stage1 src/stage1.cpp)
-target_link_libraries(stage1 mecanum microswitch imu scara vision)
+target_link_libraries(stage1 mecanum imu scara vision)
 add_dependencies(stage1 ${catkin_EXPORTED_TARGETS})
 
 add_library(stage2 src/stage2.cpp)
-target_link_libraries(stage2 mecanum microswitch imu)
+target_link_libraries(stage2 mecanum imu)
 add_dependencies(stage2 ${catkin_EXPORTED_TARGETS})
 
 add_library(stage3 src/stage3.cpp)
-target_link_libraries(stage3 mecanum microswitch imu scara)
+target_link_libraries(stage3 mecanum imu scara)
 add_dependencies(stage3 ${catkin_EXPORTED_TARGETS})
 
 add_executable(run src/run.cpp)
@@ -191,7 +191,7 @@ target_link_libraries(run stage1 stage2 stage3)
 add_dependencies(run ${catkin_EXPORTED_TARGETS})
 
 add_executable(testing src/testing.cpp)
-target_link_libraries(testing mecanum vision microswitch scara ${catkin_LIBRARIES})
+target_link_libraries(testing mecanum vision scara ${catkin_LIBRARIES})
 add_dependencies(testing ${OpenCV_LIBS} ${catkin_EXPORTED_TARGETS})
 
 add_executable(reset src/reset.cpp)

@@ -3,29 +3,29 @@
 void run1(void){    
     ROS_INFO("\n==STAGE 1 START==\n");
 
-    MECANUM::moveTo(0, -96, 0);
-    MECANUM::moveTo(35, 0, 0);  // FIRST TAKE
-    MECANUM::moveTo(0, -4, 0);
-    ROS_INFO("\nTake Photo And Cube (1)...\n");
-    SCARA::tel_1();
-    MECANUM::moveTo(0, 3, 0);
+    MECANUM::moveTo(33, -105, -1);
+    
+    SCARA::tel_1();  // 辨識方塊一
 
-    MECANUM::moveTo(-45, 0, 7); /* 7 cali */
-    MECANUM::moveTo(0, -78, 0);
-    MECANUM::moveTo(0, 0, 180);  
-    MECANUM::moveTo(-32, 0, 0);
-    MECANUM::moveTo(0, -6, 0);  // SECOND TAKE
-    ROS_INFO("\nTake Photo And Cube (2)...\n");
-    SCARA::tel_2();
+    MECANUM::moveTo(-55, 8, 5);
+
+    MECANUM::moveTo(0, -80, 0);
+    MECANUM::moveTo(0, 0, 180);
+    MECANUM::moveTo(-30, 0, 0);
+    MECANUM::moveTo(0, -10, 0);
+
+
+    if( VISION::E_isDetected == false || VISION::L_isDetected == false || VISION::T_isDetected == false) 
+    {SCARA::tel_2();}  // 辨識方塊二
     
-    ROS_INFO("SSS");
-    MECANUM::moveTo(0, 50, 175); 
-    MECANUM::moveTo(0, -54, 0);   
-    MECANUM::moveTo(-10, -0, 0);   // CUBE OFF 
-    ROS_INFO("\nCube Off...\n");
-    SCARA::cubeoff();
+    MECANUM::moveTo(0, 30, 0);
+    MECANUM::moveTo(0, 0, 175); 
+    MECANUM::moveTo(-5, -80, 0);
     
-    MECANUM::moveTo(0, -75, 0);  
-    MECANUM::moveTo(-15, 0, 0);  
-    MECANUM::moveTo(0, 0, 180);  // STAGE 2 START 
+    SCARA::cubeoff();  // 放方塊
+    MECANUM::moveTo(0, 0, 180); 
+
+    MECANUM::moveTo(10, 90, 10);  
+    MECANUM::moveTo(25, 0, 0);  // STAGE 2 START
+
 }

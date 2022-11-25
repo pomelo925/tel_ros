@@ -4,18 +4,23 @@
 #include "race/scara.h"
 #include <opencv2/opencv.hpp>
 
-#define path1 "/home/ditrobotics/TEL/src/race/src/z.png"
-#define path2 "/home/ditrobotics/TEL/src/race/src/z.png"
-
 using namespace cv;
 
 namespace VISION{
-    Point2f detected[10];  // 裝辨識出來的點，做處理
+    Point2f detect[5];  // 裝辨識出來的點：detect[0]裝E、detect[1]裝T、detect[2]裝L
+    bool E_isDetected = false;
+    bool T_isDetected = false;
+    bool L_isDetected = false;
+
+    bool E_isCatched = false;
+    bool T_isCatched = false;
+    bool L_isCatched = false;
+
+
     void E_image(void);  // 辨識E
     void CTFL_image(void);  // 辨識T、L
-    void point_sort(void);  // 應付 scara 夾取的先後問題
+    void tf(void);  // 座標轉換
 
-    int numOfShot=1;
     void taking_photo(void);  //自動拍攝
 
     /* internal function*/
@@ -27,5 +32,4 @@ namespace VISION{
     void CTFL_contour(Mat original_image, Mat image, double epsilon, \
         int minContour, int maxContour, double lowerBondArea);
 }
-
 #endif
