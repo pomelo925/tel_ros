@@ -52,7 +52,6 @@ void MECANUM::moveTo(double x_cor, double y_cor, double z_cor){
             acc_x += (x_err > 0) ? acc_xy : -acc_xy;
             if (acc_x >= max_xy) pub_x = max_xy;
             if (acc_x <= -max_xy) pub_x = -max_xy;
-
         }
 
         if (fabs(y_err) > fabs(fod * y_cor) && fabs(y_err) > y_tol_margin){
@@ -95,10 +94,7 @@ void MECANUM::moveTo(double x_cor, double y_cor, double z_cor){
         mecanum_pub.z = pub_z; 
         mecanum_publisher.publish(mecanum_pub);
 
-       std::cout << "X: " << x_now << "\t\tVx: " << mecanum_pub.x << std::endl;
-        std::cout << "Y: " << y_now << "\t\tVy: " << mecanum_pub.y << std::endl;
-        std::cout << "Z: " << z_now << "\t\tVz: " << mecanum_pub.z << std::endl;
-        std::cout << "= = = = = = = = =" << std::endl;
+
         /* velocity profile */
         data_check = false;
         while (!data_check) ros::spinOnce();

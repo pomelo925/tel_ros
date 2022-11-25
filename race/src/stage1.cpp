@@ -3,7 +3,7 @@
 void run1(void){    
     ROS_INFO("\n==STAGE 1 START==\n");
 
-    MECANUM::moveTo(33, -110, -1.5);
+    MECANUM::moveTo(35, -100, -1);
     
     SCARA::tel_1();  // 辨識方塊一
 

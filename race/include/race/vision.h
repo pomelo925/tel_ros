@@ -7,6 +7,13 @@
 using namespace cv;
 
 namespace VISION{
+    struct table{
+        float x_pixel;
+        float y_pixel;
+        float x_scara;
+        float y_scara;
+    };
+
     Point2f detect[5];  // 裝辨識出來的點：detect[0]裝E、detect[1]裝T、detect[2]裝L
     bool E_isDetected = false;
     bool T_isDetected = false;
@@ -24,6 +31,8 @@ namespace VISION{
     void taking_photo(void);  //自動拍攝
 
     /* internal function*/
+    Point2f nearest_scara_point(Point2f input);
+    int cmp(const void *a, const void *b);
     Mat E_filter(Mat img);
     void E_contour(Mat original_image, Mat image, double epsilon, \
         int minContour, int maxContour, double lowerBondArea);
@@ -32,4 +41,6 @@ namespace VISION{
     void CTFL_contour(Mat original_image, Mat image, double epsilon, \
         int minContour, int maxContour, double lowerBondArea);
 }
+
+VISION::table COR[1200];
 #endif

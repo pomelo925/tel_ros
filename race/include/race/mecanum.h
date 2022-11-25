@@ -17,8 +17,8 @@ const double calibration_x = 6.0207;
 const double calibration_y = 6.408;
 const double calibration_z = 6.3;
  
-const double max_xy = 4.5;
-const double min_xy = 0.3;
+const double max_xy = 4;
+const double min_xy = 0.01;
 const double max_z = 0.15;
 const double acc_xy = 0.02;
 const double acc_zz = 0.0008;
@@ -30,7 +30,7 @@ const double kp_z = 0.8;         // p gain for z-direction control
 
 const double x_tol_margin = 0.7;  // x tolerance critical value
 const double y_tol_margin = 0.7;  // y tolerance critical value
-const double z_tol_margin = 0.005; // z tolerance critical value
+const double z_tol_margin = 0.001; // z tolerance critical value
 bool data_check;
 
 // class POINT{

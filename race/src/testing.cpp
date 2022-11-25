@@ -7,7 +7,6 @@
 void init_all_sensors(void){
     MECANUM::init();
     SCARA::init();
-    // SWITCH::init();
 }
 
 int main(int argc, char **argv){
@@ -16,41 +15,11 @@ int main(int argc, char **argv){
     init_all_sensors();
     
     // VISION::taking_photo();
-    // VISION::E_image();
-    // VISION::CTFL_image();
+    VISION::E_image();
+    VISION::CTFL_image();
+    for(int i=0; i<5; i++) std::cout << "detect["<<i<<"]: " << VISION::detect[i]<<std::endl; 
 
-    double x,y,z;
-    while(1){
-        std::cin>>x>>y>>z;
-        SCARA::movingTo(x,y,z);
-        printf("apple\n");
-    }
+    VISION::tf();
 
     return 0;
 }
-
-// #include <opencv2/imgcodecs.hpp>
-// #include <opencv2/highgui.hpp>
-// #include <opencv2/imgproc.hpp>
-// #include <iostream>
-
-// using namespace std;
-// using namespace cv;
-
-// int main(){
-//     VideoCapture cap(0);
-//     Mat img;
-
-//     if(!cap.isOpened()){
-//         cout << "Cannot open capture\n";
-//     }
-
-//     while(true){
-//         bool ret = cap.read(img);
-//         imshow("Image", img);
-
-//         if(waitKey(1) == 27) break;
-//         while(waitKey(1) != 'a');
-//     }
-//     return 0;
-// } 

@@ -1,9 +1,47 @@
 #include "race/vision.h"
+#include "math.h"
 
-#define PATH "/home/ditrobotics/TEL/src/race/src/auto.png"
+#define PATH "/home/ditrobotics/TEL/src/race/src/testing.png"
+#define csv_file "/home/ditrobotics/TEL/src/race/src/coordinate.csv"
 
 void VISION::tf(void){
-    
+    FILE *file;
+    file=fopen(csv_file, "r");
+
+    int records=0;
+    int row=0;
+    do{
+        records = fscanf(file, "%f%f%f%f\n", &COR[row].x_pixel, \
+            &COR[row].y_scara, &COR[row].x_scara, &COR[row].y_scara);
+        if(records==4) row++;
+        else return;
+    } while(!feof(file));
+    fclose(file);
+    file = NULL;
+
+    if(T_isDetected && !T_isCatched) VISION::detect[0]=nearest_scara_point(VISION::detect[0]);
+    if(E_isDetected && !T_isCatched) VISION::detect[1]=nearest_scara_point(VISION::detect[1]);
+    if(L_isDetected && !L_isCatched) VISION::detect[2]=nearest_scara_point(VISION::detect[2]);
+
+}
+
+Point2f nearest_scara_point(Point2f input){
+    Point2f temp;  
+    float distance[1121]={0};
+
+    for(int i=0; i<1200; i++) 
+    distance[i]=sqrt( (input.x-COR[i].x_pixel)*(input.x-COR[i].x_pixel) \
+     + (input.y-COR[i].y_pixel)*(input.y-COR[i].y_pixel));
+
+    qsort(distance, 1121, sizeof(float), VISION::cmp);
+
+     for(int i=0;i<100;i++) printf("%f\n", distance[i]);
+
+    return temp;
+}
+
+int VISION::cmp(const void *a, const void *b){
+     return(*(int *)a-*(int *)b);
 }
 
 void VISION::taking_photo(void){
@@ -85,7 +123,7 @@ void VISION::E_contour(Mat original_image, Mat image, double epsilon, \
 
 // 1) 找出邊緣
     findContours(image, contours, hierarchy, RETR_EXTERNAL, CHAIN_APPROX_NONE);
-    imshow("A", image);
+    // imshow("A", image);
 
     std::vector<std::vector<Point>> polyContours(contours.size());  // polyContours 用來存放折線點的集合
 
@@ -160,20 +198,23 @@ void VISION::E_contour(Mat original_image, Mat image, double epsilon, \
         }
         circle(dp_image_2, (vertices[0]+vertices[1]+vertices[2]+vertices[3])/4, 0, Scalar(0,255,255), 8);  // 繪製中心點
         circle(original_image, (vertices[0]+vertices[1]+vertices[2]+vertices[3])/4, 0, Scalar(0,255,255), 8);  // 放回原圖比較
-        std::cout<<"\n-- Point E --\nX: "<<(vertices[0].x+vertices[1].x+vertices[2].x+vertices[3].x)/4 \
-            <<"\nY: "<<(vertices[0].y+vertices[1].y+vertices[2].y+vertices[3].y)/4<<std::endl;
-
+        
         putText(dp_image_2, "E", (vertices[0]+vertices[1]+vertices[2]+vertices[3])/4, 1, 3, Scalar(0,0,255), 2);
         putText(original_image, "E", (vertices[0]+vertices[1]+vertices[2]+vertices[3])/4, 1, 3, Scalar(0,0,255), 2);
 
-        if(a==0 && E_isDetected==false){
-            VISION::detect[0]=(vertices[0]+vertices[1]+vertices[2]+vertices[3])/4;
+
+        if( !E_isDetected){
             E_isDetected = true;
+            VISION::detect[1]=(vertices[0]+vertices[1]+vertices[2]+vertices[3])/4;
+
+            // std::cout<<"\n-- Point E --\nX: "<<(vertices[0].x+vertices[1].x+vertices[2].x+vertices[3].x)/4 \
+            // <<"\nY: "<<(vertices[0].y+vertices[1].y+vertices[2].y+vertices[3].y)/4<<std::endl;
         }
 
     }
     // imshow("D", dp_image_2);
-    imshow("E", original_image);
+    // imshow("E", original_image);
+    // waitKey(0);
 }
 
 
@@ -292,26 +333,37 @@ void VISION::CTFL_contour(Mat original_image, Mat image, double epsilon, \
             // 標示
             putText(dp_image_2, "L", (vertices[0]+vertices[1]+vertices[2]+vertices[3])/4, 1, 3, Scalar(0, 255, 255), 3);
             putText(original_image, "L", (vertices[0]+vertices[1]+vertices[2]+vertices[3])/4, 1, 1, Scalar(0, 0, 255), 2);
-            std::cout<<"\n-- Point L --\nX: "<<(vertices[0].x+vertices[1].x+vertices[2].x+vertices[3].x)/4 \
-            <<"\nY: "<<(vertices[0].y+vertices[1].y+vertices[2].y+vertices[3].y)/4<<std::endl;
-             
-            VISION::detect[2]=(vertices[0]+vertices[1]+vertices[2]+vertices[3])/4;  
+            
+            if( L_isDetected==false ){
+                L_isDetected==true;
+                // VISION::detect[2]=(vertices[0]+vertices[1]+vertices[2]+vertices[3])/4;  
+                VISION::detect[2].x=(vertices[0].x+vertices[1].x+vertices[2].x+vertices[3].x)/4; 
+                VISION::detect[2].y=(vertices[0].y+vertices[1].y+vertices[2].y+vertices[3].y)/4; 
+                
+                std::cout<<"\n-- Point L --\nX: "<<(vertices[0].x+vertices[1].x+vertices[2].x+vertices[3].x)/4 \
+                <<"\nY: "<<(vertices[0].y+vertices[1].y+vertices[2].y+vertices[3].y)/4<<std::endl;
+            }
         }
 
         if(polyContours2[a].size() == 8){  // T、E (此時場上不會有 E)
             // 標示
             putText(dp_image_2, "T", (vertices[0]+vertices[1]+vertices[2]+vertices[3])/4, 1, 3, Scalar(0, 255, 255), 3);
             putText(original_image, "T", (vertices[0]+vertices[1]+vertices[2]+vertices[3])/4, 1, 3, Scalar(0, 0, 255),2);
-            std::cout<<"\n-- Point T --\nX: "<<(vertices[0].x+vertices[1].x+vertices[2].x+vertices[3].x)/4 \
-            <<"\nY: "<<(vertices[0].y+vertices[1].y+vertices[2].y+vertices[3].y)/4<<std::endl;
+            
+            if( T_isDetected==false ){
+                T_isDetected = true;
+                VISION::detect[0]=(vertices[0]+vertices[1]+vertices[2]+vertices[3])/4;
 
-            VISION::detect[1]=(vertices[0]+vertices[1]+vertices[2]+vertices[3])/4;
+                std::cout<<"\n-- Point T --\nX: "<<(vertices[0].x+vertices[1].x+vertices[2].x+vertices[3].x)/4 \
+                <<"\nY: "<<(vertices[0].y+vertices[1].y+vertices[2].y+vertices[3].y)/4<<std::endl;
+            }
         }
 
     }
 
     // imshow("Contours Filted", dp_image_2);
     // imshow("Original Image (highlight)", original_image);
-    
+    // waitKey(0);
 }
 
+Point2f nearest_scara_point(Point2f input);

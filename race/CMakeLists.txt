@@ -150,9 +150,9 @@ include
 ## same as for the library above
 # add_dependencies(${PROJECT_NAME}_node ${${PROJECT_NAME}_EXPORTED_TARGETS} ${catkin_EXPORTED_TARGETS})
 
-add_library(imu src/imu.cpp)
-target_link_libraries(imu ${catkin_LIBRARIES})
-add_dependencies(imu ${catkin_EXPORTED_TARGETS})
+# add_library(imu src/imu.cpp)
+# target_link_libraries(imu ${catkin_LIBRARIES})
+# add_dependencies(imu ${catkin_EXPORTED_TARGETS})
 
 add_library(scara src/scara.cpp)
 target_link_libraries(scara ${catkin_LIBRARIES} vision)
