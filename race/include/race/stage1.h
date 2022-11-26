@@ -4,7 +4,7 @@
 #include "race/scara.h"
 #include "race/mecanum.h"
 #include "race/vision.h"
-#include "race/microswitch.h"
+// #include "race/microswitch.h"
 
 void run1();
 

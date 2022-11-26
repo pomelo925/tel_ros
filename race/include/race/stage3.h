@@ -3,7 +3,7 @@
 
 #include "ros/ros.h"
 #include "race/mecanum.h"
-#include "race/microswitch.h"
+// #include "race/microswitch.h"
 #include "race/scara.h"
 
 void run3();

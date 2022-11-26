@@ -2,9 +2,7 @@
 #define _STAGE2_H_
 
 #include "race/mecanum.h"
-#include "race/microswitch.h"
-#include "race/vision.h"
-
+// #include "race/microswitch.h"
 
 void run2();
 

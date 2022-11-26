@@ -1,7 +1,8 @@
 #include "race/vision.h"
 #include "math.h"
+#include "ros/ros.h"
 
-#define PATH "/home/ditrobotics/TEL/src/race/src/testing.png"
+#define PATH "/home/ditrobotics/TEL/src/race/src/auto.png"
 #define csv_file "/home/ditrobotics/TEL/src/race/src/coordinate.csv"
 
 void VISION::tf(void){
@@ -11,8 +12,7 @@ void VISION::tf(void){
     int records=0;
     int row=0;
     do{
-        records = fscanf(file, "%f%f%f%f\n", &COR[row].x_pixel, \
-            &COR[row].y_scara, &COR[row].x_scara, &COR[row].y_scara);
+        records = fscanf(file, "%f%f%f%f\n", &COR[row].x_pixel, &COR[row].y_pixel, &COR[row].x_scara, &COR[row].y_scara);
         if(records==4) row++;
         else return;
     } while(!feof(file));
@@ -20,45 +20,55 @@ void VISION::tf(void){
     file = NULL;
 
     if(T_isDetected && !T_isCatched) VISION::detect[0]=nearest_scara_point(VISION::detect[0]);
-    if(E_isDetected && !T_isCatched) VISION::detect[1]=nearest_scara_point(VISION::detect[1]);
+    if(E_isDetected && !E_isCatched) VISION::detect[1]=nearest_scara_point(VISION::detect[1]);
     if(L_isDetected && !L_isCatched) VISION::detect[2]=nearest_scara_point(VISION::detect[2]);
 
+    for(int i=0; i<5; i++) std::cout << "(tf) detect["<<i<<"]: " << VISION::detect[i]<<std::endl; 
 }
 
-Point2f nearest_scara_point(Point2f input){
+Point2f VISION::nearest_scara_point(Point2f input){
     Point2f temp;  
+
     float distance[1121]={0};
 
-    for(int i=0; i<1200; i++) 
+    for(int i=0; i<1121; i++) 
     distance[i]=sqrt( (input.x-COR[i].x_pixel)*(input.x-COR[i].x_pixel) \
      + (input.y-COR[i].y_pixel)*(input.y-COR[i].y_pixel));
 
-    qsort(distance, 1121, sizeof(float), VISION::cmp);
-
-     for(int i=0;i<100;i++) printf("%f\n", distance[i]);
-
+    int min = 0;
+    for(int i=0; i<1121; i++) if(distance[i]<distance[min]) min=i;
+    
+    temp.x = COR[min].x_scara;
+    temp.y = COR[min].y_scara;
     return temp;
 }
 
-int VISION::cmp(const void *a, const void *b){
-     return(*(int *)a-*(int *)b);
-}
 
 void VISION::taking_photo(void){
     VideoCapture cap(0);
+    while(!cap.isOpened())  printf("Not opened!\n");
+    printf(" Waiting Camera Stable... \n");
     Mat img;
-    cap.read(img);
-    
-    imwrite(PATH, img); 
+
+    int count=0;
+    ros::Rate loop_rate(10);
+    while(ros::ok() && count<=40){
+        cap.read(img);
+        // imshow("AAAAAA", img);
+        loop_rate.sleep();
+        count++;
+    }
+
+    imwrite(PATH, img);
     img.release();
 }
 
 void VISION::E_image(void){
-    const double epsilon = 2;  // DP Algorithm 的參數
+    const double epsilon = 5;  // DP Algorithm 的參數
     const int minContour = 3;  // 邊數小於 minContour 會被遮罩
     const int maxContour = 6;  // 邊數大於 maxContour 
     const double lowerBondArea = 10;  // 面積低於 lowerBondArea 的輪廓會被遮罩
-
+    
     std::string path = PATH;
     Mat src = imread(PATH);
 
@@ -72,9 +82,9 @@ void VISION::E_image(void){
 
 void VISION::CTFL_image(void){
 /// 需要調整的變數
-    const double epsilon = 5.5;  // DP Algorithm 的參數
+    const double epsilon = 3;  // DP Algorithm 的參數
     const int minContour = 4;  // 邊數小於 minContour 會被遮罩
-    const int maxContour = 8;  // 邊數大於 maxContour 會遮罩
+    const int maxContour = 9;  // 邊數大於 maxContour 會遮罩
     const double lowerBondArea = 20;  // 面積低於 lowerBondArea 的輪廓會被遮罩
 ///             
 
@@ -203,12 +213,12 @@ void VISION::E_contour(Mat original_image, Mat image, double epsilon, \
         putText(original_image, "E", (vertices[0]+vertices[1]+vertices[2]+vertices[3])/4, 1, 3, Scalar(0,0,255), 2);
 
 
-        if( !E_isDetected){
+        if( !E_isDetected ){
             E_isDetected = true;
             VISION::detect[1]=(vertices[0]+vertices[1]+vertices[2]+vertices[3])/4;
 
-            // std::cout<<"\n-- Point E --\nX: "<<(vertices[0].x+vertices[1].x+vertices[2].x+vertices[3].x)/4 \
-            // <<"\nY: "<<(vertices[0].y+vertices[1].y+vertices[2].y+vertices[3].y)/4<<std::endl;
+            std::cout<<"\n-- Point E --\nX: "<<(vertices[0].x+vertices[1].x+vertices[2].x+vertices[3].x)/4 \
+            <<"\nY: "<<(vertices[0].y+vertices[1].y+vertices[2].y+vertices[3].y)/4<<std::endl;
         }
 
     }
@@ -329,23 +339,21 @@ void VISION::CTFL_contour(Mat original_image, Mat image, double epsilon, \
         circle(original_image, (vertices[0]+vertices[1]+vertices[2]+vertices[3])/4, 0, Scalar(0,255,255), 8);  // 與原圖比較
     
     // B) 判斷字母(用邊長個數篩選)
-        if(polyContours2[a].size() == 6){  // L 
+        if(polyContours2[a].size() == 6 || polyContours2[a].size() == 7){  // L 
             // 標示
             putText(dp_image_2, "L", (vertices[0]+vertices[1]+vertices[2]+vertices[3])/4, 1, 3, Scalar(0, 255, 255), 3);
-            putText(original_image, "L", (vertices[0]+vertices[1]+vertices[2]+vertices[3])/4, 1, 1, Scalar(0, 0, 255), 2);
+            putText(original_image, "L", (vertices[0]+vertices[1]+vertices[2]+vertices[3])/4, 1, 3, Scalar(0, 0, 255), 2);
             
             if( L_isDetected==false ){
-                L_isDetected==true;
-                // VISION::detect[2]=(vertices[0]+vertices[1]+vertices[2]+vertices[3])/4;  
-                VISION::detect[2].x=(vertices[0].x+vertices[1].x+vertices[2].x+vertices[3].x)/4; 
-                VISION::detect[2].y=(vertices[0].y+vertices[1].y+vertices[2].y+vertices[3].y)/4; 
+                L_isDetected=true;
+                VISION::detect[2]=(vertices[0]+vertices[1]+vertices[2]+vertices[3])/4;  
                 
                 std::cout<<"\n-- Point L --\nX: "<<(vertices[0].x+vertices[1].x+vertices[2].x+vertices[3].x)/4 \
                 <<"\nY: "<<(vertices[0].y+vertices[1].y+vertices[2].y+vertices[3].y)/4<<std::endl;
             }
         }
 
-        if(polyContours2[a].size() == 8){  // T、E (此時場上不會有 E)
+        if(polyContours2[a].size() == 8 || polyContours2[a].size() == 9){  // T、E (此時場上不會有 E)
             // 標示
             putText(dp_image_2, "T", (vertices[0]+vertices[1]+vertices[2]+vertices[3])/4, 1, 3, Scalar(0, 255, 255), 3);
             putText(original_image, "T", (vertices[0]+vertices[1]+vertices[2]+vertices[3])/4, 1, 3, Scalar(0, 0, 255),2);
@@ -365,5 +373,3 @@ void VISION::CTFL_contour(Mat original_image, Mat image, double epsilon, \
     // imshow("Original Image (highlight)", original_image);
     // waitKey(0);
 }
-
-Point2f nearest_scara_point(Point2f input);

@@ -2,8 +2,8 @@
 #define _EKF_H_
 
 #include "race/mecanum.h"
-#include "race/microswitch.h"
-#include "race/imu.h"
+// #include "race/microswitch.h"
+// #include "race/imu.h"
 #include "race/scara.h"
 
 namespace EKF{

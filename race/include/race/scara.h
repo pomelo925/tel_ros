@@ -20,6 +20,8 @@ namespace SCARA{
     void tel_1(void);
     void tel_2(void);
     void cubeoff(void);
+    void seize(void);
+    int compare(const void *a, const void *b);
 
     void callback(const std_msgs::Float64::ConstPtr &flag);
 }

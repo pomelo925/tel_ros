@@ -26,10 +26,10 @@ int main(){
     Mat src = imread(path);
     resize(src, src, Size(src.cols, src.rows));
     Mat original_image = src.clone();
-    // imshow("original",original_image);
+    imshow("original",original_image);waitKey(0);  
     src = filt_letter(src);  
     filt_contour(original_image, src, epsilon, minContour, maxContour, lowerBondArea); 
-    waitKey(0);   
+ 
 }
 
 Mat filt_letter(Mat img){
@@ -51,7 +51,7 @@ Mat filt_letter(Mat img){
     
     result = Mat::zeros(img.size(), CV_8UC3);
     bitwise_and(img, img, result, mask);
-    // imshow("Letter Filted", result);
+    imshow("Letter Filted", result);waitKey(0); 
     return result;
 }
 
@@ -96,7 +96,7 @@ void filt_contour(Mat original_image, Mat image, double epsilon, int minContour,
     cvtColor(badContour_mask, badContour_mask, COLOR_BGR2GRAY);
     threshold(badContour_mask, badContour_mask, 0, 255, THRESH_BINARY_INV);
     bitwise_and(dp_image, dp_image, dp_optim_v1_image, badContour_mask);
-    // imshow("DP image (Optim v1): ", dp_optim_v1_image);
+    imshow("DP image (Optim v1): ", dp_optim_v1_image);waitKey(0); 
 
 
 // 4) 再從好的邊緣圖中找出邊緣
@@ -117,7 +117,7 @@ void filt_contour(Mat original_image, Mat image, double epsilon, int minContour,
 
     Mat dp_image_text = dp_image_2.clone();
     dp_image_text = contours_info(dp_image_text, polyContours2);
-    // imshow("Contours Image (After DP):", dp_image_text);
+    imshow("Contours Image (After DP):", dp_image_text);waitKey(0); 
 
 
 // 7) 擬和旋轉矩形 + 邊長數量判斷字型 + 標示方塊中心點
@@ -156,8 +156,8 @@ void filt_contour(Mat original_image, Mat image, double epsilon, int minContour,
         }
     }
 
-    // imshow("Contours Filted", dp_image_2);
-    imshow("HIGHLIGHT", original_image);
+    imshow("Contours Filted", dp_image_2);waitKey(0); 
+    imshow("HIGHLIGHT", original_image);waitKey(0); 
 }
 
 Mat contours_info(Mat image, vector<vector<Point>> contours){

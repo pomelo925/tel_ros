@@ -1,7 +1,6 @@
 #ifndef _VISION_H_
 #define _VISION_H_
 
-#include "race/scara.h"
 #include <opencv2/opencv.hpp>
 
 using namespace cv;
@@ -23,7 +22,6 @@ namespace VISION{
     bool T_isCatched = false;
     bool L_isCatched = false;
 
-
     void E_image(void);  // 辨識E
     void CTFL_image(void);  // 辨識T、L
     void tf(void);  // 座標轉換
@@ -43,4 +41,5 @@ namespace VISION{
 }
 
 VISION::table COR[1200];
+
 #endif

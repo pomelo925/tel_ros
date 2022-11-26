@@ -155,7 +155,7 @@ include
 # add_dependencies(imu ${catkin_EXPORTED_TARGETS})
 
 add_library(scara src/scara.cpp)
-target_link_libraries(scara ${catkin_LIBRARIES} vision)
+target_link_libraries(scara vision ${catkin_LIBRARIES})
 add_dependencies(scara ${catkin_EXPORTED_TARGETS})
 
 # add_library(microswitch src/microswitch.cpp)
@@ -175,15 +175,15 @@ target_link_libraries(vision ${catkin_LIBRARIES})
 add_dependencies(vision ${catkin_EXPORTED_TARGETS})
 
 add_library(stage1 src/stage1.cpp)
-target_link_libraries(stage1 mecanum imu scara vision)
+target_link_libraries(stage1 mecanum scara vision)
 add_dependencies(stage1 ${catkin_EXPORTED_TARGETS})
 
 add_library(stage2 src/stage2.cpp)
-target_link_libraries(stage2 mecanum imu)
+target_link_libraries(stage2 mecanum)
 add_dependencies(stage2 ${catkin_EXPORTED_TARGETS})
 
 add_library(stage3 src/stage3.cpp)
-target_link_libraries(stage3 mecanum imu scara)
+target_link_libraries(stage3 mecanum scara)
 add_dependencies(stage3 ${catkin_EXPORTED_TARGETS})
 
 add_executable(run src/run.cpp)

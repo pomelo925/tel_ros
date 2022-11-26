@@ -16,5 +16,4 @@ void run2(void){
     ROS_INFO("\n60 Points Calibration ...\n");
     MECANUM::moveTo(-10, 35, 0);  // 60 POINT Calibration  
     MECANUM::moveTo(-20, 15, 0);
-    
 }
