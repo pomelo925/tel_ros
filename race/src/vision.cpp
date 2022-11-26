@@ -23,11 +23,11 @@ void VISION::tf(void){
     if(E_isDetected && !E_isCatched) VISION::detect[1]=nearest_scara_point(VISION::detect[1]);
     if(L_isDetected && !L_isCatched) VISION::detect[2]=nearest_scara_point(VISION::detect[2]);
 
-    for(int i=0; i<5; i++) std::cout << "(tf) detect["<<i<<"]: " << VISION::detect[i]<<std::endl; 
+    for(int i=0; i<3; i++) std::cout << "(tf) detect["<<i<<"]: " << VISION::detect[i]<<std::endl; 
 }
 
 Point2f VISION::nearest_scara_point(Point2f input){
-    Point2f temp;  
+    Point2f temp(0,0); 
 
     float distance[1121]={0};
 
@@ -54,7 +54,6 @@ void VISION::taking_photo(void){
     ros::Rate loop_rate(10);
     while(ros::ok() && count<=40){
         cap.read(img);
-        // imshow("AAAAAA", img);
         loop_rate.sleep();
         count++;
     }

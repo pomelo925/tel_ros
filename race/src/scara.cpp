@@ -38,60 +38,92 @@ void SCARA::tel_1(void){
     VISION::CTFL_image();
 
     /*抓*/
-    SCARA::movingTo(-150, -220, 3);
-        ros::Duration(2).sleep(); while(scaraflag!=0.0);
+    SCARA::seize();
 }
 
 
 void SCARA::tel_2(void){
     SCARA::movingTo(-330, 0, 2);
-        ros::Duration(2).sleep();
-        while(scaraflag!=0.);
+        ros::Duration(2).sleep(); while(scaraflag!=0.);
 
+    /* 定點拍照 */
     VISION::taking_photo();
-        ros::Duration(2).sleep();
-        while(scaraflag!=0.);
+        ros::Duration(2).sleep(); while(scaraflag!=0.);
 
-    SCARA::movingTo(-200, 0, 3);
-        ros::Duration(2).sleep();
-        while(scaraflag!=0.);
+    /* 辨識 */
+    VISION::E_image();
+    VISION::CTFL_image();
 
-    SCARA::movingTo(-180, -140, 3);
-        ros::Duration(2).sleep();
-        while(scaraflag!=0.);
+    /* 抓 */
+    SCARA::seize();
 }
 
 
 void SCARA::cubeoff(void){
     SCARA::movingTo(0, 330, 4); 
-        ros::Duration(3).sleep();
-        while(scaraflag!=0.);
+        ros::Duration(2).sleep(); while(scaraflag!=0.);
     
     SCARA::movingTo(0, -50, 2); 
-        ros::Duration(3).sleep();
-        while(scaraflag!=0.);
+        ros::Duration(2).sleep(); while(scaraflag!=0.);
 }
 
 void SCARA::seize(void){
     Point2f priority[3];
 
-    if(VISION::T_isDetected && !VISION::T_isCatched) priority[0]=VISION::detect[0];
-    else priority[0].y = 999999;
+    /* 判斷是否為「新」辨識出的方塊*/
+    if(VISION::T_isDetected && !VISION::T_isCatched){
+        priority[0]=VISION::detect[0];
+        VISION::T_isCatched = true;
+    }
+    else priority[0].y = 9999.99;
 
-    if(VISION::E_isDetected && !VISION::E_isCatched) priority[1]=VISION::detect[1];
-    else priority[1].y = 999999;
+    if(VISION::E_isDetected && !VISION::E_isCatched){
+        priority[1]=VISION::detect[1];
+        VISION::E_isCatched = true;   
+    }
+    else priority[1].y = 9999.99;
 
-    if(VISION::L_isDetected && !VISION::L_isCatched) priority[0]=VISION::detect[2];
-    else priority[2].y = 999999;
+    if(VISION::L_isDetected && !VISION::L_isCatched){
+        priority[2]=VISION::detect[2];
+        VISION::L_isCatched = true;
+    }
+    else priority[2].y = 9999.99;
 
-    
+    /* 將 tf 過後的point 以 y 小到大排列*/
     qsort(priority, 3, sizeof(Point2f), SCARA::compare);
 
     for(int i=0; i<3; i++){
         printf("priority[%d]: %f, %f\n", i, priority[i].x, priority[i].y);
     }
 
+    /* 配合 SCARA 左->右->中*/
+    if (priority[0].y > 1000) goto clean;
+    else{
+        SCARA::movingTo(priority[0].x, priority[0].y, 3);
+            ros::Duration(2).sleep(); while(scaraflag!=0.);
+    }
+    
+
+    if (priority[2].y < 1000) {
+        SCARA::movingTo(priority[2].x, priority[2].y, 3); 
+            ros::Duration(2).sleep(); while(scaraflag!=0.);
+        SCARA::movingTo(priority[1].x, priority[1].y, 3); 
+            ros::Duration(2).sleep(); while(scaraflag!=0.);
+    } else {
+        if(priority[1].y < 1000){
+            SCARA::movingTo(priority[1].x, priority[1].y, 3); 
+                ros::Duration(2).sleep(); while(scaraflag!=0.);
+        }
+        else goto clean;
+    }
+
+    clean:{
+        for(int i=0; i<3; i++) priority[i].x=0, priority[i].y=0;
+        return;
+    }
+        
 }
+
 
 int SCARA::compare(const void *a, const void *b){
 	Point2f* m = (Point2f*) a;
@@ -100,8 +132,8 @@ int SCARA::compare(const void *a, const void *b){
     float la = m->y;
     float lb = n->y;
 	
-    if (la > lb) return -1;
-	else if (la < lb) return 1;
+    if (la > lb) return 1;
+	else if (la < lb) return -1;
 
 	return 0;
 }

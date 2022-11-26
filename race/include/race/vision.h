@@ -13,7 +13,7 @@ namespace VISION{
         float y_scara;
     };
 
-    Point2f detect[5];  // 裝辨識出來的點：detect[0]裝E、detect[1]裝T、detect[2]裝L
+    Point2f detect[3];  // 裝辨識出來的點：detect[0]裝E、detect[1]裝T、detect[2]裝L
     bool E_isDetected = false;
     bool T_isDetected = false;
     bool L_isDetected = false;
