@@ -9,7 +9,7 @@
 // #include <nav_msgs/Odometry.h>
 
 // arguments adjustments
-const double calibration_x_intercept = 0.7669;
+double calibration_x_intercept = 0.7669;
 const double calibration_y_intercept = -0.0927;
 const double calibration_z_intercept = 0;
 

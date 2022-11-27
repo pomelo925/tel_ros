@@ -4,8 +4,9 @@
 #include "race/microswitch.h"
 #include "race/scara.h"
 
+
 void init_all_sensors(void){
-    // MECANUM::init();
+    MECANUM::init();
     SCARA::init();
 }
 
@@ -14,7 +15,19 @@ int main(int argc, char **argv){
     ros::NodeHandle nh;
     init_all_sensors();
 
-    SCARA::tel_1();
+    // SCARA::tel_1();
+    // while(ros::ok()) 
+    /* 定點拍照*/
+    printf("    SCARA::movingTo(-330, 0, 2) \n");
+    SCARA::movingTo(-330, 0, 2);
+    VISION::taking_photo();
+    
+    /* 辨識*/
+    VISION::E_image();
+    VISION::CTFL_image();
+
+    /*抓*/
+    SCARA::seize();
 
     return 0;
 }

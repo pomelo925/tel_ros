@@ -5,6 +5,8 @@ void MECANUM::init(){
     ros::NodeHandle nh_4mecanum;
     mecanum_publisher = nh_4mecanum.advertise<geometry_msgs::Point>("mecanum_toSTM", 1);
     mecanum_subscriber = nh_4mecanum.subscribe("mecanum_fromSTM", 1, MECANUM::callback);
+
+    nh_4mecanum.getParam("calibration_x_intercept", calibration_x_intercept);
 }
 
 // encdoer callback function and publish
