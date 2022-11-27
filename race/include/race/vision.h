@@ -27,6 +27,7 @@ namespace VISION{
     void tf(void);  // 座標轉換
 
     void taking_photo(void);  //自動拍攝
+    void init(void);
 
     /* internal function*/
     Point2f nearest_scara_point(Point2f input);
@@ -38,6 +39,10 @@ namespace VISION{
     Mat CTFL_filter(Mat img);
     void CTFL_contour(Mat original_image, Mat image, double epsilon, \
         int minContour, int maxContour, double lowerBondArea);
+
+    /* launch param*/
+    double x_tf_cali = -6;
+    double y_tf_cali = -5;
 }
 
 VISION::table COR[1200];

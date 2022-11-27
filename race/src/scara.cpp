@@ -16,14 +16,13 @@ void SCARA::callback(const std_msgs::Float64::ConstPtr &flag){
 }
 
 void SCARA::movingTo(double x, double y, double z){
-    while(scaraflag!=0) ros::spinOnce();
-    while(scaraflag==0){
+    while(scaraflag!=0 && ros::ok()) ros::spinOnce();
+    while(scaraflag==0 && ros::ok()){
         scara_cor.x = x;
         scara_cor.y = y;
         scara_cor.z = z;
         scara_pub.publish(scara_cor);
         ros::spinOnce();
-        // printf("IN");
     }
     printf("OUT!!!\n");
 }
@@ -36,6 +35,7 @@ void SCARA::tel_1(void){
     /* 定點拍照*/
     printf("    SCARA::movingTo(-330, 0, 2) \n");
     SCARA::movingTo(-330, 0, 2);
+
     VISION::taking_photo();
     
     /* 辨識*/
@@ -98,26 +98,21 @@ void SCARA::seize(void){
     qsort(priority, 3, sizeof(Point2f), SCARA::compare);
 
     for(int i=0; i<3; i++){
-        printf("priority[%d]: %f, %f\n", i, priority[i].x, priority[i].y);
+        printf("\npriority[%d]: %f, %f\n", i, priority[i].x, priority[i].y);
     }
 
     /* 配合 SCARA 左->右->中*/
     if (priority[0].y > 1000) goto clean;
     else{
-        SCARA::movingTo(priority[0].x, priority[0].y, 3);
-            ros::Duration(2).sleep(); while(scaraflag!=0.);
+        SCARA::movingTo(priority[0].x*10, priority[0].y*10, 3); printf("\nseize A finish\n");
     }
     
-
     if (priority[2].y < 1000) {
-        SCARA::movingTo(priority[2].x, priority[2].y, 3); 
-            ros::Duration(2).sleep(); while(scaraflag!=0.);
-        SCARA::movingTo(priority[1].x, priority[1].y, 3); 
-            ros::Duration(2).sleep(); while(scaraflag!=0.);
+        SCARA::movingTo(priority[2].x*10, priority[2].y*10, 3); printf("\nseize B finish\n");
+        SCARA::movingTo(priority[1].x*10, priority[1].y*10, 3); printf("\nseize C finish\n");
     } else {
         if(priority[1].y < 1000){
-            SCARA::movingTo(priority[1].x, priority[1].y, 3); 
-                ros::Duration(2).sleep(); while(scaraflag!=0.);
+            SCARA::movingTo(priority[1].x*10, priority[1].y*10, 3); printf("\nseize B finish\n");
         }
         else goto clean;
     }
@@ -126,7 +121,6 @@ void SCARA::seize(void){
         for(int i=0; i<3; i++) priority[i].x=0, priority[i].y=0;
         return;
     }
-        
 }
 
 

@@ -23,13 +23,19 @@ void VISION::tf(void){
     if(E_isDetected && !E_isCatched) VISION::detect[1]=nearest_scara_point(VISION::detect[1]);
     if(L_isDetected && !L_isCatched) VISION::detect[2]=nearest_scara_point(VISION::detect[2]);
 
-    for(int i=0; i<3; i++) std::cout << "(tf) detect["<<i<<"]: " << VISION::detect[i]<<std::endl; 
+    for(int i=0; i<3; i++) std::cout << "\n(tf) detect["<<i<<"]: " << VISION::detect[i]<<std::endl; 
+}
+
+void VISION::init(void){
+    ros::NodeHandle nh_4vision;
+    nh_4vision.getParam("x_tf_cali",VISION::x_tf_cali);
+    nh_4vision.getParam("y_tf_cali",VISION::y_tf_cali);
 }
 
 Point2f VISION::nearest_scara_point(Point2f input){
     Point2f temp(0,0); 
 
-    float distance[1121]={0};
+    float distance[1121]={0}; 
 
     for(int i=0; i<1121; i++) 
     distance[i]=sqrt( (input.x-COR[i].x_pixel)*(input.x-COR[i].x_pixel) \
@@ -38,15 +44,15 @@ Point2f VISION::nearest_scara_point(Point2f input){
     int min = 0;
     for(int i=0; i<1121; i++) if(distance[i]<distance[min]) min=i;
     
-    temp.x = COR[min].x_scara;
-    temp.y = COR[min].y_scara;
+    temp.x = COR[min].x_scara + VISION::x_tf_cali;
+    temp.y = COR[min].y_scara + VISION::y_tf_cali;
     return temp;
 }
 
 
 void VISION::taking_photo(void){
     VideoCapture cap(0);
-    while(!cap.isOpened())  printf("Not opened!\n");
+    while(!cap.isOpened() && ros::ok())  printf("Not opened!\n");
     printf(" Waiting Camera Stable... \n");
     Mat img;
 
