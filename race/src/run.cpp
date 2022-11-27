@@ -6,7 +6,7 @@ int main(int argc, char **argv){
     ros::init(argc, argv, "run");
     ros::NodeHandle nh;
         
-    int reset_state=1;
+    int reset_state=2;
     // nh.getParam("/reset_state", reset_state);
     ROS_INFO("State Now: %d", reset_state);
 

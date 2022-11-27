@@ -35,14 +35,20 @@ void SCARA::tel_1(void){
     /* 定點拍照*/
     printf("    SCARA::movingTo(-330, 0, 2) \n");
     SCARA::movingTo(-330, 0, 2);
-
     VISION::taking_photo();
     
     /* 辨識*/
     VISION::E_image();
-    VISION::CTFL_image();
+    SCARA::seize();
 
-    /*抓*/
+
+    /* 定點拍照*/
+    printf("    SCARA::movingTo(-330, 0, 2) \n");
+    SCARA::movingTo(-330, 0, 2);
+    VISION::taking_photo();
+    
+    /* 辨識*/
+    VISION::CTFL_image();
     SCARA::seize();
 }
 

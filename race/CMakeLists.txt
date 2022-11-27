@@ -163,7 +163,7 @@ add_dependencies(scara ${catkin_EXPORTED_TARGETS})
 # add_dependencies(microswitch ${catkin_EXPORTED_TARGETS})
 
 add_library(mecanum src/mecanum.cpp)
-target_link_libraries(mecanum ${catkin_LIBRARIES})
+target_link_libraries(mecanum yaml-cpp ${catkin_LIBRARIES})
 add_dependencies(mecanum ${catkin_EXPORTED_TARGETS})
 
 # add_library(ekf src/ekf.cpp)

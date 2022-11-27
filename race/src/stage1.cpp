@@ -5,7 +5,7 @@ void run1(void){
 
     MECANUM::moveTo(35, -100, -1);
     
-    SCARA::tel_1();  // 辨識方塊一
+    // SCARA::tel_1();  // 辨識方塊一
 
     MECANUM::moveTo(-55, 8, 5);
 
@@ -15,8 +15,8 @@ void run1(void){
     MECANUM::moveTo(0, -10, 0);
 
 
-    if( VISION::E_isDetected == false || VISION::L_isDetected == false || VISION::T_isDetected == false) 
-    {SCARA::tel_2();}  // 辨識方塊二
+    // if( VISION::E_isDetected == false || VISION::L_isDetected == false || VISION::T_isDetected == false) 
+    // {SCARA::tel_2();}  // 辨識方塊二
     
     MECANUM::moveTo(0, 30, 0);
     MECANUM::moveTo(0, 0, 175); 

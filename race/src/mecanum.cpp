@@ -1,5 +1,6 @@
 #include "race/mecanum.h"
 
+
 // declare NodeHandle and pub/sub
 void MECANUM::init(){
     ros::NodeHandle nh_4mecanum;
@@ -7,6 +8,23 @@ void MECANUM::init(){
     mecanum_subscriber = nh_4mecanum.subscribe("mecanum_fromSTM", 1, MECANUM::callback);
 
     nh_4mecanum.getParam("calibration_x_intercept", calibration_x_intercept);
+    nh_4mecanum.getParam("calibration_y_intercept", calibration_x_intercept);
+    nh_4mecanum.getParam("calibration_z_intercept", calibration_x_intercept);
+    nh_4mecanum.getParam("calibration_x", calibration_x);
+    nh_4mecanum.getParam("calibration_y", calibration_x);
+    nh_4mecanum.getParam("calibration_z", calibration_x);
+    nh_4mecanum.getParam("max_xy", max_xy);
+    nh_4mecanum.getParam("min_xy", min_xy);
+    nh_4mecanum.getParam("max_z", max_z );
+    nh_4mecanum.getParam("acc_xy", acc_xy);
+    nh_4mecanum.getParam("acc_zz", acc_zz);
+    nh_4mecanum.getParam("kp", kp);
+    nh_4mecanum.getParam("fod", fod);
+    nh_4mecanum.getParam("kp_xy", kp_xy);
+    nh_4mecanum.getParam("kp_z", kp_z);
+    nh_4mecanum.getParam("x_tol_margin", x_tol_margin);
+    nh_4mecanum.getParam("y_tol_margin", y_tol_margin);
+    nh_4mecanum.getParam("z_tol_margin", z_tol_margin);
 }
 
 // encdoer callback function and publish
@@ -348,5 +366,19 @@ void MECANUM::moveUP(double x_cor, double y_cor, double z_cor){
         // std::cout << "Y: " << y_now << "\t\tVy: " << mecanum_pub.y << std::endl;
         // std::cout << "Z: " << z_now << "\t\tVz: " << mecanum_pub.z << std::endl;
         // std::cout << "+ + + about to stop + + +" << std::endl; 
+    }
+}
+
+void MECANUM::readPath(std::string yaml_path){
+    YAML::Node pathConfig = YAML::LoadFile(yaml_path);
+
+    double x,y,z;
+
+    for(auto xyz : pathConfig){
+        x = xyz["xyz"][0].as<double>();
+        y = xyz["xyz"][1].as<double>();
+        z = xyz["xyz"][2].as<double>();
+
+        MECANUM::moveTo(x,y,z);
     }
 }

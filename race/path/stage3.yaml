@@ -1,0 +1,23 @@
+## STAGE 3 START
+
+# Rush Top
+- xyz: [0, 200, 3]
+- xyz: [-25, 0, 0]
+
+# Top Calibration
+- xyz: [0, 12, 0]
+- xyz: [50, 0, 0]
+- xyz: [0, 0, 90]
+
+# Decline
+- xyz: [35, 0, 0]
+
+# Lateral 
+- xyz: [0, 50, 0] 
+- xyz: [35, 0, 0]
+
+# Push Board
+- xyz: [0, -50, 0]
+- xyz: [50, 0, 0]
+
+## FINISHED ##
