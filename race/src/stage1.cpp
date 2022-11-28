@@ -2,30 +2,21 @@
 
 void run1(void){    
     ROS_INFO("\n==STAGE 1 START==\n");
-
-    MECANUM::moveTo(35, -100, -1);
     
-    // SCARA::tel_1();  // 辨識方塊一
+    YAML::Node pathConfig = YAML::LoadFile(stage1_yaml);
 
-    MECANUM::moveTo(-55, 8, 5);
+    int count=0;
+    double x,y,z;
+    for(auto xyz : pathConfig){
+        count++;
+        x = xyz["xyz"][0].as<double>();
+        y = xyz["xyz"][1].as<double>();
+        z = xyz["xyz"][2].as<double>();
 
-    MECANUM::moveTo(0, -80, 0);
-    MECANUM::moveTo(0, 0, 180);
-    MECANUM::moveTo(-30, 0, 0);
-    MECANUM::moveTo(0, -10, 0);
-
-
-    // if( VISION::E_isDetected == false || VISION::L_isDetected == false || VISION::T_isDetected == false) 
-    // {SCARA::tel_2();}  // 辨識方塊二
-    
-    MECANUM::moveTo(0, 30, 0);
-    MECANUM::moveTo(0, 0, 175); 
-    MECANUM::moveTo(-5, -85, 0);
-    
-    SCARA::cubeoff();  // 放方塊
-    MECANUM::moveTo(0, 0, 180); 
-
-    MECANUM::moveTo(20, 0, 0);  
-    MECANUM::moveTo(0, 78, 0);  
-    MECANUM::moveTo(15, 0, 0);  // STAGE 2 START
+        MECANUM::moveTo(x,y,z);
+        
+        if(count == PHASE_ONE) SCARA::tel_1();
+        if(count == PHASE_TWO) SCARA::tel_2();
+        if(count == PHASE_THREE) SCARA::cubeoff();
+    }
 }

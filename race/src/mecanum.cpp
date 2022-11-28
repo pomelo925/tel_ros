@@ -379,7 +379,6 @@ void MECANUM::readPath(std::string yaml_path){
     YAML::Node pathConfig = YAML::LoadFile(yaml_path);
 
     double x,y,z;
-
     for(auto xyz : pathConfig){
         x = xyz["xyz"][0].as<double>();
         y = xyz["xyz"][1].as<double>();
