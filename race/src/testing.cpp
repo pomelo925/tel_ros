@@ -15,23 +15,11 @@ int main(int argc, char **argv){
     ros::NodeHandle nh;
     init_all_sensors();
 
-    SCARA::tel_1();
-    // while(ros::ok()) 
-    // /* 定點拍照*/
-    // printf("    SCARA::movingTo(-330, 0, 2) \n");
-    // SCARA::movingTo(-330, 0, 2);
+    // SCARA::tel_1();
 
-    // while(SCARA::scaraflag!=0) ros::spinOnce();
-    // VISION::taking_photo(); 
-    
-    // /* 辨識*/
-    // VISION::E_image();
-    // VISION::CTFL_image();
- 
-    // VISION::tf();
-    
-    // /*抓*/
-    // SCARA::seize();
+    MECANUM::moveTo(40,0,0);
+        MECANUM::moveTo(0,20,0);
+            MECANUM::moveTo(-40,-20,0);
 
     return 0;
 }

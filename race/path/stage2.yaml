@@ -6,15 +6,15 @@
 - xyz: [-17, 65, 0]
 
 # Enter Green 40
-- xyz: [-25, 55, 0]
+- xyz: [-33, 55, 0]
 # 40 Point Calibration
 - xyz: [-15, 40, -3]
 
 # Enter Blue 60
-- xyz: [50, 85, 0]
+- xyz: [50, 85, -3]
 # 60 Point Calibration
 - xyz: [-10, 35, 5]
 
 # Enter Stage 3 
-- xyz: [-15, 15, 0]
+- xyz: [-15, 15, -5]
 

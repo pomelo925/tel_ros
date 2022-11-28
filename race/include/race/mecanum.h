@@ -50,6 +50,8 @@ namespace MECANUM{
     double calibration_y = 6.408;
     double calibration_z = 6.3;
 
+    double z_overcali_mode = false; 
+
     double max_xy = 2;
     double min_xy = 0.01;
     double max_z  = 0.15;
@@ -57,13 +59,14 @@ namespace MECANUM{
     double acc_zz = 0.0008; 
 
     double kp = 0.8;
-    double fod = 0.2;     // fraction of deceleration: start decelerate at the last dr of the whole distance
+    double fod_xy = 0.2;     // fraction of deceleration: start decelerate at the last dr of the whole distance
+    double fod_z = 0.02;   
     double kp_xy = 0.8;   // p gain for x- y-direction control
     double kp_z = 0.8;    // p gain for z-direction control 
 
     double x_tol_margin = 0.7;  // x tolerance critical value
     double y_tol_margin = 0.7;  // y tolerance critical value
-    double z_tol_margin = 0.001; // z tolerance critical value
+    double z_tol_margin = 0.001; // z tolerance critical value 
 }
 
 #endif

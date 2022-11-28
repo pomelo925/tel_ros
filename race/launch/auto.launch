@@ -7,20 +7,21 @@
         <param name="calibration_y" value="6.408" />
         <param name="calibration_z" value="6.3" />
 
-        <param name="max_xy" value="5" />
+        <param name="max_xy" value="3.5" />
         <param name="min_xy" value="0.02" />
         <param name="max_z" value="0.08" />
-        <param name="acc_xy" value="0.03" />
-        <param name="acc_zz" value="0.01" />
+        <param name="acc_xy" value="0.005" />
+        <param name="acc_zz" value="0.0002" />
 
         <param name="kp" value="0.8" />
-        <param name="fod" value="0.2" />   <!--fraction of deceleration: start decel-->
+        <param name="fod_xy" value="0.2" />   <!--fraction of deceleration: start decel-->
+        <param name="fod_z" value="0.5" />   <!--fraction of deceleration: start decel-->
         <param name="kp_xy" value="0.8" /> <!--p gain for x- y-direction control-->
         <param name="kp_z" value="1" />  <!--p gain for z-direction control-->
 
         <param name="x_tol_margin" value="0.7" /> <!-- x tolerance critical value -->
         <param name="y_tol_margin" value="0.7" /> <!-- y tolerance critical value -->
-        <param name="z_tol_margin" value="0.002" /> <!-- z tolerance critical value -->
+        <param name="z_tol_margin" value="0.005" /> <!-- z tolerance critical value -->
     </node>
 
     <!-- <node name= "reset" pkg="race" type="reset" output="screen" respawn="true" /> -->
