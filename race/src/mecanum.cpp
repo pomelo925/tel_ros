@@ -8,20 +8,24 @@ void MECANUM::init(){
     mecanum_subscriber = nh_4mecanum.subscribe("mecanum_fromSTM", 1, MECANUM::callback);
 
     nh_4mecanum.getParam("calibration_x_intercept", calibration_x_intercept);
-    nh_4mecanum.getParam("calibration_y_intercept", calibration_x_intercept);
-    nh_4mecanum.getParam("calibration_z_intercept", calibration_x_intercept);
+    nh_4mecanum.getParam("calibration_y_intercept", calibration_y_intercept);
+    nh_4mecanum.getParam("calibration_z_intercept", calibration_z_intercept);
     nh_4mecanum.getParam("calibration_x", calibration_x);
-    nh_4mecanum.getParam("calibration_y", calibration_x);
-    nh_4mecanum.getParam("calibration_z", calibration_x);
+    nh_4mecanum.getParam("calibration_y", calibration_y);
+    nh_4mecanum.getParam("calibration_z", calibration_z);
+    
     nh_4mecanum.getParam("max_xy", max_xy);
     nh_4mecanum.getParam("min_xy", min_xy);
-    nh_4mecanum.getParam("max_z", max_z );
+    nh_4mecanum.getParam("max_z", max_z);
     nh_4mecanum.getParam("acc_xy", acc_xy);
     nh_4mecanum.getParam("acc_zz", acc_zz);
+
     nh_4mecanum.getParam("kp", kp);
     nh_4mecanum.getParam("fod_xy", fod_xy);
+    nh_4mecanum.getParam("fod_z", fod_z);
     nh_4mecanum.getParam("kp_xy", kp_xy);
     nh_4mecanum.getParam("kp_z", kp_z);
+    
     nh_4mecanum.getParam("x_tol_margin", x_tol_margin);
     nh_4mecanum.getParam("y_tol_margin", y_tol_margin);
     nh_4mecanum.getParam("z_tol_margin", z_tol_margin);
@@ -82,10 +86,10 @@ void MECANUM::moveTo(double x_cor, double y_cor, double z_cor){
         }
 
         if (fabs(z_err) > fabs(fod_z *  z_cor) && fabs(z_err) > z_tol_margin){
-            pub_z = acc_zz;
-            acc_z += (z_err > 0) ? acc_zz : -acc_zz;
+            pub_z = acc_z;  printf("fod_z * z_cor: %lf",fabs(fod_z *  z_cor));
+            acc_z += (z_err > 0) ? acc_zz : -acc_zz; 
             if (acc_z >= max_z) pub_z = max_z;
-            if (acc_z <= -max_z) pub_z = -max_z;
+            if (acc_z <= -max_z) pub_z = -max_z;printf("ACC: pub_z:%lf \t z_err: %lf\n", pub_z, z_err);
         }
 
         /// deceleration ///
@@ -103,10 +107,10 @@ void MECANUM::moveTo(double x_cor, double y_cor, double z_cor){
             if (pub_y <= min_xy && pub_y > 0) pub_y = min_xy;
             if (pub_y >= -min_xy && pub_y < 0) pub_y = -min_xy;
         }
-        if (fabs(z_err) <= fabs(fod_z *  z_cor) && z_cor != 0){
-            pub_z = kp_z * z_err;
+        if (fabs(z_err) <= fabs(fod_z * z_cor) && z_cor != 0){
+            pub_z = kp_z * z_err; 
             if (pub_z >= max_z) pub_z = max_z;
-            if (pub_z <= -max_z) pub_z = -max_z;
+            if (pub_z <= -max_z) pub_z = -max_z;printf("DEC: pub_z:%lf \n", pub_z);
         }
 
         mecanum_pub.x = pub_x; 
@@ -124,8 +128,8 @@ void MECANUM::moveTo(double x_cor, double y_cor, double z_cor){
 
         if (flag){
             x_now += (time_now - time_before) * (mecanum_sub.x + x_vel_before) / 2;
-            y_now += ((time_now - time_before) * (mecanum_sub.y + y_vel_before) / 2);
-            z_now += ((time_now - time_before) * (mecanum_sub.z + z_vel_before) / 2);
+            y_now += (time_now - time_before) * (mecanum_sub.y + y_vel_before) / 2;
+            z_now += (time_now - time_before) * (mecanum_sub.z + z_vel_before) / 2;
         }
         flag = true;
 

@@ -17,9 +17,9 @@ int main(int argc, char **argv){
 
     // SCARA::tel_1();
 
-    MECANUM::moveTo(40,0,0);
-        MECANUM::moveTo(0,20,0);
-            MECANUM::moveTo(-40,-20,0);
-
+    // MECANUM::moveTo(0,50,0);
+    //   MECANUM::moveTo(40,0,0);
+    //     MECANUM::moveTo(-40,-50,0);
+          MECANUM::moveTo(0,0,360);  
     return 0;
 }
