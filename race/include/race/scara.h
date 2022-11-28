@@ -13,6 +13,7 @@ geometry_msgs::Point scara_cor;
 
 
 namespace SCARA{
+    bool MODE; // mode 0 : dont do vision
     extern double vision_x, vision_y, scaraflag;
 
     void init(void);

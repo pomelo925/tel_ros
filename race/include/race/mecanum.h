@@ -7,24 +7,6 @@
 #include <geometry_msgs/Point.h>
 #include "yaml-cpp/yaml.h"
 
-// class POINT{
-// public:
-//     double x_cor = 0;
-//     double y_cor = 0;
-//     double z_cor = 0;
-
-//     POINT(double x, double y){
-//         this->x_cor = x;
-//         this->y_cor = y;
-//     }
-
-//     POINT(double x, double y, double z){
-//         this->x_cor = x;
-//         this->y_cor = y;
-//         this->z_cor = z;
-//     }
-// };
-
 ros::Publisher mecanum_publisher; // Topic: mecanum_toSTM
 geometry_msgs::Point mecanum_pub;
 

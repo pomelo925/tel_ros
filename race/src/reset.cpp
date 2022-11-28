@@ -1,5 +1,12 @@
 #include "race/reset.h"
 
+void reset_callback(const std_msgs::Int64::ConstPtr& reset_data){
+    RESET::state = reset_data->data;
+
+    RESET::command[25] = (char)RESET::state;
+    system( RESET::command);
+}
+
 int main(int argc, char **argv){
     ros::init(argc, argv, "reset");
     ros::NodeHandle nh;
@@ -13,9 +20,4 @@ int main(int argc, char **argv){
     }
 }
 
-void reset_callback(const std_msgs::Int64::ConstPtr& reset_data){
-    RESET::state = reset_data->data;
 
-    RESET::command[25] = (char)RESET::state;
-    system( RESET::command);
-}

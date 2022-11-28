@@ -9,6 +9,8 @@ void SCARA::init(void){
     ros::NodeHandle nh_4scara;
     scara_pub = nh_4scara.advertise<geometry_msgs::Point>("scara_toSTM", 1);
     scara_sub = nh_4scara.subscribe("scaraflag_fromSTM", 1, SCARA::callback);
+
+    nh_4scara.getParam("SCARA_MODE", SCARA::MODE);
 }
 
 void SCARA::callback(const std_msgs::Float64::ConstPtr &flag){

@@ -2,7 +2,7 @@
 
 void run1(void){    
     ROS_INFO("\n==STAGE 1 START==\n");
-    
+
     YAML::Node pathConfig = YAML::LoadFile(stage1_yaml);
 
     int count=0;
@@ -15,8 +15,11 @@ void run1(void){
 
         MECANUM::moveTo(x,y,z);
         
-        if(count == PHASE_ONE) SCARA::tel_1();
-        if(count == PHASE_TWO) SCARA::tel_2();
-        if(count == PHASE_THREE) SCARA::cubeoff();
+        if(SCARA::MODE){
+            if(count == PHASE_ONE) SCARA::tel_1();
+            if(count == PHASE_TWO) SCARA::tel_2();
+            if(count == PHASE_THREE) SCARA::cubeoff();
+        }
+
     }
 }

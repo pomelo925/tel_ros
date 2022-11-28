@@ -1,5 +1,7 @@
 <launch>    
-    <node name= "run" pkg="race" type="run" output="screen" respawn="true">
+    <node name= "run" pkg="race" type="run" output="screen" respawn="true" />
+        <param name= "SCARA_MODE" type="bool" value="false" />
+
         <param name="calibration_x_intercept" value="0.7669" />
         <param name="calibration_y_intercept" value="-0.0927" />
         <param name="calibration_z_intercept" value="0" />
@@ -13,7 +15,6 @@
         <param name="acc_xy" value="0.005" />
         <param name="acc_zz" value="0.0002" />
 
-        <param name="kp" value="0.8" />
         <param name="fod_xy" value="0.2" />   <!--fraction of deceleration: start decel-->
         <param name="fod_z" value="0.5" />   <!--fraction of deceleration: start decel-->
         <param name="kp_xy" value="0.8" /> <!--p gain for x- y-direction control-->
@@ -22,7 +23,8 @@
         <param name="x_tol_margin" value="0.7" /> <!-- x tolerance critical value -->
         <param name="y_tol_margin" value="0.7" /> <!-- y tolerance critical value -->
         <param name="z_tol_margin" value="0.005" /> <!-- z tolerance critical value -->
-    </node>
+
+
 
     <!-- <node name= "reset" pkg="race" type="reset" output="screen" respawn="true" /> -->
     <node name= "serial_arduino" pkg= "rosserial_python" type="serial_stm.py" output="screen"/>
