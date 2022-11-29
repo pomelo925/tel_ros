@@ -195,7 +195,7 @@ target_link_libraries(testing mecanum vision scara ${catkin_LIBRARIES})
 add_dependencies(testing ${OpenCV_LIBS} ${catkin_EXPORTED_TARGETS})
 
 add_executable(reset src/reset.cpp)
-target_link_libraries(reset mecanum vision ${catkin_LIBRARIES})
+target_link_libraries(reset ${catkin_LIBRARIES})
 add_dependencies(reset ${catkin_EXPORTED_TARGETS})
 
 ## Specify libraries to link a library or executable target against

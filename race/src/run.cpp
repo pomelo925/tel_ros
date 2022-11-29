@@ -4,16 +4,16 @@ void init_all_sensors();
 
 int main(int argc, char **argv){
     ros::init(argc, argv, "run");
-    ros::NodeHandle nh;
+    ros::NodeHandle nh_4run;
         
-    int reset_state=2;
-    // nh.getParam("/reset_state", reset_state);
+    nh_4run.getParam("reset_state", reset_state);
     ROS_INFO("State Now: %d", reset_state);
 
     init_all_sensors();
 
     switch(reset_state){
         case 0:
+            while(1);
         case 1:
             run1(); run2(); run3();
             break;

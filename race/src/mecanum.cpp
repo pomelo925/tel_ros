@@ -19,11 +19,13 @@ void MECANUM::init(){
     nh_4mecanum.getParam("max_z", max_z);
     nh_4mecanum.getParam("acc_xy", acc_xy);
     nh_4mecanum.getParam("acc_zz", acc_zz);
+    nh_4mecanum.getParam("maxUP_xy", maxUP_xy);
+    nh_4mecanum.getParam("accUP_xy", accUP_xy);
 
     nh_4mecanum.getParam("kp", kp);
     nh_4mecanum.getParam("fod_xy", fod_xy);
     nh_4mecanum.getParam("fod_z", fod_z);
-    nh_4mecanum.getParam("kp_xy", kp_xy);
+    nh_4mecanum.getParam("kp_xy", kp_xy); 
     nh_4mecanum.getParam("kp_z", kp_z);
     
     nh_4mecanum.getParam("x_tol_margin", x_tol_margin);
@@ -168,6 +170,7 @@ void MECANUM::moveUP(double x_cor, double y_cor, double z_cor){
     double x_err = x_cor, y_err = y_cor, z_err = z_cor; // distance between now & goal
     double time_now, time_before;
     double x_vel_before, y_vel_before, z_vel_before; // velocity of previous instance
+    double pub_x=0, pub_y=0, pub_z=0;
     bool flag = false;                               // flag for NOT integral on first instance
 
     while (fabs(x_err) > x_tol_margin || fabs(y_err) > y_tol_margin || fabs(z_err) > z_tol_margin){
@@ -177,64 +180,70 @@ void MECANUM::moveUP(double x_cor, double y_cor, double z_cor){
         z_err = z_cor - z_now;
 
         /* velocity profile */
-        mecanum_pub.x = 0;
-        mecanum_pub.y = 0;
-        mecanum_pub.z = 0;
+        pub_x = 0;
+        pub_y = 0;
+        pub_z = 0;
 
         /// accerlation ///
         if (fabs(x_err) > fabs(fod_xy * x_cor) && fabs(x_err) > x_tol_margin){
-            mecanum_pub.x = acc_x;
-            acc_x += (x_err > 0) ? acc_xy : -acc_xy;
-            if (acc_x >= max_xy) mecanum_pub.x = max_xy;
-            if (acc_x <= -max_xy) mecanum_pub.x = -max_xy;
+            pub_x = acc_x;
+            acc_x += (x_err > 0) ? accUP_xy : -accUP_xy;
+            if (acc_x >= maxUP_xy) pub_x = maxUP_xy;
+            if (acc_x <= -maxUP_xy) pub_x = -maxUP_xy;
         }
 
         if (fabs(y_err) > fabs(fod_xy * y_cor) && fabs(y_err) > y_tol_margin){
-            mecanum_pub.y = acc_y;
-            acc_y += (y_err > 0) ? acc_xy : -acc_xy;
-            if (acc_y >= 7) mecanum_pub.y = 7;
-            if (acc_y <= -7) mecanum_pub.y = -7;
+            pub_y = acc_y;
+            acc_y += (y_err > 0) ? accUP_xy : -accUP_xy;
+            if (acc_y >= maxUP_xy) pub_y = maxUP_xy;
+            if (acc_y <= -maxUP_xy) pub_y = -maxUP_xy;
         }
 
-        if (fabs(z_err) > fabs(fod_z * z_cor) && fabs(z_err) > z_tol_margin){
-            mecanum_pub.z = acc_zz;
-            acc_z += (z_err > 0) ? acc_zz : -acc_zz;
-            if (acc_z >= max_z) mecanum_pub.z = max_z;
-            if (acc_z <= -max_z) mecanum_pub.z = -max_z;
+        if (fabs(z_err) > fabs(fod_z *  z_cor) && fabs(z_err) > z_tol_margin){
+            pub_z = acc_z;
+            acc_z += (z_err > 0) ? acc_zz : -acc_zz; 
+            if (acc_z >= max_z) pub_z = max_z;
+            if (acc_z <= -max_z) pub_z = -max_z;
         }
 
         /// deceleration ///
         if (fabs(x_err) <= fabs(fod_xy * x_cor) && x_cor != 0){
-            mecanum_pub.x = kp_xy * x_err;
-            if (mecanum_pub.x >= max_xy) mecanum_pub.x = max_xy;
-            if (mecanum_pub.x <= min_xy) mecanum_pub.x = min_xy;
+            pub_x = kp_xy * x_err;
+            if (pub_x >= maxUP_xy) pub_x = maxUP_xy;
+            if (pub_x <= -maxUP_xy) pub_x = -maxUP_xy;
+            if (pub_x <= min_xy && pub_x > 0) pub_x = min_xy;
+            if (pub_x >= -min_xy && pub_x < 0) pub_x = -min_xy;
         }
         if (fabs(y_err) <= fabs(fod_xy * y_cor) && y_cor != 0){
-            mecanum_pub.y = kp_xy * y_err;
-            if (mecanum_pub.y >= max_xy) mecanum_pub.y = max_xy;
-            if (mecanum_pub.y <= min_xy) mecanum_pub.y = min_xy;
+            pub_y = kp_xy * y_err;
+            if (pub_y >= maxUP_xy) pub_y = maxUP_xy;
+            if (pub_y <= -maxUP_xy) pub_y = -maxUP_xy;
+            if (pub_y <= min_xy && pub_y > 0) pub_y = min_xy;
+            if (pub_y >= -min_xy && pub_y < 0) pub_y = -min_xy;
         }
-        
         if (fabs(z_err) <= fabs(fod_z * z_cor) && z_cor != 0){
-            mecanum_pub.z = kp_z * z_err;
-            if (mecanum_pub.z >= max_z) mecanum_pub.z = max_z;
-            if (mecanum_pub.z <= -max_z) mecanum_pub.z = -max_z;
-        } 
+            pub_z = kp_z * z_err; 
+            if (pub_z >= max_z) pub_z = max_z;
+            if (pub_z <= -max_z) pub_z = -max_z;
+        }
+
+        mecanum_pub.x = pub_x; 
+        mecanum_pub.y = pub_y; 
+        mecanum_pub.z = pub_z; 
         mecanum_publisher.publish(mecanum_pub);
 
 
         /* velocity profile */
         data_check = false;
-        while (!data_check)
-            ros::spinOnce();
+        while (!data_check) ros::spinOnce();
 
         // integral (unit: cm/s)
         time_now = ros::Time::now().toSec();
 
         if (flag){
             x_now += (time_now - time_before) * (mecanum_sub.x + x_vel_before) / 2;
-            y_now += ((time_now - time_before) * (mecanum_sub.y + y_vel_before) / 2);
-            z_now += ((time_now - time_before) * (mecanum_sub.z + z_vel_before) / 2);
+            y_now += (time_now - time_before) * (mecanum_sub.y + y_vel_before) / 2;
+            z_now += (time_now - time_before) * (mecanum_sub.z + z_vel_before) / 2;
         }
         flag = true;
 
@@ -242,7 +251,7 @@ void MECANUM::moveUP(double x_cor, double y_cor, double z_cor){
         y_vel_before = mecanum_sub.y;
         z_vel_before = mecanum_sub.z;
         time_before = time_now;
-        ros::Duration(0.01).sleep();
+        ros::Duration(0.005).sleep();
     }
 
     // reaching goal and pub speed 0

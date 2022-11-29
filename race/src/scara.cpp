@@ -19,6 +19,7 @@ void SCARA::callback(const std_msgs::Float64::ConstPtr &flag){
 
 void SCARA::movingTo(double x, double y, double z){
     while(scaraflag!=0 && ros::ok()) ros::spinOnce();
+    
     while(scaraflag==0 && ros::ok()){
         scara_cor.x = x;
         scara_cor.y = y;
@@ -26,12 +27,15 @@ void SCARA::movingTo(double x, double y, double z){
         scara_pub.publish(scara_cor);
         ros::spinOnce();
     }
-    printf("OUT!!!\n");
+        // scara_cor.x = x;
+        // scara_cor.y = y;
+        // scara_cor.z = z;
+        // scara_pub.publish(scara_cor);
 }
 
 void SCARA::tel_1(void){
     /* 零點歸位*/
-    printf("    SCARA::movingTo(0, -50, 1) \n");
+    printf("    SCARA::movingTo(0, -20, 1) \n");
     SCARA::movingTo(0, -50, 1);
     
     /* 定點拍照*/

@@ -3,31 +3,30 @@
 
 # PHASE_ONE #
 # prepare for tel_1()
-- xyz: [-35, 100, 1]
+- xyz: [35, -105, -1]
 
 
 # PHASE_TWO #
 # Reach the opposite side
-- xyz: [-55, 8 ,5]
-- xyz: [0, -80 ,0]
+- xyz: [-51, 8, 0]
+- xyz: [0, -80, 1]
 - xyz: [0, 0, 180]
-- xyz: [-30, 0 ,0]
-- xyz: [0, -10 ,0]
+- xyz: [-35, 0, 0]
+- xyz: [0, -5, 0]
 # tel_2()
 
 
 # PHASE_THREE #
 # Drop cubes
-- xyz: [0, 30, 0]
+- xyz: [0, 40, 0]
 - xyz: [0, 0, 175]
-- xyz: [-5, -85, 0]
+- xyz: [-5, -80, 0]
 # Cube Off
 
-
+ 
 # PHASE_FOUR
 # Go to Stage 2
-- xyz: [0, 0, 180]
-- xyz: [20, 0, 0]
-- xyz: [0, 78, 0]
-- xyz: [15, 0, 0]
+- xyz: [-10, -75, 0]
+- xyz: [-16, 0, 0]
+- xyz: [0, 0, 180] 
 

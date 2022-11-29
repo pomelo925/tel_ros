@@ -10,5 +10,6 @@
 // #include "race/microswitch.h"
 #include "race/vision.h"
 
+int reset_state = 0;
 
 #endif

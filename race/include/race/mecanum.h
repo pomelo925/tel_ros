@@ -39,6 +39,8 @@ namespace MECANUM{
     double max_z  = 0.15;
     double acc_xy = 0.02;
     double acc_zz = 0.0008; 
+    double maxUP_xy = 6;
+    double accUP_xy = 0.03;
 
     double kp = 0.8;
     double fod_xy = 0.2;     // fraction of deceleration: start decelerate at the last dr of the whole distance
