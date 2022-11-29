@@ -86,10 +86,10 @@ void MECANUM::moveTo(double x_cor, double y_cor, double z_cor){
         }
 
         if (fabs(z_err) > fabs(fod_z *  z_cor) && fabs(z_err) > z_tol_margin){
-            pub_z = acc_z;  printf("fod_z * z_cor: %lf",fabs(fod_z *  z_cor));
+            pub_z = acc_z;
             acc_z += (z_err > 0) ? acc_zz : -acc_zz; 
             if (acc_z >= max_z) pub_z = max_z;
-            if (acc_z <= -max_z) pub_z = -max_z;printf("ACC: pub_z:%lf \t z_err: %lf\n", pub_z, z_err);
+            if (acc_z <= -max_z) pub_z = -max_z;
         }
 
         /// deceleration ///
@@ -110,7 +110,7 @@ void MECANUM::moveTo(double x_cor, double y_cor, double z_cor){
         if (fabs(z_err) <= fabs(fod_z * z_cor) && z_cor != 0){
             pub_z = kp_z * z_err; 
             if (pub_z >= max_z) pub_z = max_z;
-            if (pub_z <= -max_z) pub_z = -max_z;printf("DEC: pub_z:%lf \n", pub_z);
+            if (pub_z <= -max_z) pub_z = -max_z;
         }
 
         mecanum_pub.x = pub_x; 
