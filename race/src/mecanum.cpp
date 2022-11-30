@@ -19,7 +19,7 @@ void MECANUM::init(){
     nh_4mecanum.getParam("max_z", max_z);
     nh_4mecanum.getParam("acc_xy", acc_xy);
     nh_4mecanum.getParam("acc_zz", acc_zz);
-    nh_4mecanum.getParam("maxUP_xy", maxUP_xy);
+    nh_4mecanum.getParam("maxUP_xy", maxUP_xy); 
     nh_4mecanum.getParam("accUP_xy", accUP_xy);
 
     nh_4mecanum.getParam("kp", kp);

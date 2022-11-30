@@ -14,8 +14,10 @@ void run1(void){
         z = xyz["xyz"][2].as<double>();
 
         MECANUM::moveTo(x,y,z);
-        
+        printf("\n=== COUNT: %d ===\n", count);
+        printf("SCARA_MODE:%d", SCARA::MODE);
         if(SCARA::MODE){
+            printf("APPLE");
             if(count == PHASE_ONE) SCARA::tel_1();
             if(count == PHASE_TWO) SCARA::tel_2();
             if(count == PHASE_THREE) SCARA::cubeoff();

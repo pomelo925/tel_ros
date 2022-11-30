@@ -9,8 +9,8 @@
 #define stage1_yaml "/home/ditrobotics/TEL/src/race/path/stage1.yaml"
 #define PHASE_ONE 1
 #define PHASE_TWO 1+5
-#define PHASE_THREE 1+5+3
-#define PHASE_FOUR 1+5+3+4
+#define PHASE_THREE 1+5+2
+#define PHASE_FOUR 1+5+3+2
 
 void run1();
 

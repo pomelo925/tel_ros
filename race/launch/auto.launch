@@ -1,8 +1,8 @@
 <launch>    
-    <param name="reset_state" type="int" value="0" />
+    <param name="reset_state" type="int" value="1" />
     
     <node name="run" pkg="race" type="run" output="screen" respawn="true" respawn_delay="1" />
-        <param name="SCARA_MODE" type="bool" value="false" />
+        <param name="SCARA_MODE" type="bool" value="true" />
 
         <param name="calibration_x_intercept" value="0.7669" />
         <param name="calibration_y_intercept" value="-0.0927" />
@@ -11,7 +11,7 @@
         <param name="calibration_y" value="6.408" />
         <param name="calibration_z" value="6.3" />
 
-        <param name="max_xy" value="5" />
+        <param name="max_xy" value="5.2" />
         <param name="min_xy" value="0.06" />
         <param name="max_z" value="0.13" />
         <param name="acc_xy" value="0.02" />
@@ -24,12 +24,12 @@
         <param name="kp_xy" value="0.8" /> <!--p gain for x- y-direction control-->
         <param name="kp_z" value="1" />  <!--p gain for z-direction control-->
 
-        <param name="x_tol_margin" value="0.7" /> <!-- x tolerance critical value -->
-        <param name="y_tol_margin" value="0.7" /> <!-- y tolerance critical value -->
+        <param name="x_tol_margin" value="0.8" /> <!-- x tolerance critical value -->
+        <param name="y_tol_margin" value="0.8" /> <!-- y tolerance critical value -->
         <param name="z_tol_margin" value="0.005" /> <!-- z tolerance critical value -->
 
 
-    <!-- <node name="reset" pkg="race" type="reset" output="screen" respawn="true" respawn_delay="3"/>
+    <node name="reset" pkg="race" type="reset" output="screen" respawn="true" respawn_delay="3"/>
 
     <node name="serial_server" pkg="rosserial_server" type="serial_node" output="screen" respawn="true" respawn_delay="3">
         <param name="port" value="/dev/ttyUSB0" />
@@ -40,6 +40,6 @@
                 publishers: [ mecanum_fromSTM, reset_fromSTM, scaraflag_fromSTM ]
                 subscribers: [ mecanum_toSTM, intake_toSTM, scara_toSTM ]
         </rosparam> 
-    </node> -->
+    </node>
 
 </launch>

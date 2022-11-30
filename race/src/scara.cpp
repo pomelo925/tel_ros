@@ -27,10 +27,6 @@ void SCARA::movingTo(double x, double y, double z){
         scara_pub.publish(scara_cor);
         ros::spinOnce();
     }
-        // scara_cor.x = x;
-        // scara_cor.y = y;
-        // scara_cor.z = z;
-        // scara_pub.publish(scara_cor);
 }
 
 void SCARA::tel_1(void){
@@ -45,7 +41,7 @@ void SCARA::tel_1(void){
     
     /* 辨識*/
     VISION::E_image();
-    SCARA::seize();
+    // SCARA::seize();
 
 
     /* 定點拍照*/
@@ -55,33 +51,30 @@ void SCARA::tel_1(void){
     
     /* 辨識*/
     VISION::CTFL_image();
-    SCARA::seize();
+    // SCARA::seize();
 }
 
 
 void SCARA::tel_2(void){
     SCARA::movingTo(-330, 0, 2);
-        ros::Duration(2).sleep(); while(scaraflag!=0.);
 
     /* 定點拍照 */
     VISION::taking_photo();
-        ros::Duration(2).sleep(); while(scaraflag!=0.);
 
     /* 辨識 */
     VISION::E_image();
     VISION::CTFL_image();
 
     /* 抓 */
-    SCARA::seize();
+    // SCARA::seize();
 }
 
 
 void SCARA::cubeoff(void){
-    SCARA::movingTo(0, 330, 4); 
-        ros::Duration(2).sleep(); while(scaraflag!=0.);
+    SCARA::movingTo(0, -330, 4); 
     
-    SCARA::movingTo(0, -50, 2); 
-        ros::Duration(2).sleep(); while(scaraflag!=0.);
+    SCARA::movingTo(0, -50, 2);
+    SCARA::movingTo(0, -50, 5);
 }
 
 void SCARA::seize(void){

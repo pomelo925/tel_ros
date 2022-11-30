@@ -14,6 +14,7 @@ int main(int argc, char **argv){
     switch(reset_state){
         case 0:
             while(1);
+            
         case 1:
             run1(); run2(); run3();
             break;

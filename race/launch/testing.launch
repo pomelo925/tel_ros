@@ -28,8 +28,7 @@
         <param name="z_tol_margin" value="0.005" /> <!-- z tolerance critical value -->
 
 
-    <!-- <node name="reset" pkg="race" type="reset" output="screen" respawn="true" respawn_delay="3"/> -->
-
+    <node name="reset" pkg="race" type="reset" output="screen" respawn="true" respawn_delay="3"/>
 
 
     <node name="serial_server" pkg="rosserial_server" type="serial_node" output="screen" >
