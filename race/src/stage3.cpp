@@ -16,5 +16,6 @@ void run3(void){
 
         if(count == 1) MECANUM::moveUP(x,y,z);
         else MECANUM::moveTo(x,y,z);
+        
     }
 }

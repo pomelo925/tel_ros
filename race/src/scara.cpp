@@ -18,8 +18,6 @@ void SCARA::callback(const std_msgs::Float64::ConstPtr &flag){
 }
 
 void SCARA::movingTo(double x, double y, double z){
-    while(scaraflag!=0 && ros::ok()) ros::spinOnce();
-
     while(scaraflag==0 && ros::ok()){
         scara_cor.x = x;
         scara_cor.y = y;
@@ -27,13 +25,10 @@ void SCARA::movingTo(double x, double y, double z){
         scara_pub.publish(scara_cor);
         ros::spinOnce();
     }
+    while(scaraflag!=0 && ros::ok()) ros::spinOnce();
 }
 
 void SCARA::tel_1(void){
-    /* 零點歸位*/
-    printf("    SCARA::movingTo(0, -20, 1) \n");
-    SCARA::movingTo(0, -50, 1);
-    
     /* 定點拍照*/
     printf("    SCARA::movingTo(-330, 0, 2) \n");
     SCARA::movingTo(-330, 0, 2);
@@ -41,24 +36,27 @@ void SCARA::tel_1(void){
     
     /* 辨識*/
     VISION::E_image();
-    // SCARA::seize();
+    VISION::tf();
+    SCARA::seize();
 
 
     /* 定點拍照*/
-    printf("    SCARA::movingTo(-330, 0, 2) \n");
+    printf("    SCARA::movingTo(-290, 0, 2) \n");
+    SCARA::movingTo(-290, 0, 2);
+    printf("    SCARA::movingTo(-290, 0, 2) \n");
     SCARA::movingTo(-330, 0, 2);
     VISION::taking_photo();
     
     /* 辨識*/
     VISION::CTFL_image();
-    // SCARA::seize();
+    VISION::tf();
+    SCARA::seize();
 }
 
 
 void SCARA::tel_2(void){
+    /* 定點拍照*/
     SCARA::movingTo(-330, 0, 2);
-
-    /* 定點拍照 */
     VISION::taking_photo();
 
     /* 辨識 */

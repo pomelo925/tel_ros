@@ -1,6 +1,6 @@
 <launch>    
     <param name="reset_state" type="int" value="1" />
-    <param name="test_phase" type="int" value="3" />
+    <param name="test_phase" type="int" value="1" />
     
     <node name="testing" pkg="race" type="testing" output="screen"  required="true"/>
         <param name="SCARA_MODE" type="bool" value="true" />
@@ -28,16 +28,17 @@
         <param name="x_tol_margin" value="0.8" /> <!-- x tolerance critical value -->
         <param name="y_tol_margin" value="0.8" /> <!-- y tolerance critical value -->
         <param name="z_tol_margin" value="0.005" /> <!-- z tolerance critical value -->
+
     <!-- pixel label: x = 97 ~ 395 / y = 38 ~ 473 -->
         <param name="pixel_Xmin" value="150" />
         <param name="pixel_Xmax" value="390" /> 
         <param name="pixel_Ymax" value="460" />
         <param name="pixel_Ymin" value="35" />
 
-        <param name="x_tf_cali" value="0.8" />
-        <param name="y_tf_cali" value="0.8" />
-        <param name="x_tf_intercept" value="-8.1" />
-        <param name="y_tf_intercept" value="-10.5" />
+        <param name="x_tf_cali" value="1" />
+        <param name="y_tf_cali" value="0.74" />
+        <param name="x_tf_intercept" value="-3.5" />
+        <param name="y_tf_intercept" value="-6.75" />
 
     <node name="reset" pkg="race" type="reset" output="screen" respawn="true" respawn_delay="3"/>
 

@@ -11,10 +11,10 @@
         <param name="calibration_y" value="6.408" />
         <param name="calibration_z" value="6.3" />
 
-        <param name="max_xy" value="5.2" />
+        <param name="max_xy" value="4.8" />
         <param name="min_xy" value="0.06" />
         <param name="max_z" value="0.13" />
-        <param name="acc_xy" value="0.02" />
+        <param name="acc_xy" value="0.015" />
         <param name="acc_zz" value="0.002" />
         <param name="maxUP_xy" value="7" />
         <param name="accUP_xy" value="0.04" />

@@ -8,10 +8,10 @@
 # Enter Green 40
 - xyz: [-33, 55, 0]
 # 40 Point Calibration
-- xyz: [-22, 52, -6]
+- xyz: [-22, 52, 0]
 
 # Enter Blue 60
-- xyz: [50, 85, -3]
+- xyz: [50, 85, -5]
 # 60 Point Calibration
 - xyz: [-10, 45, 5]
 

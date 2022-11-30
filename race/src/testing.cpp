@@ -21,50 +21,28 @@ int main(int argc, char **argv){
 
     switch(test_phase){
         case 1:
-        /* 定點拍照*/
-            printf(" SCARA::movingTo(-330, 0, 2) \n");
-            SCARA::movingTo(-330, 0, 2);
-            VISION::taking_photo();
-
-            VISION::E_image();
-            VISION::tf();
-            SCARA::seize();
+            SCARA::tel_1();
             break;
 
 
         case 2:
-            /* 定點拍照*/
-            printf("    SCARA::movingTo(-330, 0, 2) \n");
-            SCARA::movingTo(-330, 0, 2);
-            VISION::taking_photo();
-            
-            /* 辨識*/
-            VISION::CTFL_image();
-            VISION::tf();
-            SCARA::seize();
+
+            while(ros::ok()){
+                double x,y,z;
+                printf("enter: ");
+                std::cin >>x>>y>>z;
+                SCARA::movingTo(x,y,z);
+            }
             break;
 
         case 3:
-            /* 定點拍照*/
             printf("    SCARA::movingTo(-330, 0, 2) \n");
             SCARA::movingTo(-330, 0, 2);
-            printf("   taking photo) \n");
             VISION::taking_photo();
             
             /* 辨識*/
             VISION::E_image();
             VISION::tf();
-            SCARA::seize();
-
-
-            /* 定點拍照*/
-            printf("    SCARA::movingTo(-330, 0, 2) \n");
-            SCARA::movingTo(-330, 0, 2);
-            VISION::taking_photo();
-            
-            /* 辨識*/
-            VISION::CTFL_image();
-            VISION::tf();    
             SCARA::seize();
             break;
         
