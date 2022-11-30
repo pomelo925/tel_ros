@@ -19,7 +19,7 @@ void SCARA::callback(const std_msgs::Float64::ConstPtr &flag){
 
 void SCARA::movingTo(double x, double y, double z){
     while(scaraflag!=0 && ros::ok()) ros::spinOnce();
-    
+
     while(scaraflag==0 && ros::ok()){
         scara_cor.x = x;
         scara_cor.y = y;
@@ -109,7 +109,7 @@ void SCARA::seize(void){
     /* 配合 SCARA 左->右->中*/
     if (priority[0].y > 1000) goto clean;
     else{
-        SCARA::movingTo(priority[0].x*10, priority[0].y*10, 3); printf("\nseize A finish\n");
+        SCARA::movingTo(priority[0].x*10, priority[0].y*10, 3); printf("%lf\t%lf\nseize A finish\n",priority[0].x*10, priority[0].y*10);
     }
     
     if (priority[2].y < 1000) {

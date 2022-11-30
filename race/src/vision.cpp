@@ -28,8 +28,16 @@ void VISION::tf(void){
 
 void VISION::init(void){
     ros::NodeHandle nh_4vision;
+
     nh_4vision.getParam("x_tf_cali",VISION::x_tf_cali);
     nh_4vision.getParam("y_tf_cali",VISION::y_tf_cali);
+    nh_4vision.getParam("x_tf_intercept",VISION::x_tf_intercept);
+    nh_4vision.getParam("y_tf_intercept",VISION::y_tf_intercept);
+
+    nh_4vision.getParam("pixel_Xmin",VISION::pixel_Xmin);
+    nh_4vision.getParam("pixel_Xmax",VISION::pixel_Xmax);
+    nh_4vision.getParam("pixel_Ymax",VISION::pixel_Ymax);
+    nh_4vision.getParam("pixel_Ymin",VISION::pixel_Ymin);
 }
 
 Point2f VISION::nearest_scara_point(Point2f input){
@@ -44,8 +52,9 @@ Point2f VISION::nearest_scara_point(Point2f input){
     int min = 0;
     for(int i=0; i<1121; i++) if(distance[i]<distance[min]) min=i;
     
-    temp.x = COR[min].x_scara + VISION::x_tf_cali;
-    temp.y = COR[min].y_scara + VISION::y_tf_cali;
+    printf("\n=== Before Cali ===\nX: %lf\nY: %lf\n", COR[min].x_scara, COR[min].y_scara);
+    temp.x = (COR[min].x_scara + x_tf_intercept)* VISION::x_tf_cali;
+    temp.y = (COR[min].y_scara + y_tf_intercept)* VISION::y_tf_cali;
     return temp;
 }
 
@@ -208,28 +217,35 @@ void VISION::E_contour(Mat original_image, Mat image, double epsilon, \
 
         box = minAreaRect(pt);  // 找到最小矩形，存到 box 中
         box.points(vertices);  // 把矩形的四個頂點資訊丟給 vertices，points()是 RotatedRect 的函式
-        for(int i=0; i<4; i++){
-            line(dp_image_2, vertices[i], vertices[(i+1)%4], Scalar(0,255,0), 2);  // 描出旋轉矩形
-        }
-        circle(dp_image_2, (vertices[0]+vertices[1]+vertices[2]+vertices[3])/4, 0, Scalar(0,255,255), 8);  // 繪製中心點
-        circle(original_image, (vertices[0]+vertices[1]+vertices[2]+vertices[3])/4, 0, Scalar(0,255,255), 8);  // 放回原圖比較
         
-        putText(dp_image_2, "E", (vertices[0]+vertices[1]+vertices[2]+vertices[3])/4, 1, 3, Scalar(0,0,255), 2);
-        putText(original_image, "E", (vertices[0]+vertices[1]+vertices[2]+vertices[3])/4, 1, 3, Scalar(0,0,255), 2);
+        double E_x, E_y;
+        E_x = (vertices[0].x+vertices[1].x+vertices[2].x+vertices[3].x)/4;
+        E_y = (vertices[0].y+vertices[1].y+vertices[2].y+vertices[3].y)/4;
 
+        if( E_x >= pixel_Xmin && E_x <= pixel_Xmax && E_y >= pixel_Ymin && E_y <= pixel_Ymax ){
+            for(int i=0; i<4; i++){
+                line(dp_image_2, vertices[i], vertices[(i+1)%4], Scalar(0,255,0), 2);  // 描出旋轉矩形
+            }
 
-        if( !E_isDetected ){
-            E_isDetected = true;
-            VISION::detect[1]=(vertices[0]+vertices[1]+vertices[2]+vertices[3])/4;
+            circle(dp_image_2, (vertices[0]+vertices[1]+vertices[2]+vertices[3])/4, 0, Scalar(0,255,255), 8);  // 繪製中心點
+            circle(original_image, (vertices[0]+vertices[1]+vertices[2]+vertices[3])/4, 0, Scalar(0,255,255), 8);  // 放回原圖比較
+        
+            putText(dp_image_2, "E", (vertices[0]+vertices[1]+vertices[2]+vertices[3])/4, 1, 3, Scalar(0,0,255), 2);
+            putText(original_image, "E", (vertices[0]+vertices[1]+vertices[2]+vertices[3])/4, 1, 3, Scalar(0,0,255), 2);
 
-            std::cout<<"\n-- Point E --\nX: "<<(vertices[0].x+vertices[1].x+vertices[2].x+vertices[3].x)/4 \
-            <<"\nY: "<<(vertices[0].y+vertices[1].y+vertices[2].y+vertices[3].y)/4<<std::endl;
+            if( !E_isDetected ){
+                E_isDetected = true;
+                VISION::detect[1]=(vertices[0]+vertices[1]+vertices[2]+vertices[3])/4;
+
+                std::cout<<"\n-- Point E (No TF)--\nX: "<<(vertices[0].x+vertices[1].x+vertices[2].x+vertices[3].x)/4 \
+                <<"\nY: "<<(vertices[0].y+vertices[1].y+vertices[2].y+vertices[3].y)/4<<std::endl;
+            }
         }
-
     }
     // imshow("D", dp_image_2);
     // imshow("E", original_image);
     // waitKey(0);
+    imwrite("/home/ditrobotics/TEL/src/race/src/E.png", original_image);
 }
 
 
@@ -335,40 +351,46 @@ void VISION::CTFL_contour(Mat original_image, Mat image, double epsilon, \
         box = minAreaRect(pt);  // 找到最小矩形，存到 box 中
         box.points(vertices);  // 把矩形的四個頂點資訊丟給 verti    ces，points()是 RotatedRect 的函式
 
-        for(int i=0; i<4; i++){
-            line(dp_image_2, vertices[i], vertices[(i+1)%4], Scalar(0,255,0), 2);  // 描出旋轉矩形
-        }
+        double CTFL_x, CTFL_y;
+        CTFL_x = (vertices[0].x+vertices[1].x+vertices[2].x+vertices[3].x)/4;
+        CTFL_y = (vertices[0].y+vertices[1].y+vertices[2].y+vertices[3].y)/4;
 
-        // 標示
-        circle(dp_image_2, (vertices[0]+vertices[1]+vertices[2]+vertices[3])/4, 0, Scalar(0,255,255), 8);  // 繪製中心點
-        circle(original_image, (vertices[0]+vertices[1]+vertices[2]+vertices[3])/4, 0, Scalar(0,255,255), 8);  // 與原圖比較
-    
-    // B) 判斷字母(用邊長個數篩選)
-        if(polyContours2[a].size() == 6 || polyContours2[a].size() == 7){  // L 
-            // 標示
-            putText(dp_image_2, "L", (vertices[0]+vertices[1]+vertices[2]+vertices[3])/4, 1, 3, Scalar(0, 255, 255), 3);
-            putText(original_image, "L", (vertices[0]+vertices[1]+vertices[2]+vertices[3])/4, 1, 3, Scalar(0, 0, 255), 2);
-            
-            if( L_isDetected==false ){
-                L_isDetected=true;
-                VISION::detect[2]=(vertices[0]+vertices[1]+vertices[2]+vertices[3])/4;  
-                
-                std::cout<<"\n-- Point L --\nX: "<<(vertices[0].x+vertices[1].x+vertices[2].x+vertices[3].x)/4 \
-                <<"\nY: "<<(vertices[0].y+vertices[1].y+vertices[2].y+vertices[3].y)/4<<std::endl;
+        if( CTFL_x >= pixel_Xmin && CTFL_x <= pixel_Xmax && CTFL_y >= pixel_Ymin && CTFL_y <= pixel_Ymax ){
+            for(int i=0; i<4; i++){
+                line(dp_image_2, vertices[i], vertices[(i+1)%4], Scalar(0,255,0), 2);  // 描出旋轉矩形
             }
-        }
 
-        if(polyContours2[a].size() == 8 || polyContours2[a].size() == 9){  // T、E (此時場上不會有 E)
             // 標示
-            putText(dp_image_2, "T", (vertices[0]+vertices[1]+vertices[2]+vertices[3])/4, 1, 3, Scalar(0, 255, 255), 3);
-            putText(original_image, "T", (vertices[0]+vertices[1]+vertices[2]+vertices[3])/4, 1, 3, Scalar(0, 0, 255),2);
-            
-            if( T_isDetected==false ){
-                T_isDetected = true;
-                VISION::detect[0]=(vertices[0]+vertices[1]+vertices[2]+vertices[3])/4;
+            circle(dp_image_2, (vertices[0]+vertices[1]+vertices[2]+vertices[3])/4, 0, Scalar(0,255,255), 8);  // 繪製中心點
+            circle(original_image, (vertices[0]+vertices[1]+vertices[2]+vertices[3])/4, 0, Scalar(0,255,255), 8);  // 與原圖比較
+        
+        // B) 判斷字母(用邊長個數篩選)
+            if(polyContours2[a].size() == 6 || polyContours2[a].size() == 7){  // L 
+                // 標示
+                putText(dp_image_2, "L", (vertices[0]+vertices[1]+vertices[2]+vertices[3])/4, 1, 3, Scalar(0, 255, 255), 3);
+                putText(original_image, "L", (vertices[0]+vertices[1]+vertices[2]+vertices[3])/4, 1, 3, Scalar(0, 0, 255), 2);
+                
+                if( L_isDetected==false ){
+                    L_isDetected=true;
+                    VISION::detect[2]=(vertices[0]+vertices[1]+vertices[2]+vertices[3])/4;  
+                    
+                    std::cout<<"\n-- Point L --\nX: "<<(vertices[0].x+vertices[1].x+vertices[2].x+vertices[3].x)/4 \
+                    <<"\nY: "<<(vertices[0].y+vertices[1].y+vertices[2].y+vertices[3].y)/4<<std::endl;
+                }
+            }
 
-                std::cout<<"\n-- Point T --\nX: "<<(vertices[0].x+vertices[1].x+vertices[2].x+vertices[3].x)/4 \
-                <<"\nY: "<<(vertices[0].y+vertices[1].y+vertices[2].y+vertices[3].y)/4<<std::endl;
+            if(polyContours2[a].size() == 8 || polyContours2[a].size() == 9){  // T、E (此時場上不會有 E)
+                // 標示
+                putText(dp_image_2, "T", (vertices[0]+vertices[1]+vertices[2]+vertices[3])/4, 1, 3, Scalar(0, 255, 255), 3);
+                putText(original_image, "T", (vertices[0]+vertices[1]+vertices[2]+vertices[3])/4, 1, 3, Scalar(0, 0, 255),2);
+                
+                if( T_isDetected==false ){
+                    T_isDetected = true;
+                    VISION::detect[0]=(vertices[0]+vertices[1]+vertices[2]+vertices[3])/4;
+
+                    std::cout<<"\n-- Point T --\nX: "<<(vertices[0].x+vertices[1].x+vertices[2].x+vertices[3].x)/4 \
+                    <<"\nY: "<<(vertices[0].y+vertices[1].y+vertices[2].y+vertices[3].y)/4<<std::endl;
+                }
             }
         }
 
@@ -377,4 +399,6 @@ void VISION::CTFL_contour(Mat original_image, Mat image, double epsilon, \
     // imshow("Contours Filted", dp_image_2);
     // imshow("Original Image (highlight)", original_image);
     // waitKey(0);
+
+    imwrite("/home/ditrobotics/TEL/src/race/src/CTFL.png", original_image);
 }

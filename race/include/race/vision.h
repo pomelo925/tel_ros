@@ -41,8 +41,15 @@ namespace VISION{
         int minContour, int maxContour, double lowerBondArea);
 
     /* launch param*/
-    double x_tf_cali = -6;
-    double y_tf_cali = -5;
+    double x_tf_cali = 0.9;
+    double y_tf_cali = 0.9;
+    double x_tf_intercept = -5;
+    double y_tf_intercept = -5;
+    
+    double pixel_Xmin=150;
+    double pixel_Xmax=390;
+    double pixel_Ymax=470;
+    double pixel_Ymin=35;
 }
 
 VISION::table COR[1200];

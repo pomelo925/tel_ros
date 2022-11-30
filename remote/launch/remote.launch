@@ -1,6 +1,18 @@
 <launch>    
-    
     <node name= "ps5" pkg="remote" type="ps5" output="screen" respawn="true" />
-    <node name= "serial_stm" pkg= "rosserial_python" type="serial_stm.py" output="screen"/>
-    <node name= "serial_arduino" pkg= "rosserial_python" type="serial_arduino.py" output="screen"/>
+    
+    <node name="serial_server" pkg="rosserial_server" type="serial_node" output="screen" respawn="true" respawn_delay="3">
+        <param name="port" value="/dev/ttyUSB0" />
+        <param name="baud" value="115200" />
+        
+        <rosparam>
+            require:
+                publishers: [ mecanum_fromSTM, reset_fromSTM, scaraflag_fromSTM ]
+                subscribers: [ mecanum_toSTM, intake_toSTM, scara_toSTM ]
+        </rosparam> 
+    </node>
+
+
+    <node name= "serial_node" pkg= "rosserial_python" type="serial_node.py" output="screen"/>
+
 </launch>
