@@ -1,20 +1,24 @@
 ## STAGE 2 START
 
 # Enter Red 20
-- xyz: [22, 65, 0]
+- xyz: [23, 75, 0]
 # 20 Point Calibration
-- xyz: [-20, 65, 0]
+- xyz: [-22, 0, 0]
+- xyz: [5, 55, 0]
 
 # Enter Green 40
-- xyz: [-33, 55, 0]
-# 40 Point Calibration
-- xyz: [-22, 52, 0]
+- xyz: [-35, 55, 0]
+# Rush
+- xyz: [0, 77, 0]
 
 # Enter Blue 60
-- xyz: [50, 85, -5]
+- xyz: [42, 0, 0]
+- xyz: [0, 55, 0]
 # 60 Point Calibration
-- xyz: [-10, 45, 5]
+- xyz: [0, 0, -3]
+- xyz: [-15, 0, 0]
+- xyz: [5, 45, 0]
 
 # Enter Stage 3 
-- xyz: [-22, 20, -5]
+- xyz: [-16, 13, 0]
 

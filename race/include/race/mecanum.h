@@ -16,7 +16,7 @@ geometry_msgs::Point mecanum_sub;
 // namespace MECANUM is to distinguish it from IMU
 namespace MECANUM{
     bool data_check;
-    void init(void);
+    void init(ros::NodeHandle nh);
     void callback(const geometry_msgs::Point::ConstPtr &vel);
 
     void moveTo(double x_cor, double y_cor, double z_cor);

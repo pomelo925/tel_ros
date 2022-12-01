@@ -142,7 +142,7 @@ public:
   {
     
     // std::cout << "Sending Tx Stop Requ![Uploading file..._s7bb6a2ir]()est..." << std::endl;
-    uint8_t overhead_bytes = 8;
+    uint8_t overhead_bytes = 2048;
     uint16_t length = overhead_bytes;
     BufferPtr buffer_ptr(new Buffer(length));
     ros::serialization::OStream stream(&buffer_ptr->at(0), buffer_ptr->size());

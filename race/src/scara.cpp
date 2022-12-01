@@ -5,12 +5,11 @@ namespace SCARA{
     double vision_x, vision_y, scaraflag;
 }
 
-void SCARA::init(void){
-    ros::NodeHandle nh_4scara;
-    scara_pub = nh_4scara.advertise<geometry_msgs::Point>("scara_toSTM", 1);
-    scara_sub = nh_4scara.subscribe("scaraflag_fromSTM", 1, SCARA::callback);
+void SCARA::init(ros::NodeHandle nh){
+    scara_pub = nh.advertise<geometry_msgs::Point>("scara_toSTM", 1);
+    scara_sub = nh.subscribe("scaraflag_fromSTM", 1, SCARA::callback);
 
-    nh_4scara.getParam("SCARA_MODE", SCARA::MODE);
+    nh.getParam("SCARA_MODE", SCARA::MODE);
 }
 
 void SCARA::callback(const std_msgs::Float64::ConstPtr &flag){
@@ -24,8 +23,14 @@ void SCARA::movingTo(double x, double y, double z){
         scara_cor.z = z;
         scara_pub.publish(scara_cor);
         ros::spinOnce();
+        // printf("A== ros::spinOnce ==A\n");
     }
-    while(scaraflag!=0 && ros::ok()) ros::spinOnce();
+        printf("\n==MOVING TO PUB FINISH==\n");
+    while(scaraflag!=0 && ros::ok()){
+        ros::spinOnce();
+        // printf("B== ros::spinOnce ==B\n");
+    }
+        printf("\n==MOVING TO ALL FINISH==\n");
 }
 
 void SCARA::tel_1(void){

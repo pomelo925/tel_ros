@@ -1,6 +1,6 @@
 <launch>    
     <param name="reset_state" type="int" value="1" />
-    <param name="test_phase" type="int" value="1" />
+    <param name="test_phase" type="int" value="3" />
     
     <node name="testing" pkg="race" type="testing" output="screen"  required="true"/>
         <param name="SCARA_MODE" type="bool" value="true" />
@@ -31,14 +31,14 @@
 
     <!-- pixel label: x = 97 ~ 395 / y = 38 ~ 473 -->
         <param name="pixel_Xmin" value="150" />
-        <param name="pixel_Xmax" value="390" /> 
+        <param name="pixel_Xmax" value="400" /> 
         <param name="pixel_Ymax" value="460" />
         <param name="pixel_Ymin" value="35" />
 
-        <param name="x_tf_cali" value="1" />
-        <param name="y_tf_cali" value="0.74" />
-        <param name="x_tf_intercept" value="-3.5" />
-        <param name="y_tf_intercept" value="-6.75" />
+        <param name="x_tf_cali" value="0.8221" />
+        <param name="y_tf_cali" value="0.8211" />
+        <param name="x_tf_intercept" value="-6.065" />
+        <param name="y_tf_intercept" value="-6.1878" />
 
     <node name="reset" pkg="race" type="reset" output="screen" respawn="true" respawn_delay="3"/>
 

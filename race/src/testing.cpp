@@ -5,16 +5,16 @@
 #include "race/scara.h"
 
 
-void init_all_sensors(void){
-    MECANUM::init();
-    SCARA::init();
-    VISION::init();
+void init_all_sensors(ros::NodeHandle nh){
+    MECANUM::init(nh);
+    SCARA::init(nh);
+    VISION::init(nh);
 }
 
 int main(int argc, char **argv){
     ros::init(argc, argv, "testing");
     ros::NodeHandle nh;
-    init_all_sensors();
+    init_all_sensors(nh);
     
     int test_phase; 
     nh.getParam("test_phase", test_phase);
@@ -26,7 +26,6 @@ int main(int argc, char **argv){
 
 
         case 2:
-
             while(ros::ok()){
                 double x,y,z;
                 printf("enter: ");
@@ -45,7 +44,19 @@ int main(int argc, char **argv){
             VISION::tf();
             SCARA::seize();
             break;
-        
+
+        case 4:
+            printf("    SCARA::movingTo(-330, 0, 2) \n");
+            SCARA::movingTo(-330, 0, 2);
+            VISION::taking_photo();
+            
+            /* 辨識*/
+            VISION::CTFL_image();
+            VISION::tf();
+            SCARA::seize();
+            break;
+
+
         default:
             break;
 

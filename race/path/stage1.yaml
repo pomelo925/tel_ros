@@ -3,16 +3,17 @@
 
 # PHASE_ONE #
 # prepare for tel_1()
-- xyz: [35, -105, -3]
+- xyz: [35, -115, -3]
 
 
 # PHASE_TWO #
 # Reach the opposite side
-- xyz: [-53, 8, 2]
-- xyz: [0, -80, 2]
+- xyz: [-48, 8, 2]
+- xyz: [0, -88, 3]
 - xyz: [0, 0, 180]
-- xyz: [-35, 0, 0]
-- xyz: [0, -10, 0]
+
+- xyz: [-40, 0, 0]
+- xyz: [0, -15, 0]
 # tel_2()
 
 
@@ -23,7 +24,7 @@
 # Cube Off
 
  
-# PHASE_FOUR
+# PHASE_FOUR #
 # Go to Stage 2
 - xyz: [-2, 70, 0]
 - xyz: [16, 0, 0]

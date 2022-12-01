@@ -16,7 +16,7 @@ namespace SCARA{
     bool MODE = true; // mode 0 : dont do vision
     extern double vision_x, vision_y, scaraflag;
 
-    void init(void);
+    void init(ros::NodeHandle nh);
     void movingTo(double x, double y, double z);
     void tel_1(void);
     void tel_2(void);

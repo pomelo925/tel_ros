@@ -10,7 +10,7 @@ void reset_callback(const std_msgs::Int64::ConstPtr& reset_data);
 
 namespace RESET{
     int state = 0;
-    static char command[26]="rosparam set reset_state ";
+    std::string command = "rosparam set reset_state ";
 }
 
 

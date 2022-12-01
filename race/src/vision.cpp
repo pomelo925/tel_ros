@@ -15,7 +15,7 @@ void VISION::tf(void){
         records = fscanf(file, "%f%f%f%f\n", &COR[row].x_pixel, &COR[row].y_pixel, &COR[row].x_scara, &COR[row].y_scara);
         if(records==4) row++;
         else return;
-    } while(!feof(file));
+    } while(!feof(file) && ros::ok());
     fclose(file);
     file = NULL;
 
@@ -26,18 +26,16 @@ void VISION::tf(void){
     for(int i=0; i<3; i++) std::cout << "\n(tf) detect["<<i<<"]: " << VISION::detect[i]<<std::endl; 
 }
 
-void VISION::init(void){
-    ros::NodeHandle nh_4vision;
+void VISION::init(ros::NodeHandle nh){
+    nh.getParam("x_tf_cali",VISION::x_tf_cali);
+    nh.getParam("y_tf_cali",VISION::y_tf_cali);
+    nh.getParam("x_tf_intercept",VISION::x_tf_intercept);
+    nh.getParam("y_tf_intercept",VISION::y_tf_intercept);
 
-    nh_4vision.getParam("x_tf_cali",VISION::x_tf_cali);
-    nh_4vision.getParam("y_tf_cali",VISION::y_tf_cali);
-    nh_4vision.getParam("x_tf_intercept",VISION::x_tf_intercept);
-    nh_4vision.getParam("y_tf_intercept",VISION::y_tf_intercept);
-
-    nh_4vision.getParam("pixel_Xmin",VISION::pixel_Xmin);
-    nh_4vision.getParam("pixel_Xmax",VISION::pixel_Xmax);
-    nh_4vision.getParam("pixel_Ymax",VISION::pixel_Ymax);
-    nh_4vision.getParam("pixel_Ymin",VISION::pixel_Ymin);
+    nh.getParam("pixel_Xmin",VISION::pixel_Xmin);
+    nh.getParam("pixel_Xmax",VISION::pixel_Xmax);
+    nh.getParam("pixel_Ymax",VISION::pixel_Ymax);
+    nh.getParam("pixel_Ymin",VISION::pixel_Ymin);
 }
 
 Point2f VISION::nearest_scara_point(Point2f input){
@@ -53,8 +51,8 @@ Point2f VISION::nearest_scara_point(Point2f input){
     for(int i=0; i<1121; i++) if(distance[i]<distance[min]) min=i;
     
     printf("\n=== Before Cali ===\nX: %lf\nY: %lf\n", COR[min].x_scara, COR[min].y_scara);
-    temp.x = (COR[min].x_scara + x_tf_intercept)* VISION::x_tf_cali;
-    temp.y = (COR[min].y_scara + y_tf_intercept)* VISION::y_tf_cali;
+    temp.x = (COR[min].x_scara * VISION::x_tf_cali) + x_tf_intercept;
+    temp.y = (COR[min].y_scara * VISION::y_tf_cali) + y_tf_intercept;
     return temp;
 }
 
@@ -67,7 +65,7 @@ void VISION::taking_photo(void){
 
     int count=0;
     ros::Rate loop_rate(10);
-    while(ros::ok() && count<=40){
+    while(count<=40 && ros::ok()){
         cap.read(img);
         loop_rate.sleep();
         count++;
@@ -81,7 +79,7 @@ void VISION::E_image(void){
     const double epsilon = 5;  // DP Algorithm 的參數
     const int minContour = 3;  // 邊數小於 minContour 會被遮罩
     const int maxContour = 6;  // 邊數大於 maxContour 
-    const double lowerBondArea = 10;  // 面積低於 lowerBondArea 的輪廓會被遮罩
+    const double lowerBondArea =5;  // 面積低於 lowerBondArea 的輪廓會被遮罩
     
     std::string path = PATH;
     Mat src = imread(PATH);
@@ -134,6 +132,7 @@ Mat VISION::E_filter(Mat img){
     result = Mat::zeros(img.size(), CV_8UC3);
     bitwise_and(img, img, result, mask);
     // imshow("Letter Filted", result);
+    // waitKey(0);
     return result;
 }
 
@@ -141,7 +140,7 @@ void VISION::E_contour(Mat original_image, Mat image, double epsilon, \
     int minContour, int maxContour, double lowerBondArea){
     cvtColor(image, image, COLOR_BGR2GRAY);
     threshold(image, image, 40, 255, THRESH_BINARY);
-
+ 
     std::vector<std::vector<Point>> contours;
     std::vector<Vec4i> hierarchy;
 
@@ -182,7 +181,7 @@ void VISION::E_contour(Mat original_image, Mat image, double epsilon, \
     cvtColor(badContour_mask, badContour_mask, COLOR_BGR2GRAY);
     threshold(badContour_mask, badContour_mask, 0, 255, THRESH_BINARY_INV);
     bitwise_and(dp_image, dp_image, dp_optim_v1_image, badContour_mask);
-    // imshow("C", dp_optim_v1_image);
+    // imshow("C", dp_optim_v1_image); waitKey(0);
 
 
 // 5) 再從好的邊緣圖中找出邊緣
@@ -268,7 +267,7 @@ Mat VISION::CTFL_filter(Mat img){
     
     result = Mat::zeros(img.size(), CV_8UC3);
     bitwise_and(img, img, result, mask);
-    // imshow("Letter Filted", result);
+    imshow("Letter Filted", result);
     return result;
 }
 
@@ -315,6 +314,7 @@ void VISION::CTFL_contour(Mat original_image, Mat image, double epsilon, \
     threshold(badContour_mask, badContour_mask, 0, 255, THRESH_BINARY_INV);
     bitwise_and(dp_image, dp_image, dp_optim_v1_image, badContour_mask);
     // imshow("DP image (Optim v1): ", dp_optim_v1_image);
+    // waitKey(0);
 
 
 // 4) 再從好的邊緣圖中找出邊緣

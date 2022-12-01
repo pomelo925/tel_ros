@@ -2,6 +2,7 @@
 #define _VISION_H_
 
 #include <opencv2/opencv.hpp>
+#include "ros/ros.h"
 
 using namespace cv;
 
@@ -27,7 +28,7 @@ namespace VISION{
     void tf(void);  // 座標轉換
 
     void taking_photo(void);  //自動拍攝
-    void init(void);
+    void init(ros::NodeHandle nh);
 
     /* internal function*/
     Point2f nearest_scara_point(Point2f input);

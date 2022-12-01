@@ -1,8 +1,8 @@
 <launch>    
-    <param name="reset_state" type="int" value="1" />
+    <param name="reset_state" type="int" value="0" />
     
     <node name="run" pkg="race" type="run" output="screen" respawn="true" respawn_delay="1" />
-        <param name="SCARA_MODE" type="bool" value="true" />
+        <param name="SCARA_MODE" type="bool" value="false" />
 
         <param name="calibration_x_intercept" value="0.7669" />
         <param name="calibration_y_intercept" value="-0.0927" />
@@ -12,21 +12,32 @@
         <param name="calibration_z" value="6.3" />
 
         <param name="max_xy" value="4.8" />
-        <param name="min_xy" value="0.06" />
-        <param name="max_z" value="0.13" />
-        <param name="acc_xy" value="0.015" />
-        <param name="acc_zz" value="0.002" />
-        <param name="maxUP_xy" value="7" />
-        <param name="accUP_xy" value="0.04" />
+        <param name="min_xy" value="0.05" />
+        <param name="max_z" value="0.15" />
+        <param name="acc_xy" value="0.028" />
+        <param name="acc_zz" value="0.0025" />
+        <param name="maxUP_xy" value="7.5" />
+        <param name="accUP_xy" value="0.05" />
 
-        <param name="fod_xy" value="0.2" />   <!--fraction of deceleration: start decel-->
-        <param name="fod_z" value="0.5" />   <!--fraction of deceleration: start decel-->
-        <param name="kp_xy" value="0.8" /> <!--p gain for x- y-direction control-->
+        <param name="fod_xy" value="0.3" />   <!--fraction of deceleration: start decel-->
+        <param name="fod_z" value="0.25" />   <!--fraction of deceleration: start decel-->
+        <param name="kp_xy" value="0.95" /> <!--p gain for x- y-direction control-->
         <param name="kp_z" value="1" />  <!--p gain for z-direction control-->
 
         <param name="x_tol_margin" value="0.8" /> <!-- x tolerance critical value -->
         <param name="y_tol_margin" value="0.8" /> <!-- y tolerance critical value -->
         <param name="z_tol_margin" value="0.005" /> <!-- z tolerance critical value -->
+
+    <!-- pixel label: x = 97 ~ 395 / y = 38 ~ 473 -->
+        <param name="pixel_Xmin" value="150" />
+        <param name="pixel_Xmax" value="400" /> 
+        <param name="pixel_Ymax" value="460" />
+        <param name="pixel_Ymin" value="35" />
+
+        <param name="x_tf_cali" value="0.8221" />
+        <param name="y_tf_cali" value="0.8211" />
+        <param name="x_tf_intercept" value="-6.065" />
+        <param name="y_tf_intercept" value="-6.1878" />
 
 
     <node name="reset" pkg="race" type="reset" output="screen" respawn="true" respawn_delay="3"/>

@@ -2,35 +2,34 @@
 
 
 // declare NodeHandle and pub/sub
-void MECANUM::init(){
-    ros::NodeHandle nh_4mecanum;
-    mecanum_publisher = nh_4mecanum.advertise<geometry_msgs::Point>("mecanum_toSTM", 1);
-    mecanum_subscriber = nh_4mecanum.subscribe("mecanum_fromSTM", 1, MECANUM::callback);
+void MECANUM::init(ros::NodeHandle nh){
+    mecanum_publisher = nh.advertise<geometry_msgs::Point>("mecanum_toSTM", 1);
+    mecanum_subscriber = nh.subscribe("mecanum_fromSTM", 1, MECANUM::callback);
 
-    nh_4mecanum.getParam("calibration_x_intercept", calibration_x_intercept);
-    nh_4mecanum.getParam("calibration_y_intercept", calibration_y_intercept);
-    nh_4mecanum.getParam("calibration_z_intercept", calibration_z_intercept);
-    nh_4mecanum.getParam("calibration_x", calibration_x);
-    nh_4mecanum.getParam("calibration_y", calibration_y);
-    nh_4mecanum.getParam("calibration_z", calibration_z);
+    nh.getParam("calibration_x_intercept", calibration_x_intercept);
+    nh.getParam("calibration_y_intercept", calibration_y_intercept);
+    nh.getParam("calibration_z_intercept", calibration_z_intercept);
+    nh.getParam("calibration_x", calibration_x);
+    nh.getParam("calibration_y", calibration_y);
+    nh.getParam("calibration_z", calibration_z);
     
-    nh_4mecanum.getParam("max_xy", max_xy);
-    nh_4mecanum.getParam("min_xy", min_xy);
-    nh_4mecanum.getParam("max_z", max_z);
-    nh_4mecanum.getParam("acc_xy", acc_xy);
-    nh_4mecanum.getParam("acc_zz", acc_zz);
-    nh_4mecanum.getParam("maxUP_xy", maxUP_xy); 
-    nh_4mecanum.getParam("accUP_xy", accUP_xy);
+    nh.getParam("max_xy", max_xy);
+    nh.getParam("min_xy", min_xy);
+    nh.getParam("max_z", max_z);
+    nh.getParam("acc_xy", acc_xy);
+    nh.getParam("acc_zz", acc_zz);
+    nh.getParam("maxUP_xy", maxUP_xy); 
+    nh.getParam("accUP_xy", accUP_xy);
 
-    nh_4mecanum.getParam("kp", kp);
-    nh_4mecanum.getParam("fod_xy", fod_xy);
-    nh_4mecanum.getParam("fod_z", fod_z);
-    nh_4mecanum.getParam("kp_xy", kp_xy); 
-    nh_4mecanum.getParam("kp_z", kp_z);
+    nh.getParam("kp", kp);
+    nh.getParam("fod_xy", fod_xy);
+    nh.getParam("fod_z", fod_z);
+    nh.getParam("kp_xy", kp_xy); 
+    nh.getParam("kp_z", kp_z);
     
-    nh_4mecanum.getParam("x_tol_margin", x_tol_margin);
-    nh_4mecanum.getParam("y_tol_margin", y_tol_margin);
-    nh_4mecanum.getParam("z_tol_margin", z_tol_margin);
+    nh.getParam("x_tol_margin", x_tol_margin);
+    nh.getParam("y_tol_margin", y_tol_margin);
+    nh.getParam("z_tol_margin", z_tol_margin);
 }
 
 // encdoer callback function and publish
@@ -61,7 +60,7 @@ void MECANUM::moveTo(double x_cor, double y_cor, double z_cor){
     double pub_x=0, pub_y=0, pub_z=0;
     bool flag = false;                               // flag for NOT integral on first instance
 
-    while (fabs(x_err) > x_tol_margin || fabs(y_err) > y_tol_margin || fabs(z_err) > z_tol_margin){
+    while ((fabs(x_err) > x_tol_margin || fabs(y_err) > y_tol_margin || fabs(z_err) > z_tol_margin) && ros::ok()){
         // calculate error and pub new speed
         x_err = x_cor - x_now;
         y_err = y_cor - y_now;
@@ -123,7 +122,7 @@ void MECANUM::moveTo(double x_cor, double y_cor, double z_cor){
 
         /* velocity profile */
         data_check = false;
-        while (!data_check) ros::spinOnce();
+        while (!data_check && ros::ok() ) ros::spinOnce();
 
         // integral (unit: cm/s)
         time_now = ros::Time::now().toSec();
@@ -143,14 +142,14 @@ void MECANUM::moveTo(double x_cor, double y_cor, double z_cor){
     }
 
     // reaching goal and pub speed 0
-    while (mecanum_sub.x != 0 || mecanum_sub.y != 0 || mecanum_sub.z != 0){
+    while ((mecanum_sub.x != 0 || mecanum_sub.y != 0 || mecanum_sub.z != 0) && ros::ok()){
         mecanum_pub.x = 0;
         mecanum_pub.y = 0;
         mecanum_pub.z = 0;
         mecanum_publisher.publish(mecanum_pub);
 
         data_check = false;
-        while (!data_check) ros::spinOnce();
+        while (!data_check && ros::ok()) ros::spinOnce();
     }
 }
 
@@ -173,7 +172,7 @@ void MECANUM::moveUP(double x_cor, double y_cor, double z_cor){
     double pub_x=0, pub_y=0, pub_z=0;
     bool flag = false;                               // flag for NOT integral on first instance
 
-    while (fabs(x_err) > x_tol_margin || fabs(y_err) > y_tol_margin || fabs(z_err) > z_tol_margin){
+    while ((fabs(x_err) > x_tol_margin || fabs(y_err) > y_tol_margin || fabs(z_err) > z_tol_margin) && ros::ok()){
         // calculate error and pub new speed
         x_err = x_cor - x_now;
         y_err = y_cor - y_now;
@@ -235,7 +234,7 @@ void MECANUM::moveUP(double x_cor, double y_cor, double z_cor){
 
         /* velocity profile */
         data_check = false;
-        while (!data_check) ros::spinOnce();
+        while (!data_check && ros::ok()) ros::spinOnce();
 
         // integral (unit: cm/s)
         time_now = ros::Time::now().toSec();
@@ -255,14 +254,14 @@ void MECANUM::moveUP(double x_cor, double y_cor, double z_cor){
     }
 
     // reaching goal and pub speed 0
-    while (mecanum_sub.x != 0 || mecanum_sub.y != 0 || mecanum_sub.z != 0){
+    while ((mecanum_sub.x != 0 || mecanum_sub.y != 0 || mecanum_sub.z != 0) && ros::ok()){
         mecanum_pub.x = 0;
         mecanum_pub.y = 0;
         mecanum_pub.z = 0;
         mecanum_publisher.publish(mecanum_pub);
 
         data_check = false;
-        while (!data_check) ros::spinOnce();
+        while (!data_check && ros::ok()) ros::spinOnce();
     }
 }
 

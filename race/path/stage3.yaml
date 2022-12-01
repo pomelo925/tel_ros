@@ -1,22 +1,24 @@
 ## STAGE 3 START
 
 # Rush Top
-- xyz: [0, 230, -3]
-- xyz: [20, 0, 0]
+- xyz: [0, 230, 1]
+- xyz: [30, -5, 0]
 
-# Top Rotate
+# Rotate
 - xyz: [0, 0, 90]
 
 # Decline
-- xyz: [37, 0, 0]
-- xyz: [-10, 0, 0]
+- xyz: [45, 0, 0]
+- xyz: [-5, 0, 0]
 
 # Lateral 
-- xyz: [0, 60, 0] 
-- xyz: [38, 0, -3]
-- xyz: [0, 0, -90]
+- xyz: [-5, 52, 0] 
+
+# Going Down
+- xyz: [30, 0, -3]
+- xyz: [0, -50, 5]
 
 # Push Board
-- xyz: [0, 40, 0]
-- xyz: [100, 0, 5]
+- xyz: [0, 0, -90]
+- xyz: [0, 80, 0]
 ## FINISHED ##

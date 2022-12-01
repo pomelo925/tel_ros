@@ -1,6 +1,6 @@
 #include "race/run.h"
 
-void init_all_sensors();
+void init_all_sensors(ros::NodeHandle nh);
 
 int main(int argc, char **argv){
     ros::init(argc, argv, "run");
@@ -9,11 +9,11 @@ int main(int argc, char **argv){
     nh_4run.getParam("reset_state", reset_state);
     ROS_INFO("State Now: %d", reset_state);
 
-    init_all_sensors();
+    init_all_sensors(nh_4run);
 
     switch(reset_state){
         case 0:
-            while(1);
+            while(nh_4run.ok()) ros::spinOnce();
             
         case 1:
             run1(); run2(); run3();
@@ -31,9 +31,9 @@ int main(int argc, char **argv){
 }
 
  
-void init_all_sensors(void){
-    MECANUM::init();
-    SCARA::init();
+void init_all_sensors(ros::NodeHandle nh){
+    MECANUM::init(nh);
+    SCARA::init(nh);
     // SWITCH::init();
     // IMU::init();
 }

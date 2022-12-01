@@ -4,9 +4,10 @@ void reset_callback(const std_msgs::Int64::ConstPtr& reset_data){
     RESET::state = reset_data->data;
 
     if(RESET::state!=0){
-        RESET::command[25] = (char)RESET::state;
-        system("rosnode kill /run"); 
-        system( RESET::command );
+        RESET::command.append(std::__cxx11::to_string(RESET::state)); 
+
+        system("pkill -9  run"); 
+        system( RESET::command.c_str() );
 
         system("rosnode kill /reset"); 
     }
